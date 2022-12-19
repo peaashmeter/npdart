@@ -39,10 +39,8 @@ class _SceneryState extends State<Scenery> {
               alignment: Alignment.bottomCenter,
               child: GestureDetector(
                   onTap: () {
-                    //TODO
-                    assert(scene is SimpleScene);
-                    Director.getInstance()
-                        .setScene((scene as SimpleScene).nextScene);
+                    assert(scene!.actionId != null);
+                    Director.getInstance().runAction(scene!.actionId!);
                   },
                   child: TextSpan(text: scene!.text ?? '')),
             ),

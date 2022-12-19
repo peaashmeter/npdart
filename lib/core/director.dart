@@ -24,13 +24,13 @@ class Director {
 
     _instance!._variables = {};
     _instance!._scenes = {
-      'scene1': SimpleScene(
+      'scene1': GenericScene.simple(
           id: 'scene1',
           verse: Verse('Какой-то чел',
               '''​У ТЕБЯ ХОРОШО ПОЛУЧАЕТСЯ СТРИМИТЬ НЕ ХОТЕЛ ЛИ ТЫ ПЕРЕЙТИ НА ТВИЧ??????'''),
           background: 'scenery1.jpg',
           nextScene: 'scene2'),
-      'scene2': SimpleScene(
+      'scene2': GenericScene.simple(
           id: 'scene2',
           verse: Verse('Какой-то чел',
               '''П-п-привет, я тут новенькая  KonCha Я аниме девочка 17 лет, с розовыми волосами, мама не даёт денег  KonCha , так что подарите сабочку  KonCha'''),
@@ -77,7 +77,7 @@ class Director {
   }
 
   void runAction(String id) async {
-    assert(binding.containsKey(id));
+    assert(binding.containsKey(id), 'There is no action with id $id!');
     await binding[id]!.call(currentScene);
   }
 }
