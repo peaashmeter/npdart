@@ -1,4 +1,4 @@
-import 'package:visual_novel/route.dart';
+import 'package:visual_novel/core/verse.dart';
 
 abstract class Scene {
   final String _id;
@@ -8,30 +8,34 @@ abstract class Scene {
 }
 
 abstract class GenericScene extends Scene {
-  final String? _text;
+  final Verse _verse;
+  final String? _background;
   final String? _music;
   final Map<String, int>? _characters;
-  GenericScene(super.id, this._text, this._music, this._characters);
+  GenericScene(
+      super.id, this._verse, this._background, this._music, this._characters);
 
-  String? get text => _text;
+  String? get header => _verse.header;
+  String? get text => _verse.text;
   String? get music => _music;
+  String? get background => _background;
   Map<String, int>? get characters => _characters;
 }
 
 ///Сцена без выборов
 class SimpleScene extends GenericScene {
-  final Scene _nextScene;
+  final String _nextScene;
+  String get nextScene => _nextScene;
 
   SimpleScene(
       {required String id,
-      String? text,
+      required Verse verse,
+      String? background,
       String? music,
       Map<String, int>? characters,
-      required Scene nextScene})
+      required String nextScene})
       : _nextScene = nextScene,
-        super(id, text, music, characters);
-
-  Scene get nextScene => _nextScene;
+        super(id, verse, background, music, characters);
 }
 
 ///Сцена с несколькими (>0) выборами
@@ -41,16 +45,15 @@ class MultipleChoiceScene extends GenericScene {
 
   MultipleChoiceScene(
       {required String id,
-      String? text,
+      required Verse verse,
+      String? background,
       String? music,
       Map<String, int>? characters,
       required List<String> choices})
       : _choices = choices,
-        super(id, text, music, characters);
+        super(id, verse, background, music, characters);
 
   List<String> get choices => _choices;
-
-  //TODO: обработка выбора с заданным айди
 }
 
 ///Сцена с минимумом требований, внутри которой может быть что угодно,
