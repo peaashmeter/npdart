@@ -32,7 +32,7 @@ class Director {
           nextScene: 'scene2'),
       'scene2': GenericScene.simple(
           id: 'scene2',
-          verse: Verse('Какой-то чел',
+          verse: Verse('Какой-то чел с невероятно длинным ником, просто пиздец',
               '''П-п-привет, я тут новенькая  KonCha Я аниме девочка 17 лет, с розовыми волосами, мама не даёт денег  KonCha , так что подарите сабочку  KonCha'''),
           background: 'scenery2.jpg',
           nextScene: 'scene1'),

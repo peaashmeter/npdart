@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:type_text/type_text.dart';
+
 import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/core/scene.dart';
+import 'package:visual_novel/widgets/painting.dart';
 
 class Scenery extends StatefulWidget {
   final GenericScene initialScene;
@@ -38,7 +39,7 @@ class _SceneryState extends State<Scenery> {
         ),
         if (scene!.text != null)
           Align(
-            alignment: Alignment.bottomCenter,
+            alignment: Alignment.center,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
@@ -65,57 +66,71 @@ class TextSpan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return SizedBox(
-      width: size.width * 0.7,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Row(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.7),
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(8))),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: DefaultTextStyle(
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                    child: Text(
-                      header,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: size.height * 0.15,
-                  decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.7),
-                      borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(8),
-                          bottomLeft: Radius.circular(8),
-                          bottomRight: Radius.circular(8))),
-                  child: DefaultTextStyle(
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TypeText(text,
-                            duration: const Duration(seconds: 3)),
-                      )),
-                ),
-              ),
-            ],
-          ),
-        ],
+
+    return CustomPaint(
+      painter: TextShape(size.width, size.height, header),
+      child: SizedBox(
+        width: 100,
+        height: 100,
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   final size = MediaQuery.of(context).size;
+  //   return SizedBox(
+  //     width: size.width * 0.7,
+  //     child: Column(
+  //       mainAxisAlignment: MainAxisAlignment.end,
+  //       children: [
+  //         Row(
+  //           children: [
+  //             Container(
+  //               decoration: BoxDecoration(
+  //                   color: Colors.black.withOpacity(0.7),
+  //                   borderRadius:
+  //                       const BorderRadius.vertical(top: Radius.circular(8))),
+  //               child: Padding(
+  //                 padding: const EdgeInsets.all(8.0),
+  //                 child: DefaultTextStyle(
+  //                   style: const TextStyle(
+  //                     color: Colors.white,
+  //                     fontSize: 16,
+  //                   ),
+  //                   child: Text(
+  //                     header,
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         Row(
+  //           children: [
+  //             Expanded(
+  //               child: Container(
+  //                 height: min(size.height * 0.15, 120),
+  //                 decoration: BoxDecoration(
+  //                     color: Colors.black.withOpacity(0.7),
+  //                     border: Border.all(color: Colors.teal, width: 3),
+  //                     borderRadius: const BorderRadius.only(
+  //                         topRight: Radius.circular(8),
+  //                         bottomLeft: Radius.circular(8),
+  //                         bottomRight: Radius.circular(8))),
+  //                 child: DefaultTextStyle(
+  //                     style: const TextStyle(color: Colors.white, fontSize: 14),
+  //                     child: Padding(
+  //                       padding: const EdgeInsets.all(8.0),
+  //                       child: TypeText(text,
+  //                           duration: const Duration(seconds: 3)),
+  //                     )),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }
