@@ -48,7 +48,7 @@ class _SceneryState extends State<Scenery> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(16.0),
                 child: TextSpan(
                   text: scene!.text ?? '',
                   header: scene!.header ?? '',
@@ -97,7 +97,7 @@ class _TextTypewriterState extends State<TextTypewriter> {
   late StreamSubscription<String> subscription;
 
   Stream<String> typeStream(int milliseconds) async* {
-    for (var i = 0; i < widget.text.length; i++) {
+    for (var i = 0; i < widget.text.characters.length; i++) {
       final s = widget.text.characters.elementAt(i);
       yield s;
 

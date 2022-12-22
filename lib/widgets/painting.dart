@@ -1,9 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
-//
-const height = 76.0;
+//3 сантиметра
+const height = 114.0;
 
 class TextShape extends CustomPainter {
   ///размер экрана
@@ -19,7 +17,12 @@ class TextShape extends CustomPainter {
     final Paint stroke = Paint()
       ..color = Colors.teal.withOpacity(0.8)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 3;
+      ..strokeWidth = 2;
+
+    final Paint outerStroke = Paint()
+      ..color = Colors.teal.shade900.withOpacity(0.8)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4;
 
     //размеры самого окошка для текста
     final width = _width * 0.7;
@@ -27,13 +30,21 @@ class TextShape extends CustomPainter {
     //расчет заголовка
     final headerPainter = TextPainter()
       ..textDirection = TextDirection.ltr
-      ..text = TextSpan(text: header, style: const TextStyle(fontSize: 16));
+      ..text = TextSpan(
+          text: header,
+          style: const TextStyle(fontSize: 18, shadows: [
+            Shadow(
+              blurRadius: 2,
+              offset: Offset(2, 2),
+            ),
+          ]));
 
     headerPainter.layout();
 
     final headerWidth = headerPainter.width + 16;
-    final headerHeight = headerPainter.height + 16;
+    final headerHeight = headerPainter.height + 8;
 
+    //окошко текста
     final Path textBox = Path()
       ..addRRect(
         RRect.fromRectAndCorners(
@@ -48,6 +59,7 @@ class TextShape extends CustomPainter {
       )
       ..close();
 
+    //окошко заголовка
     final Path headerBox = Path()
       ..addRRect(RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -59,7 +71,20 @@ class TextShape extends CustomPainter {
     final path = Path.combine(PathOperation.union, textBox, headerBox);
 
     canvas.drawPath(path, fill);
+    canvas.drawPath(path, outerStroke);
     canvas.drawPath(path, stroke);
+
+    // //разделитель между заголовком и текстом
+    // final Paint dividerStroke = Paint()
+    //   ..color = Colors.white.withOpacity(0.8)
+    //   ..style = PaintingStyle.stroke
+    //   ..strokeWidth = 1;
+
+    // final Path divider = Path()
+    //   ..moveTo(-width * 0.5 + 8, -height)
+    //   ..lineTo(-width * 0.5 + headerWidth - 8, -height)
+    //   ..close();
+    // canvas.drawPath(divider, dividerStroke);
 
     final headerPosition =
         Offset(-width * 0.5, -height) + Offset(8, 8 - headerHeight);
@@ -86,7 +111,17 @@ class CustomTextPainter extends CustomPainter {
     //расчет текста
     final textPainter = TextPainter()
       ..textDirection = TextDirection.ltr
-      ..text = TextSpan(text: text, style: const TextStyle(fontSize: 14));
+      ..text = TextSpan(
+          text: text,
+          style: TextStyle(
+              fontSize: 18,
+              color: Colors.yellow[100],
+              shadows: const [
+                Shadow(
+                  blurRadius: 2,
+                  offset: Offset(2, 2),
+                ),
+              ]));
 
     textPainter.layout(maxWidth: width - 16);
 
