@@ -24,7 +24,6 @@ class TextShape extends CustomPainter {
     final height = min(_height * 0.15, 120.0);
 
     //расчет заголовка
-
     final headerPainter = TextPainter()
       ..textDirection = TextDirection.ltr
       ..text = TextSpan(text: header, style: const TextStyle(fontSize: 16));
@@ -37,19 +36,20 @@ class TextShape extends CustomPainter {
     final Path textBox = Path()
       ..addRRect(
         RRect.fromRectAndCorners(
-          Rect.fromCenter(center: Offset.zero, width: width, height: height),
+          Rect.fromCenter(
+              center: Offset(0, -height * 0.5), width: width, height: height),
           bottomLeft: const Radius.circular(8),
           bottomRight: const Radius.circular(8),
           topRight: const Radius.circular(8),
         ),
       )
       ..close();
+
     final Path headerBox = Path()
       ..addRRect(RRect.fromRectAndCorners(
-        Rect.fromLTWH(-width * 0.5, -height * 0.5 - headerHeight, headerWidth,
-            headerHeight),
+        Rect.fromLTWH(
+            -width * 0.5, -height - headerHeight, headerWidth, headerHeight),
         topLeft: const Radius.circular(8),
-        topRight: const Radius.circular(8),
       ))
       ..close();
 
@@ -58,9 +58,40 @@ class TextShape extends CustomPainter {
     canvas.drawPath(path, fill);
     canvas.drawPath(path, stroke);
 
-    final headerPosition = Offset(-width * 0.5 + 8, -height * 0.5 - 40 + 8);
+    final headerPosition =
+        Offset(-width * 0.5, -height) + Offset(8, 8 - headerHeight);
 
     headerPainter.paint(canvas, headerPosition);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class CustomTextPainter extends CustomPainter {
+  ///размер экрана
+  final double _width;
+  final double _height;
+
+  final String text;
+
+  CustomTextPainter(this._width, this._height, this.text);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final height = min(_height * 0.15, 120.0);
+    final width = _width * 0.7;
+
+    //расчет текста
+    final textPainter = TextPainter()
+      ..textDirection = TextDirection.ltr
+      ..text = TextSpan(text: text, style: const TextStyle(fontSize: 14));
+
+    textPainter.layout(maxWidth: width - 16);
+
+    final textPosition = Offset(-width * 0.5, -height) + const Offset(8, 8);
+
+    textPainter.paint(canvas, textPosition);
   }
 
   @override

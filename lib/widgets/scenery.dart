@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:visual_novel/core/director.dart';
@@ -30,30 +32,31 @@ class _SceneryState extends State<Scenery> {
   Widget build(BuildContext context) {
     assert(scene is GenericScene);
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Image.asset(
-          'assets/backgrounds/${scene!.background!}',
-          fit: BoxFit.cover,
-        ),
-        if (scene!.text != null)
-          Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                  onTap: () {
-                    assert(scene!.actionId != null);
-                    Director.getInstance().runAction(scene!.actionId!);
-                  },
-                  child: TextSpan(
-                    text: scene!.text ?? '',
-                    header: scene!.header ?? '',
-                  )),
+    return GestureDetector(
+      onTap: () {
+        assert(scene!.actionId != null);
+        Director.getInstance().runAction(scene!.actionId!);
+      },
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            'assets/backgrounds/${scene!.background!}',
+            fit: BoxFit.cover,
+          ),
+          if (scene!.text != null)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextSpan(
+                  text: scene!.text ?? '',
+                  header: scene!.header ?? '',
+                ),
+              ),
             ),
-          )
-      ],
+        ],
+      ),
     );
   }
 }
@@ -68,69 +71,71 @@ class TextSpan extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return CustomPaint(
-      painter: TextShape(size.width, size.height, header),
-      child: SizedBox(
-        width: 100,
-        height: 100,
+      painter: TextShape(
+        size.width,
+        size.height,
+        header,
       ),
+      child: TextTypewriter(width: size.width, height: size.height, text: text),
     );
   }
+}
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   final size = MediaQuery.of(context).size;
-  //   return SizedBox(
-  //     width: size.width * 0.7,
-  //     child: Column(
-  //       mainAxisAlignment: MainAxisAlignment.end,
-  //       children: [
-  //         Row(
-  //           children: [
-  //             Container(
-  //               decoration: BoxDecoration(
-  //                   color: Colors.black.withOpacity(0.7),
-  //                   borderRadius:
-  //                       const BorderRadius.vertical(top: Radius.circular(8))),
-  //               child: Padding(
-  //                 padding: const EdgeInsets.all(8.0),
-  //                 child: DefaultTextStyle(
-  //                   style: const TextStyle(
-  //                     color: Colors.white,
-  //                     fontSize: 16,
-  //                   ),
-  //                   child: Text(
-  //                     header,
-  //                   ),
-  //                 ),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //         Row(
-  //           children: [
-  //             Expanded(
-  //               child: Container(
-  //                 height: min(size.height * 0.15, 120),
-  //                 decoration: BoxDecoration(
-  //                     color: Colors.black.withOpacity(0.7),
-  //                     border: Border.all(color: Colors.teal, width: 3),
-  //                     borderRadius: const BorderRadius.only(
-  //                         topRight: Radius.circular(8),
-  //                         bottomLeft: Radius.circular(8),
-  //                         bottomRight: Radius.circular(8))),
-  //                 child: DefaultTextStyle(
-  //                     style: const TextStyle(color: Colors.white, fontSize: 14),
-  //                     child: Padding(
-  //                       padding: const EdgeInsets.all(8.0),
-  //                       child: TypeText(text,
-  //                           duration: const Duration(seconds: 3)),
-  //                     )),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+class TextTypewriter extends StatefulWidget {
+  final double width;
+  final double height;
+  final String text;
+  const TextTypewriter(
+      {super.key,
+      required this.width,
+      required this.height,
+      required this.text});
+
+  @override
+  State<TextTypewriter> createState() => _TextTypewriterState();
+}
+
+class _TextTypewriterState extends State<TextTypewriter> {
+  final milliseconds = 30;
+  late String displayedText;
+  late StreamSubscription<String> subscription;
+
+  Stream<String> typeStream(int milliseconds) async* {
+    for (var i = 0; i < widget.text.length; i++) {
+      yield widget.text.substring(0, i);
+      await Future.delayed(Duration(milliseconds: milliseconds));
+    }
+  }
+
+  StreamSubscription<String> _subscribe() {
+    return typeStream(milliseconds).listen((s) {
+      setState(() {
+        displayedText = s;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    displayedText = '';
+
+    subscription = _subscribe();
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant TextTypewriter oldWidget) {
+    displayedText = '';
+
+    subscription.cancel();
+    subscription = _subscribe();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: CustomTextPainter(widget.width, widget.height, displayedText),
+    );
+  }
 }
