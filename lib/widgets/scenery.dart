@@ -73,23 +73,17 @@ class TextSpan extends StatelessWidget {
     return CustomPaint(
       painter: TextShape(
         size.width,
-        size.height,
         header,
       ),
-      child: TextTypewriter(width: size.width, height: size.height, text: text),
+      child: TextTypewriter(width: size.width, text: text),
     );
   }
 }
 
 class TextTypewriter extends StatefulWidget {
   final double width;
-  final double height;
   final String text;
-  const TextTypewriter(
-      {super.key,
-      required this.width,
-      required this.height,
-      required this.text});
+  const TextTypewriter({super.key, required this.width, required this.text});
 
   static const punctuation = ['.', ',', '!', '?', ';', ':'];
 
@@ -144,7 +138,7 @@ class _TextTypewriterState extends State<TextTypewriter> {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: CustomTextPainter(widget.width, widget.height, displayedText),
+      painter: CustomTextPainter(widget.width, displayedText),
     );
   }
 }

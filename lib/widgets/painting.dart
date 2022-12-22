@@ -2,14 +2,16 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+//
+const height = 76.0;
+
 class TextShape extends CustomPainter {
   ///размер экрана
   final double _width;
-  final double _height;
 
   final String header;
 
-  TextShape(this._width, this._height, this.header);
+  TextShape(this._width, this.header);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -21,7 +23,6 @@ class TextShape extends CustomPainter {
 
     //размеры самого окошка для текста
     final width = _width * 0.7;
-    final height = min(_height * 0.15, 100.0);
 
     //расчет заголовка
     final headerPainter = TextPainter()
@@ -37,7 +38,9 @@ class TextShape extends CustomPainter {
       ..addRRect(
         RRect.fromRectAndCorners(
           Rect.fromCenter(
-              center: Offset(0, -height * 0.5), width: width, height: height),
+              center: const Offset(0, -height * 0.5),
+              width: width,
+              height: height),
           bottomLeft: const Radius.circular(8),
           bottomRight: const Radius.circular(8),
           topRight: const Radius.circular(8),
@@ -71,15 +74,13 @@ class TextShape extends CustomPainter {
 class CustomTextPainter extends CustomPainter {
   ///размер экрана
   final double _width;
-  final double _height;
 
   final String text;
 
-  CustomTextPainter(this._width, this._height, this.text);
+  CustomTextPainter(this._width, this.text);
 
   @override
   void paint(Canvas canvas, Size size) {
-    final height = min(_height * 0.15, 100.0);
     final width = _width * 0.7;
 
     //расчет текста
