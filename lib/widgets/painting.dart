@@ -21,7 +21,7 @@ class TextShape extends CustomPainter {
 
     //размеры самого окошка для текста
     final width = _width * 0.7;
-    final height = min(_height * 0.15, 120.0);
+    final height = min(_height * 0.15, 100.0);
 
     //расчет заголовка
     final headerPainter = TextPainter()
@@ -79,7 +79,7 @@ class CustomTextPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final height = min(_height * 0.15, 120.0);
+    final height = min(_height * 0.15, 100.0);
     final width = _width * 0.7;
 
     //расчет текста

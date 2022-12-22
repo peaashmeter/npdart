@@ -91,6 +91,8 @@ class TextTypewriter extends StatefulWidget {
       required this.height,
       required this.text});
 
+  static const punctuation = ['.', ',', '!', '?', ';', ':'];
+
   @override
   State<TextTypewriter> createState() => _TextTypewriterState();
 }
@@ -102,15 +104,22 @@ class _TextTypewriterState extends State<TextTypewriter> {
 
   Stream<String> typeStream(int milliseconds) async* {
     for (var i = 0; i < widget.text.length; i++) {
-      yield widget.text.substring(0, i);
-      await Future.delayed(Duration(milliseconds: milliseconds));
+      final s = widget.text.characters.elementAt(i);
+      yield s;
+
+      //повышение читабельности текста
+      if (TextTypewriter.punctuation.contains(s)) {
+        await Future.delayed(Duration(milliseconds: 5 * milliseconds));
+      } else {
+        await Future.delayed(Duration(milliseconds: milliseconds));
+      }
     }
   }
 
   StreamSubscription<String> _subscribe() {
     return typeStream(milliseconds).listen((s) {
       setState(() {
-        displayedText = s;
+        displayedText += s;
       });
     });
   }
