@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/core/scene.dart';
+import 'package:visual_novel/core/verse.dart';
 import 'package:visual_novel/widgets/painting.dart';
 
 class Scenery extends StatefulWidget {
@@ -20,9 +21,9 @@ class _SceneryState extends State<Scenery> {
   @override
   void initState() {
     scene = widget.initialScene;
-    Director.getInstance().sceneHandler.addListener(() {
+    Director().sceneHandler.addListener(() {
       setState(() {
-        scene = Director.getInstance().currentScene as GenericScene;
+        scene = Director().currentScene as GenericScene;
       });
     });
     super.initState();
@@ -35,7 +36,7 @@ class _SceneryState extends State<Scenery> {
     return GestureDetector(
       onTap: () {
         assert(scene!.actionId != null);
-        Director.getInstance().runAction(scene!.actionId!);
+        Director().runAction(scene!.actionId!);
       },
       child: Stack(
         fit: StackFit.expand,
@@ -44,17 +45,15 @@ class _SceneryState extends State<Scenery> {
             'assets/backgrounds/${scene!.background!}',
             fit: BoxFit.cover,
           ),
-          if (scene!.text != null)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TextSpan(
-                  text: scene!.text ?? '',
-                  header: scene!.header ?? '',
-                ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextSpan(
+                verse: scene!.verse,
               ),
             ),
+          ),
         ],
       ),
     );
@@ -62,28 +61,34 @@ class _SceneryState extends State<Scenery> {
 }
 
 class TextSpan extends StatelessWidget {
-  final String header;
-  final String text;
-  const TextSpan({super.key, required this.text, required this.header});
+  final Verse verse;
+  const TextSpan({super.key, required this.verse});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return CustomPaint(
+    //если на сцене нет текста, не нужно рисовать текстбокс
+    return
+        //verse.stringId != null ?
+        CustomPaint(
       painter: TextShape(
         size.width,
-        header,
+        Director().getHeader(verse.headerId),
       ),
-      child: TextTypewriter(width: size.width, text: text),
+      child: TextTypewriter(
+        width: size.width,
+        verse: verse,
+      ),
     );
+    //: const SizedBox.shrink();
   }
 }
 
 class TextTypewriter extends StatefulWidget {
   final double width;
-  final String text;
-  const TextTypewriter({super.key, required this.width, required this.text});
+  final Verse verse;
+  const TextTypewriter({super.key, required this.width, required this.verse});
 
   static const punctuation = ['.', ',', '!', '?', ';', ':'];
 
@@ -93,12 +98,19 @@ class TextTypewriter extends StatefulWidget {
 
 class _TextTypewriterState extends State<TextTypewriter> {
   final milliseconds = 30;
+
+  late String text;
   late String displayedText;
+
+  late String header;
+
+  late Color headerColor;
+
   late StreamSubscription<String> subscription;
 
   Stream<String> typeStream(int milliseconds) async* {
-    for (var i = 0; i < widget.text.characters.length; i++) {
-      final s = widget.text.characters.elementAt(i);
+    for (var i = 0; i < text.characters.length; i++) {
+      final s = text.characters.elementAt(i);
       yield s;
 
       //повышение читабельности текста
@@ -118,27 +130,35 @@ class _TextTypewriterState extends State<TextTypewriter> {
     });
   }
 
-  @override
-  void initState() {
+  void _setup() {
+    assert(widget.verse.stringId != null);
+    text = Director().getString(widget.verse.stringId);
+    header = Director().getHeader(widget.verse.headerId);
+    headerColor = Director().getColor(widget.verse.headerId);
+
     displayedText = '';
 
     subscription = _subscribe();
+  }
+
+  @override
+  void initState() {
+    _setup();
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant TextTypewriter oldWidget) {
-    displayedText = '';
-
     subscription.cancel();
-    subscription = _subscribe();
+    _setup();
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: CustomTextPainter(widget.width, displayedText),
+      painter:
+          CustomTextPainter(widget.width, displayedText, header, headerColor),
     );
   }
 }

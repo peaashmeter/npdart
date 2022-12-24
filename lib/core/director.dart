@@ -1,47 +1,49 @@
+import 'package:visual_novel/core/binding.dart';
 import 'package:visual_novel/core/scene.dart';
 import 'package:visual_novel/core/scene_handler.dart';
 import 'package:visual_novel/core/verse.dart';
 import '../script/action_binding.dart' show binding;
 
 ///Синглтон для глобальных операций над состоянием игры
-class Director {
-  ///Приватный конструктор
-  Director._();
+class Director with Binding {
+  ///Точка доступа к единственному объекту класса [Director]
+  factory Director() {
+    if (_instance != null) {
+      return _instance!;
+    } else {
+      _instance = Director._init();
+      return _instance!;
+    }
+  }
+
+  ///Инициализация [Director]
+  Director._init() : _sceneHandler = SceneHandler() {
+    //TODO: убрать создание сцен отсюда
+    _variables = {};
+    _scenes = {
+      'scene1': GenericScene.simple(
+          id: 'scene1',
+          verse: Verse(headerId: 'pushkin', stringId: 'onegin'),
+          background: 'scenery1.jpg',
+          nextScene: 'scene2'),
+      'scene2': GenericScene.simple(
+          id: 'scene2',
+          verse: Verse(headerId: 'somebody', stringId: 's2'),
+          background: 'scenery2.jpg',
+          nextScene: 'scene1'),
+    };
+
+    setScene('scene1');
+  }
 
   ///Инстанс синглтона
   static Director? _instance;
 
-  static Director getInstance() {
-    assert(_instance is Director);
-    return _instance!;
-  }
+  //TODO: реализовать это через миксины
 
-  static void initDirector() {
-    assert(_instance is! Director);
-    _instance = Director._();
+  final SceneHandler _sceneHandler;
 
-    //TODO: убрать создание сцен отсюда
-
-    _instance!._variables = {};
-    _instance!._scenes = {
-      'scene1': GenericScene.simple(
-          id: 'scene1',
-          verse: Verse('Какой-то чел',
-              '''​Мой дядя самых честных правил, 😂 когда не в шутку занемог, он уважать себя заставил и лучше выдумать не мог. Его пример другим наука; но, боже мой, какая скука с больным сидеть и день и ночь, не отходя ни шагу прочь! Какое низкое коварство полуживого забавлять, ему подушки поправлять, печально подносить лекарство, вздыхать и думать про себя: когда же черт возьмет тебя!'''),
-          background: 'scenery1.jpg',
-          nextScene: 'scene2'),
-      'scene2': GenericScene.simple(
-          id: 'scene1',
-          verse: Verse('Какой-то чел', ''),
-          background: 'scenery1.jpg',
-          nextScene: 'scene1'),
-    };
-    _instance!._sceneHandler = SceneHandler();
-
-    _instance!.setScene('scene1');
-  }
-
-  late final SceneHandler _sceneHandler;
+  //TODO: перенести это в Binding
 
   ///Здесь хранятся все игровые переменные, идентификация по айди
   late final Map<String, num> _variables;

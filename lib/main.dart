@@ -8,7 +8,6 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
-  Director.initDirector();
 
   runApp(const MyApp());
 }
@@ -33,8 +32,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: Scenery(
-          initialScene: Director.getInstance().currentScene as GenericScene),
+      home: Scenery(initialScene: Director().currentScene as GenericScene),
     );
   }
 }

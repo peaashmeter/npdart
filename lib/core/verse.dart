@@ -1,11 +1,15 @@
 ///Информация, выводимая в текстовом блоке сцены
 class Verse {
-  final String? _header;
-  final String? _text;
+  final String? _headerId;
+  final String? _stringId;
 
-  Verse(this._header, this._text);
+  Verse({String? headerId, required String? stringId})
+      : _headerId = headerId,
+        _stringId = stringId;
 
-  ///Заголовок (имя персонажа и т.п) в текстовом поле
-  String? get header => _header;
-  String? get text => _text;
+  ///Идентификатор заголовока (имя персонажа и т.п) в текстовом поле
+  String? get headerId => _headerId;
+
+  ///Идентификатор текстовой строки
+  String? get stringId => _stringId;
 }

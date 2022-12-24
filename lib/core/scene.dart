@@ -78,8 +78,7 @@ class GenericScene extends Scene {
             actionId: actionId,
             nextScene: null);
 
-  String? get header => _verse.header;
-  String? get text => _verse.text;
+  Verse get verse => _verse;
   String? get music => _music;
   String? get background => _background;
   Map<String, int>? get characters => _characters;

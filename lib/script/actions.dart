@@ -3,5 +3,5 @@ import 'package:visual_novel/core/scene.dart';
 
 void nextScene(Scene caller) {
   assert(caller.nextScene != null);
-  Director.getInstance().setScene(caller.nextScene!);
+  Director().setScene(caller.nextScene!);
 }
