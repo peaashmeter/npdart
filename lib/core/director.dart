@@ -65,18 +65,18 @@ class Director with Binding {
     _variables[id] = value;
   }
 
-  Scene getScene(String id) {
+  Scene getScene(String? id) {
     assert(_scenes.containsKey(id));
     return _scenes[id]!;
   }
 
-  void setScene(String id) {
+  void setScene(String? id) {
     _currentScene = getScene(id);
     _sceneHandler.requestSceneChange();
   }
 
   ///Выполняет действие с указанным id. Возвращает false, если возникла ошибка.
-  Future<bool> runAction(String id, List? args) async {
+  Future<bool> runAction(String? id, List? args) async {
     final f = getFunction(id);
 
     try {

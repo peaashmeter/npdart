@@ -35,8 +35,7 @@ class _SceneryState extends State<Scenery> {
 
     return GestureDetector(
       onTap: () {
-        assert(scene!.actionId != null);
-        Director().runAction(scene!.actionId!, [scene]);
+        Director().runAction(scene!.actionId, [scene]);
       },
       child: Stack(
         fit: StackFit.expand,
