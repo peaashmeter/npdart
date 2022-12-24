@@ -3,7 +3,7 @@ class Verse {
   final String? _headerId;
   final String? _stringId;
 
-  Verse({String? headerId, required String? stringId})
+  Verse({String? headerId, String? stringId})
       : _headerId = headerId,
         _stringId = stringId;
 

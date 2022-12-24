@@ -1,12 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:visual_novel/core/director.dart';
+import 'package:visual_novel/core/scene.dart';
 
 ///Расширение класса [Director] для связываения идентификаторов с данными: строки, заголовки, действия
 mixin Binding {
   //TODO: вынести загрузку идентификаторов в отдельный класс
 
   final Map<String, Color> _colors = {
-    'pushkin': Colors.blue,
-    'somebody': Colors.red
+    'pushkin': Colors.blue.shade300,
+    'somebody': Colors.red.shade300
   };
 
   final Map<String, String> _headers = {
@@ -20,7 +24,16 @@ mixin Binding {
     's2': 'ы',
   };
 
-  ///Возвращает цвет заголовка по его айди.
+  ///Таблица функций, которые вызываются при совершении действия с некоторым айди
+  final Map<String, Function> _functions = {
+    'next_scene': (Scene? caller) {
+      assert(caller != null);
+      assert(caller!.nextScene != null);
+      Director().setScene(caller!.nextScene!);
+    }
+  };
+
+  ///Возвращает цвет заголовка из таблицы связывания по его айди.
   Color getColor(String? id) {
     if (id == null) return Colors.white;
     assert(_colors.containsKey(id),
@@ -28,7 +41,7 @@ mixin Binding {
     return (_colors[id] ?? Colors.white);
   }
 
-  ///Возвращает заголовок по его айди.
+  ///Возвращает заголовок из таблицы связывания по его айди.
   String getHeader(String? id) {
     if (id == null) return '';
     assert(_headers.containsKey(id),
@@ -36,11 +49,19 @@ mixin Binding {
     return (_headers[id] ?? '');
   }
 
-  ///Возвращает строку по её айди.
+  ///Возвращает строку из таблицы связывания по её айди.
   String getString(String? id) {
     if (id == null) return '';
     assert(_strings.containsKey(id),
         'Binding table does not contain string with id $id.');
     return (_strings[id] ?? '');
+  }
+
+  ///Возвращает функцию из таблицы связывания по её айди.
+  Function getFunction(String? id) {
+    if (id == null) return () {};
+    assert(_functions.containsKey(id),
+        'Binding table does not contain function with id $id.');
+    return (_functions[id] ?? () {});
   }
 }

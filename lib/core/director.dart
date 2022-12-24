@@ -1,8 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:visual_novel/core/binding.dart';
 import 'package:visual_novel/core/scene.dart';
 import 'package:visual_novel/core/scene_handler.dart';
 import 'package:visual_novel/core/verse.dart';
-import '../script/action_binding.dart' show binding;
 
 ///Синглтон для глобальных операций над состоянием игры
 class Director with Binding {
@@ -21,6 +21,8 @@ class Director with Binding {
     //TODO: убрать создание сцен отсюда
     _variables = {};
     _scenes = {
+      'test_scene': GenericScene.simple(
+          id: 'test_scene', verse: Verse(), nextScene: 'test_scene'),
       'scene1': GenericScene.simple(
           id: 'scene1',
           verse: Verse(headerId: 'pushkin', stringId: 'onegin'),
@@ -39,11 +41,7 @@ class Director with Binding {
   ///Инстанс синглтона
   static Director? _instance;
 
-  //TODO: реализовать это через миксины
-
   final SceneHandler _sceneHandler;
-
-  //TODO: перенести это в Binding
 
   ///Здесь хранятся все игровые переменные, идентификация по айди
   late final Map<String, num> _variables;
@@ -77,8 +75,26 @@ class Director with Binding {
     _sceneHandler.requestSceneChange();
   }
 
-  void runAction(String id) async {
-    assert(binding.containsKey(id), 'There is no action with id $id!');
-    await binding[id]!.call(currentScene);
+  ///Выполняет действие с указанным id. Возвращает false, если возникла ошибка.
+  Future<bool> runAction(String id, List? args) async {
+    final f = getFunction(id);
+
+    try {
+      await Function.apply(f, args);
+    } on TypeError catch (e) {
+      if (kDebugMode) {
+        print('''
+Exception $e while trying to call a function with id $id.
+It usually happens when unacceptable arguments are passed.
+In this case, the function has a runtime type ${f.runtimeType}, and the args are $args.''');
+      }
+      return false;
+    } catch (e) {
+      if (kDebugMode) {
+        print('Exception $e while trying to call function with id $id.');
+      }
+      return false;
+    }
+    return true;
   }
 }

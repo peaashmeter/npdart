@@ -1,10 +1,18 @@
 import 'package:flutter/foundation.dart';
 
-///Часть [Director], связывающая игровое состояние и отрисовку.
-///Вынесена в отдельный класс для того, чтобы [Director] не зависел от
+///Расширение [Director], связывающее игровое состояние и отрисовку.
+///Вынесено в отдельный класс для того, чтобы [Director] не зависел от
 ///[ChangeNotifier]
 class SceneHandler extends ChangeNotifier {
-  SceneHandler();
+  factory SceneHandler() {
+    if (_instance != null) {
+      return _instance!;
+    }
+    _instance = SceneHandler._();
+    return _instance!;
+  }
+  SceneHandler._();
+  static SceneHandler? _instance;
 
   ///Уведомляет отрисовщик, что сцена изменилась
   void requestSceneChange() {

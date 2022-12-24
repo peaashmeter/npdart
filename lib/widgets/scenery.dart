@@ -36,7 +36,7 @@ class _SceneryState extends State<Scenery> {
     return GestureDetector(
       onTap: () {
         assert(scene!.actionId != null);
-        Director().runAction(scene!.actionId!);
+        Director().runAction(scene!.actionId!, [scene]);
       },
       child: Stack(
         fit: StackFit.expand,
@@ -69,19 +69,18 @@ class TextSpan extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     //если на сцене нет текста, не нужно рисовать текстбокс
-    return
-        //verse.stringId != null ?
-        CustomPaint(
-      painter: TextShape(
-        size.width,
-        Director().getHeader(verse.headerId),
-      ),
-      child: TextTypewriter(
-        width: size.width,
-        verse: verse,
-      ),
-    );
-    //: const SizedBox.shrink();
+    return verse.stringId != null
+        ? CustomPaint(
+            painter: TextShape(
+              size.width,
+              Director().getHeader(verse.headerId),
+            ),
+            child: TextTypewriter(
+              width: size.width,
+              verse: verse,
+            ),
+          )
+        : const SizedBox.shrink();
   }
 }
 
