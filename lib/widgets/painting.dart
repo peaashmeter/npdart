@@ -102,7 +102,12 @@ class CustomTextPainter extends CustomPainter {
 
   final Color _headerColor;
 
-  CustomTextPainter(this._width, this._text, this._header, this._headerColor);
+  CustomTextPainter(
+    this._width,
+    this._text,
+    this._header,
+    this._headerColor,
+  );
 
   @override
   void paint(Canvas canvas, Size size) {

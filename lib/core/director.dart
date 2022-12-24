@@ -23,11 +23,11 @@ class Director with Binding {
     _scenes = {
       'test_scene': GenericScene.simple(
           id: 'test_scene', verse: Verse(), nextScene: 'test_scene'),
-      'scene1': GenericScene.simple(
+      'scene1': GenericScene.choices(
           id: 'scene1',
           verse: Verse(headerId: 'pushkin', stringId: 'onegin'),
           background: 'scenery1.jpg',
-          nextScene: 'scene2'),
+          choices: ['choice1', 'choice2']),
       'scene2': GenericScene.simple(
           id: 'scene2',
           verse: Verse(headerId: 'somebody', stringId: 's2'),

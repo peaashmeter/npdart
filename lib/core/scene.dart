@@ -1,17 +1,5 @@
 import 'package:visual_novel/core/verse.dart';
 
-abstract class Scene {
-  final String _id;
-  final String? _actionId;
-  final String? _nextScene;
-
-  Scene(this._id, this._actionId, this._nextScene);
-
-  String get id => _id;
-  String? get actionId => _actionId;
-  String? get nextScene => _nextScene;
-}
-
 class GenericScene extends Scene {
   final Verse _verse;
   final String? _background;
@@ -20,8 +8,6 @@ class GenericScene extends Scene {
 
   ///Список с айди выборов из binding
   final List<String>? _choices;
-  List<String>? get choices => _choices;
-
   GenericScene(
       {required String id,
       required Verse verse,
@@ -37,28 +23,6 @@ class GenericScene extends Scene {
         _characters = characters,
         _choices = choices,
         super(id, actionId, nextScene);
-
-  GenericScene.simple({
-    required String id,
-    required Verse verse,
-    required String nextScene,
-    String? background,
-    String? music,
-    Map<String, int>? characters,
-    String actionId = 'next_scene',
-  }) : this(
-            id: id,
-            verse: verse,
-            background: background,
-            music: music,
-            characters: characters,
-            choices: null,
-            actionId: actionId,
-            nextScene: nextScene);
-
-  GenericScene.newVerse(
-      {required String id, required Verse verse, required String nextScene})
-      : this.simple(id: id, verse: verse, nextScene: nextScene);
 
   GenericScene.choices({
     required String id,
@@ -78,10 +42,34 @@ class GenericScene extends Scene {
             actionId: actionId,
             nextScene: null);
 
-  Verse get verse => _verse;
-  String? get music => _music;
+  GenericScene.newVerse(
+      {required String id, required Verse verse, required String nextScene})
+      : this.simple(id: id, verse: verse, nextScene: nextScene);
+
+  GenericScene.simple({
+    required String id,
+    required Verse verse,
+    required String nextScene,
+    String? background,
+    String? music,
+    Map<String, int>? characters,
+    String actionId = 'next_scene',
+  }) : this(
+            id: id,
+            verse: verse,
+            background: background,
+            music: music,
+            characters: characters,
+            choices: null,
+            actionId: actionId,
+            nextScene: nextScene);
+
   String? get background => _background;
+
   Map<String, int>? get characters => _characters;
+  List<String>? get choices => _choices;
+  String? get music => _music;
+  Verse get verse => _verse;
 }
 
 ///Сцена с минимумом требований, внутри которой может быть что угодно,
@@ -90,4 +78,16 @@ class InteractiveScene extends Scene {
   InteractiveScene(String id) : super(id, null, null);
 
   //TODO: возможность отображать любой виджет(?) внутри такой сцены
+}
+
+abstract class Scene {
+  final String _id;
+  final String? _actionId;
+  final String? _nextScene;
+
+  Scene(this._id, this._actionId, this._nextScene);
+
+  String? get actionId => _actionId;
+  String get id => _id;
+  String? get nextScene => _nextScene;
 }

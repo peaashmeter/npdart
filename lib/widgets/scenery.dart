@@ -46,6 +46,10 @@ class _SceneryState extends State<Scenery> {
             fit: BoxFit.cover,
           ),
           Align(
+            alignment: Alignment.center,
+            child: OptionSpan(choices: scene!.choices),
+          ),
+          Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -73,7 +77,7 @@ class TextSpan extends StatelessWidget {
         ? CustomPaint(
             painter: TextShape(
               size.width,
-              Director().getHeader(verse.headerId),
+              Director().getString(verse.headerId),
             ),
             child: TextTypewriter(
               width: size.width,
@@ -132,7 +136,7 @@ class _TextTypewriterState extends State<TextTypewriter> {
   void _setup() {
     assert(widget.verse.stringId != null);
     text = Director().getString(widget.verse.stringId);
-    header = Director().getHeader(widget.verse.headerId);
+    header = Director().getString(widget.verse.headerId);
     headerColor = Director().getColor(widget.verse.headerId);
 
     displayedText = '';
@@ -158,6 +162,108 @@ class _TextTypewriterState extends State<TextTypewriter> {
     return CustomPaint(
       painter:
           CustomTextPainter(widget.width, displayedText, header, headerColor),
+    );
+  }
+}
+
+///Список выборов, которые есть на сцене
+class OptionSpan extends StatelessWidget {
+  final List<String>? choices;
+  const OptionSpan({super.key, this.choices});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var c in choices ?? [])
+          OptionContainer(
+              size: size,
+              text: Director().getString(c),
+              callback: Director().getFunction(c)),
+      ],
+    );
+  }
+}
+
+class OptionContainer extends StatefulWidget {
+  final String text;
+  final Function callback;
+
+  const OptionContainer({
+    Key? key,
+    required this.size,
+    required this.text,
+    required this.callback,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  State<OptionContainer> createState() => _OptionContainerState();
+}
+
+class _OptionContainerState extends State<OptionContainer> {
+  final defaultStyle =
+      TextStyle(fontSize: 24, color: Colors.yellow.shade100, shadows: const [
+    Shadow(
+      blurRadius: 2,
+      offset: Offset(2, 2),
+    ),
+  ]);
+
+  final onHoverStyle =
+      const TextStyle(fontSize: 24, color: Colors.white, shadows: [
+    Shadow(
+      blurRadius: 2,
+      offset: Offset(2, 2),
+    ),
+  ]);
+
+  bool hover = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: MouseRegion(
+        onEnter: (event) => setState(() {
+          hover = true;
+        }),
+        onExit: (event) => setState(() {
+          hover = false;
+        }),
+        child: GestureDetector(
+          onTap: () => widget.callback.call(),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+                Colors.black.withOpacity(0),
+                Colors.black.withOpacity(0.8),
+                Colors.black.withOpacity(0.8),
+                Colors.black.withOpacity(0),
+              ], stops: const [
+                0.1,
+                0.25,
+                0.75,
+                0.9
+              ]),
+            ),
+            height: 57,
+            width: widget.size.width * 0.7,
+            child: DefaultTextStyle(
+                style: hover ? onHoverStyle : defaultStyle,
+                child: Center(
+                  child: Text(
+                    widget.text,
+                    textAlign: TextAlign.center,
+                  ),
+                )),
+          ),
+        ),
+      ),
     );
   }
 }
