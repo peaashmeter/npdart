@@ -8,7 +8,7 @@ TextPainter _getHeaderPainter(String header, [Color color = Colors.white]) {
     ..textDirection = TextDirection.ltr
     ..text = TextSpan(
         text: header,
-        style: TextStyle(fontSize: 18, color: color, shadows: const [
+        style: TextStyle(fontSize: 20, color: color, shadows: const [
           Shadow(
             blurRadius: 2,
             offset: Offset(2, 2),
@@ -119,7 +119,7 @@ class CustomTextPainter extends CustomPainter {
       ..text = TextSpan(
           text: _text,
           style: TextStyle(
-              fontSize: 18,
+              fontSize: 20,
               color: Colors.yellow[100],
               shadows: const [
                 Shadow(

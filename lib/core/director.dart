@@ -31,7 +31,7 @@ class Director with Binding {
       'scene2': GenericScene.simple(
           id: 'scene2',
           verse: Verse(headerId: 'somebody', stringId: 's2'),
-          background: 'scenery2.jpg',
+          background: 'scenery1.jpg',
           nextScene: 'scene1'),
     };
 
