@@ -1,11 +1,15 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class BackgroundImage extends StatefulWidget {
   final String initialImage;
+  final ValueNotifier<Offset> mousePosNotifier;
 
   const BackgroundImage({
     Key? key,
     required this.initialImage,
+    required this.mousePosNotifier,
   }) : super(key: key);
 
   @override
@@ -13,6 +17,8 @@ class BackgroundImage extends StatefulWidget {
 }
 
 class _BackgroundImageState extends State<BackgroundImage> {
+  //Отношение перемещения фона к перемещению мыши
+  final parallaxFactor = 0.005;
   late String _currentImage;
 
   @override
@@ -27,8 +33,21 @@ class _BackgroundImageState extends State<BackgroundImage> {
     super.didUpdateWidget(oldWidget);
   }
 
+  Offset _calculateParallax(Offset mousePos, Size center) {
+    //Рассматриваем это как вектор с измерениями вдвое меньше размеров экрана
+    //(x, y) = (width, heigth)
+    final center = MediaQuery.of(context).size / 2;
+
+    final offsetX = (center.width - mousePos.dx) * parallaxFactor;
+    final offsetY = (center.height - mousePos.dy) * parallaxFactor;
+
+    return Offset(offsetX, offsetY);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final center = MediaQuery.of(context).size / 2;
+
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       switchInCurve: Curves.easeIn,
@@ -41,10 +60,23 @@ class _BackgroundImageState extends State<BackgroundImage> {
           ),
         );
       },
-      child: Image.asset(
-        'assets/backgrounds/$_currentImage',
-        key: ValueKey(_currentImage),
-        fit: BoxFit.cover,
+      child: ValueListenableBuilder(
+        valueListenable: widget.mousePosNotifier,
+        builder: (context, mousePos, _) {
+          return Transform.translate(
+            offset: _calculateParallax(mousePos, center),
+            child: Transform.scale(
+              //увеличение для того, чтобы компенсировать сдвиг параллакса
+              scale: 1 + parallaxFactor,
+              filterQuality: FilterQuality.none,
+              child: Image.asset(
+                'assets/backgrounds/$_currentImage',
+                key: ValueKey(_currentImage),
+                fit: BoxFit.cover,
+              ),
+            ),
+          );
+        },
       ),
     );
   }

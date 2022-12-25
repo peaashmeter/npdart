@@ -5,6 +5,7 @@ import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/core/verse.dart';
 import 'package:visual_novel/widgets/painting.dart';
 
+///Отрисовка текста побуквенно
 class TextTypewriter extends StatefulWidget {
   final double width;
   final Verse verse;
