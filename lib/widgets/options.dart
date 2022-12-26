@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:visual_novel/core/director.dart';
 
+class OptionContainer extends StatefulWidget {
+  final String text;
+  final Function callback;
+
+  final Size size;
+
+  const OptionContainer({
+    Key? key,
+    required this.size,
+    required this.text,
+    required this.callback,
+  }) : super(key: key);
+
+  @override
+  State<OptionContainer> createState() => _OptionContainerState();
+}
+
 ///Список выборов, которые есть на сцене
 class OptionSpan extends StatelessWidget {
   final List<String>? choices;
@@ -16,28 +33,11 @@ class OptionSpan extends StatelessWidget {
         for (var c in choices ?? [])
           OptionContainer(
               size: size,
-              text: Director().getString(c),
-              callback: Director().getFunction(c)),
+              text: Director().getStringById(c),
+              callback: Director().getFunctionById(c)),
       ],
     );
   }
-}
-
-class OptionContainer extends StatefulWidget {
-  final String text;
-  final Function callback;
-
-  const OptionContainer({
-    Key? key,
-    required this.size,
-    required this.text,
-    required this.callback,
-  }) : super(key: key);
-
-  final Size size;
-
-  @override
-  State<OptionContainer> createState() => _OptionContainerState();
 }
 
 class _OptionContainerState extends State<OptionContainer> {

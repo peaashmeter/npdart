@@ -13,17 +13,19 @@ class TextBox extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     //если на сцене нет текста, не нужно рисовать текстбокс
-    return verse.stringId != null
-        ? CustomPaint(
-            painter: TextShape(
-              size.width,
-              Director().getString(verse.headerId),
-            ),
-            child: TextTypewriter(
-              width: size.width,
-              verse: verse,
-            ),
-          )
-        : const SizedBox.shrink();
+    if (verse.stringId != null) {
+      return CustomPaint(
+        painter: TextShape(
+          size.width,
+          Director().getStringById(verse.headerId),
+        ),
+        child: TextTypewriter(
+          width: size.width,
+          verse: verse,
+        ),
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 }

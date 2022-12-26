@@ -22,29 +22,6 @@ class _BackgroundImageState extends State<BackgroundImage> {
   late String _currentImage;
 
   @override
-  void initState() {
-    super.initState();
-    _currentImage = widget.initialImage;
-  }
-
-  @override
-  void didUpdateWidget(covariant BackgroundImage oldWidget) {
-    _currentImage = widget.initialImage;
-    super.didUpdateWidget(oldWidget);
-  }
-
-  Offset _calculateParallax(Offset mousePos, Size center) {
-    //Рассматриваем это как вектор с измерениями вдвое меньше размеров экрана
-    //(x, y) = (width, heigth)
-    final center = MediaQuery.of(context).size / 2;
-
-    final offsetX = (center.width - mousePos.dx) * parallaxFactor;
-    final offsetY = (center.height - mousePos.dy) * parallaxFactor;
-
-    return Offset(offsetX, offsetY);
-  }
-
-  @override
   Widget build(BuildContext context) {
     final center = MediaQuery.of(context).size / 2;
 
@@ -79,5 +56,28 @@ class _BackgroundImageState extends State<BackgroundImage> {
         },
       ),
     );
+  }
+
+  @override
+  void didUpdateWidget(covariant BackgroundImage oldWidget) {
+    _currentImage = widget.initialImage;
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _currentImage = widget.initialImage;
+  }
+
+  Offset _calculateParallax(Offset mousePos, Size center) {
+    //Рассматриваем это как вектор с измерениями вдвое меньше размеров экрана
+    //(x, y) = (width, heigth)
+    final center = MediaQuery.of(context).size / 2;
+
+    final offsetX = (center.width - mousePos.dx) * parallaxFactor;
+    final offsetY = (center.height - mousePos.dy) * parallaxFactor;
+
+    return Offset(offsetX, offsetY);
   }
 }

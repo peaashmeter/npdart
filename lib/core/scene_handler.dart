@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 ///Вынесено в отдельный класс для того, чтобы [Director] не зависел от
 ///[ChangeNotifier]
 class SceneHandler extends ChangeNotifier {
+  static SceneHandler? _instance;
+
   factory SceneHandler() {
     if (_instance != null) {
       return _instance!;
@@ -12,7 +14,6 @@ class SceneHandler extends ChangeNotifier {
     return _instance!;
   }
   SceneHandler._();
-  static SceneHandler? _instance;
 
   ///Уведомляет отрисовщик, что сцена изменилась
   void requestSceneChange() {

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/core/scene.dart';
 import 'package:visual_novel/widgets/background.dart';
-import 'package:visual_novel/widgets/textbox.dart';
 import 'package:visual_novel/widgets/options.dart';
+import 'package:visual_novel/widgets/textbox.dart';
 
 class Scenery extends StatefulWidget {
   final GenericScene initialScene;
@@ -18,20 +17,6 @@ class _SceneryState extends State<Scenery> {
   GenericScene? scene;
   //Абсолютное положение курсора в окне
   late ValueNotifier<Offset> mousePosNotifier;
-
-  @override
-  void initState() {
-    scene = widget.initialScene;
-
-    mousePosNotifier = ValueNotifier(Offset.zero);
-
-    Director().sceneHandler.addListener(() {
-      setState(() {
-        scene = Director().currentScene as GenericScene;
-      });
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,5 +53,19 @@ class _SceneryState extends State<Scenery> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    scene = widget.initialScene;
+
+    mousePosNotifier = ValueNotifier(Offset.zero);
+
+    Director().sceneHandler.addListener(() {
+      setState(() {
+        scene = Director().currentScene as GenericScene;
+      });
+    });
+    super.initState();
   }
 }

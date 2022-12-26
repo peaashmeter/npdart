@@ -7,11 +7,11 @@ import 'package:visual_novel/widgets/painting.dart';
 
 ///Отрисовка текста побуквенно
 class TextTypewriter extends StatefulWidget {
+  static const punctuation = ['.', ',', '!', '?', ';', ':'];
   final double width;
   final Verse verse;
-  const TextTypewriter({super.key, required this.width, required this.verse});
 
-  static const punctuation = ['.', ',', '!', '?', ';', ':'];
+  const TextTypewriter({super.key, required this.width, required this.verse});
 
   @override
   State<TextTypewriter> createState() => _TextTypewriterState();
@@ -29,6 +29,27 @@ class _TextTypewriterState extends State<TextTypewriter> {
 
   late StreamSubscription<String> subscription;
 
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter:
+          CustomTextPainter(widget.width, displayedText, header, headerColor),
+    );
+  }
+
+  @override
+  void didUpdateWidget(covariant TextTypewriter oldWidget) {
+    subscription.cancel();
+    _setup();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void initState() {
+    _setup();
+    super.initState();
+  }
+
   Stream<String> typeStream(int milliseconds) async* {
     for (var i = 0; i < text.characters.length; i++) {
       final s = text.characters.elementAt(i);
@@ -43,43 +64,22 @@ class _TextTypewriterState extends State<TextTypewriter> {
     }
   }
 
-  StreamSubscription<String> _subscribe() {
-    return typeStream(milliseconds).listen((s) {
-      setState(() {
-        displayedText += s;
-      });
-    });
-  }
-
   void _setup() {
     assert(widget.verse.stringId != null);
-    text = Director().getString(widget.verse.stringId);
-    header = Director().getString(widget.verse.headerId);
-    headerColor = Director().getColor(widget.verse.headerId);
+    text = Director().getStringById(widget.verse.stringId);
+    header = Director().getStringById(widget.verse.headerId);
+    headerColor = Director().getColorById(widget.verse.headerId);
 
     displayedText = '';
 
     subscription = _subscribe();
   }
 
-  @override
-  void initState() {
-    _setup();
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(covariant TextTypewriter oldWidget) {
-    subscription.cancel();
-    _setup();
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter:
-          CustomTextPainter(widget.width, displayedText, header, headerColor),
-    );
+  StreamSubscription<String> _subscribe() {
+    return typeStream(milliseconds).listen((s) {
+      setState(() {
+        displayedText += s;
+      });
+    });
   }
 }
