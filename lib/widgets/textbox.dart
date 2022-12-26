@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/core/verse.dart';
-import 'package:visual_novel/widgets/painting.dart';
+import 'package:visual_novel/widgets/painting/textshape.dart';
 import 'package:visual_novel/widgets/typewriter.dart';
 
 class TextBox extends StatelessWidget {

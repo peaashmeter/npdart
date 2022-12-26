@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:visual_novel/core/binding.dart';
 import 'package:visual_novel/core/game_state.dart';
+import 'package:visual_novel/core/preferences.dart';
 import 'package:visual_novel/core/scene_handler.dart';
 
 ///Синглтон, который отвечает за все основное взаимодействие с игрой
@@ -9,6 +10,8 @@ class Director with Binding, GameState {
   static Director? _instance;
 
   final SceneHandler _sceneHandler;
+
+  final Preferences _preferences;
 
   ///Точка доступа к единственному объекту класса [Director]
   factory Director() {
@@ -20,12 +23,17 @@ class Director with Binding, GameState {
     }
   }
 
+  //TODO: Убрать жесткую инициализацию настроек
   ///Инициализация [Director]
-  Director._init() : _sceneHandler = SceneHandler();
+  Director._init()
+      : _sceneHandler = SceneHandler(),
+        _preferences = Preferences();
 
   ///Действует аналогично вызову SceneHandler(),
   ///однако позволяет получать доступ к нему через [Director]
   SceneHandler get sceneHandler => _sceneHandler;
+
+  Preferences get preferences => _preferences;
 
   ///Выполняет действие с указанным id. Возвращает false, если возникла ошибка.
   Future<bool> runAction(String? id, List? args) async {

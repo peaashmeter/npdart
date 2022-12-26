@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/core/verse.dart';
-import 'package:visual_novel/widgets/painting.dart';
+import 'package:visual_novel/widgets/painting/textpainter.dart';
 
 ///Отрисовка текста побуквенно
 class TextTypewriter extends StatefulWidget {
