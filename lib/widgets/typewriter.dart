@@ -18,8 +18,6 @@ class TextTypewriter extends StatefulWidget {
 }
 
 class _TextTypewriterState extends State<TextTypewriter> {
-  final milliseconds = 30;
-
   late String text;
   late String displayedText;
 
@@ -76,6 +74,7 @@ class _TextTypewriterState extends State<TextTypewriter> {
   }
 
   StreamSubscription<String> _subscribe() {
+    final milliseconds = Director().preferences.milliseconds;
     return typeStream(milliseconds).listen((s) {
       setState(() {
         displayedText += s;

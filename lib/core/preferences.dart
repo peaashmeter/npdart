@@ -8,6 +8,9 @@ class Preferences {
   ///The vertical resolution that the sprites are designed for
   double imageHeight;
 
+  ///It's the time between drawing characters of the string on the scene
+  int milliseconds = 5;
+
   final Map<String, Offset> spritePositions = {
     'left': const Offset(0.33, 0.9),
     'center': const Offset(0.5, 0.9),

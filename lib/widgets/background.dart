@@ -24,7 +24,7 @@ class _BackgroundImageState extends State<BackgroundImage> {
     final center = MediaQuery.of(context).size / 2;
 
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 3000),
       switchInCurve: Curves.easeIn,
       switchOutCurve: Curves.easeOut,
       transitionBuilder: (Widget child, Animation<double> animation) {
