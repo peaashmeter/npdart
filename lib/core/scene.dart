@@ -4,7 +4,6 @@ class GenericScene extends Scene {
   final Verse _verse;
   final String? _background;
   final String? _music;
-  final Map<String, int>? _characters;
 
   ///Список с айди выборов из binding
   final List<String>? _choices;
@@ -13,14 +12,12 @@ class GenericScene extends Scene {
       required Verse verse,
       String? background,
       String? music,
-      Map<String, int>? characters,
       List<String>? choices,
       String? actionId,
       String? nextScene})
       : _verse = verse,
         _background = background,
         _music = music,
-        _characters = characters,
         _choices = choices,
         super(id, actionId, nextScene);
 
@@ -30,14 +27,12 @@ class GenericScene extends Scene {
     required List<String>? choices,
     String? background,
     String? music,
-    Map<String, int>? characters,
     String? actionId,
   }) : this(
             id: id,
             verse: verse,
             background: background,
             music: music,
-            characters: characters,
             choices: choices,
             actionId: actionId,
             nextScene: null);
@@ -52,21 +47,18 @@ class GenericScene extends Scene {
     required String nextScene,
     String? background,
     String? music,
-    Map<String, int>? characters,
     String actionId = 'next_scene',
   }) : this(
             id: id,
             verse: verse,
             background: background,
             music: music,
-            characters: characters,
             choices: null,
             actionId: actionId,
             nextScene: nextScene);
 
   String? get background => _background;
 
-  Map<String, int>? get characters => _characters;
   List<String>? get choices => _choices;
   String? get music => _music;
   Verse get verse => _verse;
@@ -84,6 +76,7 @@ abstract class Scene {
   final String _id;
   final String? _actionId;
   final String? _nextScene;
+  Map<String, String>? sprites;
 
   Scene(this._id, this._actionId, this._nextScene);
 

@@ -3,6 +3,7 @@ import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/core/scene.dart';
 import 'package:visual_novel/widgets/background.dart';
 import 'package:visual_novel/widgets/options.dart';
+import 'package:visual_novel/widgets/sprites.dart';
 import 'package:visual_novel/widgets/textbox.dart';
 
 class Scenery extends StatefulWidget {
@@ -23,6 +24,7 @@ class _SceneryState extends State<Scenery> {
     assert(scene is GenericScene);
 
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () {
         Director().runAction(scene!.actionId, [scene]);
       },
@@ -36,6 +38,10 @@ class _SceneryState extends State<Scenery> {
             BackgroundImage(
                 initialImage: scene!.background!,
                 mousePosNotifier: mousePosNotifier),
+            SpriteLayer(
+              scene: scene!,
+              mousePosNotifier: mousePosNotifier,
+            ),
             Align(
               alignment: Alignment.center,
               child: OptionSpan(choices: scene!.choices),

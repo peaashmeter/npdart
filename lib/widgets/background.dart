@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class BackgroundImage extends StatefulWidget {
@@ -18,7 +16,7 @@ class BackgroundImage extends StatefulWidget {
 
 class _BackgroundImageState extends State<BackgroundImage> {
   //Отношение перемещения фона к перемещению мыши
-  final parallaxFactor = 0.005;
+  final parallaxFactor = 0.002;
   late String _currentImage;
 
   @override
