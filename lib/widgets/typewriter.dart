@@ -29,9 +29,13 @@ class _TextTypewriterState extends State<TextTypewriter> {
 
   @override
   Widget build(BuildContext context) {
+    final headerStyle =
+        Theme.of(context).textTheme.headline5!.apply(color: headerColor);
+
+    final stringStyle = Theme.of(context).textTheme.headline6!;
     return CustomPaint(
-      painter:
-          CustomTextPainter(widget.width, displayedText, header, headerColor),
+      painter: CustomTextPainter(
+          widget.width, displayedText, header, headerStyle, stringStyle),
     );
   }
 

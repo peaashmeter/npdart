@@ -41,21 +41,10 @@ class OptionSpan extends StatelessWidget {
 }
 
 class _OptionContainerState extends State<OptionContainer> {
-  final defaultStyle =
-      TextStyle(fontSize: 24, color: Colors.yellow.shade100, shadows: const [
-    Shadow(
-      blurRadius: 2,
-      offset: Offset(2, 2),
-    ),
-  ]);
-
-  final onHoverStyle =
-      const TextStyle(fontSize: 24, color: Colors.white, shadows: [
-    Shadow(
-      blurRadius: 2,
-      offset: Offset(2, 2),
-    ),
-  ]);
+  late final defaultStyle = Theme.of(context).textTheme.headline4!;
+  late final onHoverStyle = Theme.of(context).textTheme.headline4!.apply(
+        color: Colors.white,
+      );
 
   bool hover = false;
 
@@ -90,9 +79,9 @@ class _OptionContainerState extends State<OptionContainer> {
             width: widget.size.width * 0.7,
             child: DefaultTextStyle(
                 style: hover ? onHoverStyle : defaultStyle,
-                child: Center(
+                child: const Center(
                   child: Text(
-                    widget.text,
+                    'Some english text',
                     textAlign: TextAlign.center,
                   ),
                 )),

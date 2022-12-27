@@ -10,12 +10,14 @@ class TextShape extends CustomPainter {
 
   final String _header;
 
+  final TextStyle _headerStyle;
+
   //ширина окошка с текстом
   late final width = _width * 0.7;
 
   late final height = Director().preferences.textBoxHeight;
 
-  TextShape(this._width, this._header);
+  TextShape(this._width, this._header, this._headerStyle);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -58,7 +60,7 @@ class TextShape extends CustomPainter {
 
   Path _getHeaderPath(double width) {
     //расчет заголовка
-    TextPainter headerPainter = getHeaderPainter(_header);
+    TextPainter headerPainter = getHeaderPainter(_header, _headerStyle);
 
     headerPainter.layout();
 

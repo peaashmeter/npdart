@@ -15,10 +15,8 @@ class TextBox extends StatelessWidget {
     //если на сцене нет текста, не нужно рисовать текстбокс
     if (verse.stringId != null) {
       return CustomPaint(
-        painter: TextShape(
-          size.width,
-          Director().getStringById(verse.headerId),
-        ),
+        painter: TextShape(size.width, Director().getStringById(verse.headerId),
+            Theme.of(context).textTheme.headline5!),
         child: TextTypewriter(
           width: size.width,
           verse: verse,
