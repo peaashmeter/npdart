@@ -24,34 +24,33 @@ class _BackgroundImageState extends State<BackgroundImage> {
     final center = MediaQuery.of(context).size / 2;
 
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 3000),
+      duration: const Duration(milliseconds: 300),
       switchInCurve: Curves.easeIn,
       switchOutCurve: Curves.easeOut,
       transitionBuilder: (Widget child, Animation<double> animation) {
         return SizedBox.expand(
           child: FadeTransition(
             opacity: animation,
-            child: child,
+            child: ValueListenableBuilder(
+              valueListenable: widget.mousePosNotifier,
+              builder: (context, mousePos, _) {
+                return Transform.translate(
+                  offset: _calculateParallax(mousePos, center),
+                  child: Transform.scale(
+                      //увеличение для того, чтобы компенсировать сдвиг параллакса
+                      scale: 1 + parallaxFactor,
+                      filterQuality: FilterQuality.none,
+                      child: child),
+                );
+              },
+            ),
           ),
         );
       },
-      child: ValueListenableBuilder(
-        valueListenable: widget.mousePosNotifier,
-        builder: (context, mousePos, _) {
-          return Transform.translate(
-            offset: _calculateParallax(mousePos, center),
-            child: Transform.scale(
-              //увеличение для того, чтобы компенсировать сдвиг параллакса
-              scale: 1 + parallaxFactor,
-              filterQuality: FilterQuality.none,
-              child: Image.asset(
-                'assets/backgrounds/$_currentImage',
-                key: ValueKey(_currentImage),
-                fit: BoxFit.cover,
-              ),
-            ),
-          );
-        },
+      child: Image.asset(
+        'assets/backgrounds/$_currentImage',
+        key: ValueKey(_currentImage),
+        fit: BoxFit.cover,
       ),
     );
   }

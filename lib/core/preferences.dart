@@ -9,7 +9,7 @@ class Preferences {
   double imageHeight;
 
   ///It's the time between drawing characters of the string on the scene
-  int milliseconds = 5;
+  int milliseconds = 30;
 
   final Map<String, Offset> spritePositions = {
     'left': const Offset(0.33, 0.9),
