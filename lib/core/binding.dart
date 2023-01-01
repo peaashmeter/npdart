@@ -36,11 +36,17 @@ mixin Binding {
         id: 'scene2',
         verse: Verse(headerId: 'somebody', stringId: 's2'),
         background: 'scenery2.jpg',
+        nextScene: 'scene3')
+      ..sprites = {
+        'left': 'assets/sprites/lena.png',
+      },
+    'scene3': GenericScene.simple(
+        id: 'scene3',
+        verse: Verse(headerId: 'somebody', stringId: 's2'),
+        background: 'scenery2.jpg',
         nextScene: 'scene1')
       ..sprites = {
-        // 'left': 'assets/sprites/lena.png',
-        // 'center': 'assets/sprites/lena.png',
-        // 'right': 'assets/sprites/lena.png',
+        'right': 'assets/sprites/lena.png',
       },
   };
 

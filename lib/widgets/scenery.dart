@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/core/scene.dart';
 import 'package:visual_novel/widgets/background.dart';
-import 'package:visual_novel/widgets/options.dart';
+import 'package:visual_novel/widgets/choices.dart';
 import 'package:visual_novel/widgets/sprites.dart';
 import 'package:visual_novel/widgets/textbox.dart';
 

@@ -40,24 +40,36 @@ class _SpriteLayerState extends State<SpriteLayer> {
     final center = MediaQuery.of(context).size / 2;
 
     return FutureBuilder(
-      future: imagesFuture,
-      builder: (context, snapshot) {
-        final images = snapshot.data?.values.toList() ?? [];
-        final offsets = snapshot.data?.keys.toList() ?? [];
-        return ValueListenableBuilder(
-          valueListenable: widget.mousePosNotifier,
-          builder: (context, mousePos, _) {
-            return Transform.translate(
-              offset: _calculateParallax(mousePos, center),
-              child: CustomPaint(
-                painter: SpritePainter(images, offsets),
-                child: Container(),
-              ),
-            );
-          },
-        );
-      },
-    );
+        future: imagesFuture,
+        builder: (context, snapshot) {
+          final images = snapshot.data?.values.toList() ?? [];
+          final offsets = snapshot.data?.keys.toList() ?? [];
+
+          return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 150),
+            switchInCurve: Curves.easeIn,
+            switchOutCurve: Curves.easeOut,
+            transitionBuilder: (child, animation) {
+              return FadeTransition(
+                opacity: animation,
+                child: ValueListenableBuilder(
+                  valueListenable: widget.mousePosNotifier,
+                  builder: (context, mousePos, _) {
+                    return Transform.translate(
+                      offset: _calculateParallax(mousePos, center),
+                      child: child,
+                    );
+                  },
+                ),
+              );
+            },
+            child: CustomPaint(
+              key: ValueKey([images, ...offsets]),
+              painter: SpritePainter(images, offsets),
+              child: Container(),
+            ),
+          );
+        });
   }
 
   //TODO: вынести загрузку изображений в биндинг

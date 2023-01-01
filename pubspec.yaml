@@ -80,7 +80,10 @@ flutter:
       fonts:
         - asset: assets/fonts/Philosopher-Regular.ttf
         - asset: assets/fonts/Philosopher-Bold.ttf
-        - weight: 700
+          weight: 700
+    - family: Marmelad
+      fonts:
+        - asset: assets/fonts/Marmelad-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

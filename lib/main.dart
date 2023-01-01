@@ -22,15 +22,18 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        fontFamily: 'Philosopher',
+        fontFamily: 'Marmelad',
         textTheme: TextTheme(
           //Style for choices
-          headline4: TextStyle(color: Colors.yellow.shade100, shadows: const [
-            Shadow(
-              blurRadius: 2,
-              offset: Offset(2, 2),
-            ),
-          ]),
+          headline4: TextStyle(
+              color: Colors.yellow.shade100,
+              fontSize: 24,
+              shadows: const [
+                Shadow(
+                  blurRadius: 2,
+                  offset: Offset(2, 2),
+                ),
+              ]),
           //style for headers
           headline5: const TextStyle(
               color: Colors.white,
