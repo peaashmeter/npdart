@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:visual_novel/core/director.dart';
 
 class BackgroundImage extends StatefulWidget {
   final String initialImage;
@@ -48,7 +49,7 @@ class _BackgroundImageState extends State<BackgroundImage> {
         );
       },
       child: Image.asset(
-        'assets/backgrounds/$_currentImage',
+        '${Director().preferences.backgroundsRoot}$_currentImage',
         key: ValueKey(_currentImage),
         fit: BoxFit.cover,
       ),

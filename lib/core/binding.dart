@@ -38,7 +38,7 @@ mixin Binding {
         background: 'scenery2.jpg',
         nextScene: 'scene3')
       ..sprites = {
-        'left': 'assets/sprites/lena.png',
+        'left': 'lena.png',
       },
     'scene3': GenericScene.simple(
         id: 'scene3',
@@ -46,7 +46,7 @@ mixin Binding {
         background: 'scenery2.jpg',
         nextScene: 'scene1')
       ..sprites = {
-        'right': 'assets/sprites/lena.png',
+        'right': 'lena.png',
       },
   };
 

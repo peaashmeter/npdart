@@ -72,10 +72,11 @@ class _SpriteLayerState extends State<SpriteLayer> {
         });
   }
 
-  //TODO: вынести загрузку изображений в биндинг
   Future<Map<Offset, Image>> loadImages(Map<String, String> sprites) async {
     final offsets = <Offset>[];
     final images = <Image>[];
+
+    final root = Director().preferences.spritesRoot;
 
     for (var k in sprites.keys) {
       final offset = Director().preferences.spritePositions[k];
@@ -84,7 +85,7 @@ class _SpriteLayerState extends State<SpriteLayer> {
     }
     for (var v in sprites.values) {
       try {
-        final bytes = await rootBundle.load(v);
+        final bytes = await rootBundle.load('$root$v');
         final image = await decodeImageFromList(Uint8List.view(bytes.buffer));
         images.add(image);
       } catch (e) {
