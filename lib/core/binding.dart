@@ -25,29 +25,27 @@ mixin Binding {
 
   ///Все игровые сцены; инициализируются при запуске игры
   final _scenes = <String, Scene>{
-    'test_scene': GenericScene.simple(
-        id: 'test_scene', verse: Verse(), nextScene: 'test_scene'),
-    'scene1': GenericScene.choices(
-        id: 'scene1',
+    'test_scene': Scene(verse: Verse(), nextScene: 'test_scene'),
+    'scene1': Scene(
         verse: Verse(headerId: 'pushkin', stringId: 'onegin'),
         background: 'scenery1.jpg',
         choices: ['choice1', 'choice2']),
-    'scene2': GenericScene.simple(
-        id: 'scene2',
-        verse: Verse(headerId: 'somebody', stringId: 's2'),
-        background: 'scenery2.jpg',
-        nextScene: 'scene3')
-      ..sprites = {
+    'scene2': Scene(
+      verse: Verse(headerId: 'somebody', stringId: 's2'),
+      background: 'scenery2.jpg',
+      nextScene: 'scene3',
+      sprites: {
         'left': 'lena.png',
       },
-    'scene3': GenericScene.simple(
-        id: 'scene3',
-        verse: Verse(headerId: 'somebody', stringId: 's2'),
-        background: 'scenery2.jpg',
-        nextScene: 'scene1')
-      ..sprites = {
+    ),
+    'scene3': Scene(
+      verse: Verse(headerId: 'somebody', stringId: 's2'),
+      background: 'scenery2.jpg',
+      nextScene: 'scene1',
+      sprites: {
         'right': 'lena.png',
       },
+    )
   };
 
   ///Таблица функций, которые вызываются при совершении действия с некоторым айди

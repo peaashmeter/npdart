@@ -24,6 +24,7 @@ class Director with Binding, GameState {
   }
 
   //TODO: Убрать жесткую инициализацию настроек
+
   ///Инициализация [Director]
   Director._init()
       : _sceneHandler = SceneHandler(),

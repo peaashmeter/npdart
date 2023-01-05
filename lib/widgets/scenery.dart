@@ -7,7 +7,7 @@ import 'package:visual_novel/widgets/sprites.dart';
 import 'package:visual_novel/widgets/textbox.dart';
 
 class Scenery extends StatefulWidget {
-  final GenericScene initialScene;
+  final Scene initialScene;
   const Scenery({super.key, required this.initialScene});
 
   @override
@@ -15,18 +15,18 @@ class Scenery extends StatefulWidget {
 }
 
 class _SceneryState extends State<Scenery> {
-  GenericScene? scene;
+  Scene? scene;
   //Абсолютное положение курсора в окне
   late ValueNotifier<Offset> mousePosNotifier;
 
   @override
   Widget build(BuildContext context) {
-    assert(scene is GenericScene);
+    assert(scene is Scene);
 
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        Director().runAction(scene!.actionId, [scene]);
+        Director().runAction(scene!.onLeaveActionId, [scene]);
       },
       child: MouseRegion(
         //Необходимо захватывать положение курсора здесь для того, чтобы
@@ -50,9 +50,9 @@ class _SceneryState extends State<Scenery> {
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: TextBox(
-                  verse: scene!.verse,
-                ),
+                child: scene!.verse != null
+                    ? TextBox(verse: scene!.verse!)
+                    : const SizedBox.shrink(),
               ),
             ),
           ],
@@ -69,7 +69,7 @@ class _SceneryState extends State<Scenery> {
 
     Director().sceneHandler.addListener(() {
       setState(() {
-        scene = Director().currentScene as GenericScene;
+        scene = Director().sceneHandler.currentScene;
       });
     });
     super.initState();

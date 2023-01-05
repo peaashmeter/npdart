@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
           ]),
         ),
       ),
-      home: Scenery(initialScene: Director().currentScene as GenericScene),
+      home: Scenery(initialScene: Director().sceneHandler.currentScene),
     );
   }
 }
