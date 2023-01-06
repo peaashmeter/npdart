@@ -36,7 +36,7 @@ class _SceneryState extends State<Scenery> {
         child: Stack(
           children: [
             BackgroundImage(
-                initialImage: scene!.background!,
+                initialBackgroundId: scene!.background!,
                 mousePosNotifier: mousePosNotifier),
             SpriteLayer(
               scene: scene!,
@@ -64,10 +64,13 @@ class _SceneryState extends State<Scenery> {
   @override
   void initState() {
     scene = widget.initialScene;
+    Director().runAction(Director().onLoadActionId, []);
 
     mousePosNotifier = ValueNotifier(Offset.zero);
 
     Director().sceneHandler.addListener(() {
+      Director().runAction(Director().onLoadActionId, []);
+
       setState(() {
         scene = Director().sceneHandler.currentScene;
       });

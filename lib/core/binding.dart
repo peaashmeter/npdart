@@ -34,6 +34,7 @@ mixin Binding {
       verse: Verse(headerId: 'somebody', stringId: 's2'),
       background: 'scenery2.jpg',
       nextScene: 'scene3',
+      choices: [],
       sprites: {
         'left': 'lena.png',
       },
@@ -59,6 +60,15 @@ mixin Binding {
       Director().setScene('scene2');
     },
     'choice2': () {}
+  };
+
+  ///A table of backgrounds, except plain images.
+  ///Every request for a background should at first trying finding one here.
+  final _backgrounds = <String, Widget>{
+    'blank': Container(
+      color: Colors.black,
+      key: UniqueKey(),
+    )
   };
 
   ///Возвращает цвет заголовка из таблицы связывания по его айди.
@@ -89,5 +99,18 @@ mixin Binding {
     assert(_functions.containsKey(id),
         'Binding table does not contain function with id $id.');
     return (_functions[id] ?? () {});
+  }
+
+  ///Tries to find a request background in the binding table.
+  ///If fails, tries to load an image from assets.
+  ///Returns a black container if [id] is null.
+  Widget getBackgroundById(String? id) {
+    if (id == null) return _backgrounds['blank']!;
+    if (_backgrounds.containsKey(id)) return _backgrounds[id]!;
+    return Image.asset(
+      '${Director().preferences.backgroundsRoot}$id',
+      key: ValueKey(id),
+      fit: BoxFit.cover,
+    );
   }
 }

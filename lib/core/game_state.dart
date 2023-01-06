@@ -11,11 +11,12 @@ mixin GameState {
   String? currentSceneId = 'scene1';
 
   String? background;
+  String? music;
   Map<String, String>? sprites;
-  String? _nextScene;
-  String? _onLoadActionId;
-  String? _onLeaveActionId;
-  List<String>? _choices;
+  String? nextScene;
+  String? onLoadActionId;
+  String? onLeaveActionId;
+  List<String>? choices;
   Verse? verse;
 
   ///Возвращает игровую переменную по её айди.
@@ -24,10 +25,24 @@ mixin GameState {
     return _variables[id]!;
   }
 
-  void setScene(String? id) {
+  //TODO: вообще убрать пересылку сцены в отрисовку, сделать так, чтобы виджеты зависели только от конкретных частей игрового состояния
+  @deprecated
+  Scene setScene(String? id) {
     currentSceneId = id;
     final scene = Director().getSceneById(id);
-    SceneHandler().requestSceneChange(scene);
+    //Change current state only if the new state exists.
+    background = scene.background ?? background;
+    music = scene.music ?? music;
+    sprites = scene.sprites ?? sprites;
+    nextScene = scene.nextScene ?? nextScene;
+    onLeaveActionId = scene.onLeaveActionId ?? onLeaveActionId;
+    onLoadActionId = scene.onLoadActionId ?? onLoadActionId;
+    choices = scene.choices ?? choices;
+    verse = scene.verse ?? verse;
+
+    final newScene = _createSceneFromState();
+    Director().sceneHandler.requestSceneChange(newScene);
+    return newScene;
   }
 
   ///Присваивает значение [value] переменной по её айди.
@@ -50,5 +65,18 @@ mixin GameState {
     }
 
     _variables[id] = value;
+  }
+
+  @deprecated
+  Scene _createSceneFromState() {
+    return Scene(
+        onLeaveActionId: onLeaveActionId,
+        onLoadActionId: onLoadActionId,
+        sprites: sprites,
+        background: background,
+        music: music,
+        nextScene: nextScene,
+        choices: choices,
+        verse: verse);
   }
 }

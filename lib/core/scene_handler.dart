@@ -17,7 +17,7 @@ class SceneHandler extends ChangeNotifier {
   }
   SceneHandler._();
 
-  late Scene _currentScene = Director().getSceneById(Director().currentSceneId);
+  late Scene _currentScene = Director().setScene('scene1');
 
   Scene get currentScene => _currentScene;
 

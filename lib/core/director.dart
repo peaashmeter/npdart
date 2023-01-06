@@ -28,7 +28,7 @@ class Director with Binding, GameState {
   ///Инициализация [Director]
   Director._init()
       : _sceneHandler = SceneHandler(),
-        _preferences = Preferences();
+        _preferences = const Preferences() {}
 
   ///Действует аналогично вызову SceneHandler(),
   ///однако позволяет получать доступ к нему через [Director]
