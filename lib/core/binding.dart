@@ -36,7 +36,7 @@ mixin Binding {
       nextScene: 'scene3',
       choices: [],
       sprites: {
-        'left': 'lena.png',
+        'left': 'catgirl.png',
       },
     ),
     'scene3': Scene(

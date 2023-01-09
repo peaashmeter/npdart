@@ -10,3 +10,8 @@
 2. Сейвы
 3. Меню
 4. Просмотр прошлых сообщений
+
+
+-------------------
+промпт для спрайтов:
+beautiful anime girl, brown hair, orange eyes, skirt, highres, looking at viewer, ribbon, cat ears, ultra hd, high quality, medium breasts, long socks, socks, (simple background)++, full body, standing, shirt, [bloom], [shadow], [lighting], twintail, [from ahead], [from below], detailed face, [crop], bare shoulders, [extra fingers]
