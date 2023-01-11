@@ -29,22 +29,23 @@ mixin Binding {
     'scene1': Scene(
         verse: Verse(headerId: 'pushkin', stringId: 'onegin'),
         background: 'scenery1.jpg',
+        sprites: {},
         choices: ['choice1', 'choice2']),
     'scene2': Scene(
       verse: Verse(headerId: 'somebody', stringId: 's2'),
-      background: 'scenery2.jpg',
+      background: 'scenery1.jpg',
       nextScene: 'scene3',
       choices: [],
       sprites: {
-        'left': 'catgirl.png',
+        'left': 'catgirl_smiling.png',
       },
     ),
     'scene3': Scene(
       verse: Verse(headerId: 'somebody', stringId: 's2'),
-      background: 'scenery2.jpg',
+      background: 'scenery1.jpg',
       nextScene: 'scene1',
       sprites: {
-        'right': 'lena.png',
+        'left': 'catgirl_surprised.png',
       },
     )
   };
