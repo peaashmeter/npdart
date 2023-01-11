@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/core/scene.dart';
 import 'package:visual_novel/core/verse.dart';
+import 'package:visual_novel/tudasuda/editor_game.dart';
+import 'package:visual_novel/tudasuda/level.dart';
 
 ///Расширение класса [Director] для связывания идентификаторов с данными,
 ///которые не относятся к игровому состоянию
@@ -41,7 +45,7 @@ mixin Binding {
     ),
     'scene3': Scene(
       verse: Verse(headerId: 'somebody', stringId: 's2'),
-      background: 'scenery2.jpg',
+      background: 'tudasuda',
       nextScene: 'scene1',
       sprites: {
         'right': 'lena.png',
@@ -68,7 +72,15 @@ mixin Binding {
     'blank': Container(
       color: Colors.black,
       key: UniqueKey(),
-    )
+    ),
+    //TODO: убрать эти приколы
+    'tudasuda': const EditorGame(
+        level: Level(
+            width: 4,
+            height: 4,
+            playerPos: Point(0, 0),
+            mobs: [],
+            title: 'Бесконечное лето'))
   };
 
   ///Возвращает цвет заголовка из таблицы связывания по его айди.
