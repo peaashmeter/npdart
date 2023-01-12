@@ -15,18 +15,14 @@ class Scenery extends StatefulWidget {
 }
 
 class _SceneryState extends State<Scenery> {
-  Scene? scene;
-  //Абсолютное положение курсора в окне
-  late ValueNotifier<Offset> mousePosNotifier;
+  final ValueNotifier<Offset> mousePosNotifier = ValueNotifier(Offset.zero);
 
   @override
   Widget build(BuildContext context) {
-    assert(scene is Scene);
-
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        Director().runAction(scene!.onLeaveActionId, [scene]);
+        Director().runAction(Director().onLeaveActionId.value, []);
       },
       child: MouseRegion(
         //Необходимо захватывать положение курсора здесь для того, чтобы
@@ -35,46 +31,21 @@ class _SceneryState extends State<Scenery> {
         opaque: false,
         child: Stack(
           children: [
-            BackgroundImage(
-                initialBackgroundId: scene!.background!,
-                mousePosNotifier: mousePosNotifier),
+            BackgroundImage(mousePosNotifier: mousePosNotifier),
             SpriteLayer(
-              scene: scene!,
               mousePosNotifier: mousePosNotifier,
             ),
-            Align(
+            const Align(
               alignment: Alignment.center,
-              child: OptionSpan(choices: scene!.choices),
+              child: OptionSpan(),
             ),
-            Align(
+            const Align(
               alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: scene!.verse != null
-                    ? TextBox(verse: scene!.verse!)
-                    : const SizedBox.shrink(),
-              ),
+              child: Padding(padding: EdgeInsets.all(16.0), child: TextBox()),
             ),
           ],
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    scene = widget.initialScene;
-    Director().runAction(Director().onLoadActionId, []);
-
-    mousePosNotifier = ValueNotifier(Offset.zero);
-
-    Director().sceneHandler.addListener(() {
-      Director().runAction(Director().onLoadActionId, []);
-
-      setState(() {
-        scene = Director().sceneHandler.currentScene;
-      });
-    });
-    super.initState();
   }
 }

@@ -35,7 +35,7 @@ mixin Binding {
         choices: ['choice1', 'choice2']),
     'scene2': Scene(
       verse: Verse(headerId: 'catgirl', stringId: 's2'),
-      background: 'scenery1.jpg',
+      background: 'scenery2.jpg',
       nextScene: 'scene3',
       choices: [],
       sprites: {
@@ -54,10 +54,9 @@ mixin Binding {
 
   ///Таблица функций, которые вызываются при совершении действия с некоторым айди
   final _functions = <String, Function>{
-    'next_scene': (Scene? caller) {
-      assert(caller != null);
-      assert(caller!.nextScene != null);
-      Director().setScene(caller!.nextScene!);
+    'next_scene': () {
+      assert(Director().nextScene.value != null);
+      Director().setScene(Director().nextScene.value!);
     },
     'choice1': () {
       Director().setScene('scene2');

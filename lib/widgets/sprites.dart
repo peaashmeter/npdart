@@ -5,13 +5,10 @@ import 'package:flutter/material.dart' hide Image;
 import 'package:flutter/services.dart';
 import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/widgets/painting/spritepainter.dart';
-import '../core/scene.dart';
 
 class SpriteLayer extends StatefulWidget {
-  final Scene scene;
   final ValueNotifier<Offset> mousePosNotifier;
-  const SpriteLayer(
-      {super.key, required this.scene, required this.mousePosNotifier});
+  const SpriteLayer({super.key, required this.mousePosNotifier});
 
   @override
   State<SpriteLayer> createState() => _SpriteLayerState();
@@ -24,52 +21,46 @@ class _SpriteLayerState extends State<SpriteLayer> {
   late Future<Map<Offset, Image>> imagesFuture;
 
   @override
-  void initState() {
-    imagesFuture = loadImages(widget.scene.sprites ?? {});
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(covariant SpriteLayer oldWidget) {
-    imagesFuture = loadImages(widget.scene.sprites ?? {});
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
   Widget build(BuildContext context) {
     final center = MediaQuery.of(context).size / 2;
 
-    return FutureBuilder(
-        future: imagesFuture,
-        builder: (context, snapshot) {
-          final images = snapshot.data?.values.toList() ?? [];
-          final offsets = snapshot.data?.keys.toList() ?? [];
+    return ValueListenableBuilder(
+      valueListenable: Director().sprites,
+      builder: (context, sprites, child) {
+        imagesFuture = loadImages(sprites ?? {});
+        return FutureBuilder(
+            future: imagesFuture,
+            builder: (context, snapshot) {
+              final images = snapshot.data?.values.toList() ?? [];
+              final offsets = snapshot.data?.keys.toList() ?? [];
 
-          return AnimatedSwitcher(
-            duration: const Duration(milliseconds: 150),
-            switchInCurve: Curves.easeIn,
-            switchOutCurve: Curves.easeOut,
-            transitionBuilder: (child, animation) {
-              return FadeTransition(
-                opacity: animation,
-                child: ValueListenableBuilder(
-                  valueListenable: widget.mousePosNotifier,
-                  builder: (context, mousePos, _) {
-                    return Transform.translate(
-                      offset: _calculateParallax(mousePos, center),
-                      child: child,
-                    );
-                  },
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 150),
+                switchInCurve: Curves.easeIn,
+                switchOutCurve: Curves.easeOut,
+                transitionBuilder: (child, animation) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: ValueListenableBuilder(
+                      valueListenable: widget.mousePosNotifier,
+                      builder: (context, mousePos, _) {
+                        return Transform.translate(
+                          offset: _calculateParallax(mousePos, center),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: CustomPaint(
+                  key: ValueKey(Director().currentSceneId),
+                  painter: SpritePainter(images, offsets),
+                  child: Container(),
                 ),
               );
-            },
-            child: CustomPaint(
-              key: ValueKey(Director().currentSceneId),
-              painter: SpritePainter(images, offsets),
-              child: Container(),
-            ),
-          );
-        });
+            });
+      },
+    );
   }
 
   Future<Map<Offset, Image>> loadImages(Map<String, String> sprites) async {

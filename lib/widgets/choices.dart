@@ -3,23 +3,26 @@ import 'package:visual_novel/core/director.dart';
 
 ///Список выборов, которые есть на сцене
 class OptionSpan extends StatelessWidget {
-  final List<String>? choices;
-  const OptionSpan({super.key, this.choices});
+  const OptionSpan({super.key});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        for (var c in choices ?? [])
-          OptionContainer(
-              size: size,
-              text: Director().getStringById(c),
-              callback: Director().getFunctionById(c)),
-      ],
-    );
+    return ValueListenableBuilder(
+        valueListenable: Director().choices,
+        builder: (context, choices, child) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (var c in choices ?? [])
+                OptionContainer(
+                    size: size,
+                    text: Director().getStringById(c),
+                    callback: Director().getFunctionById(c)),
+            ],
+          );
+        });
   }
 }
 
