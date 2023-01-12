@@ -9,7 +9,7 @@ class Preferences {
   final double imageHeight;
 
   ///It's the time between drawing characters of the string on the scene.
-  final int milliseconds = 20;
+  final int milliseconds;
 
   ///The folder where the sprites are located.
   final String spritesRoot;
@@ -23,29 +23,35 @@ class Preferences {
   ///and (1, 1) is the bottom-right one.
   final Map<String, Offset> spritePositions;
 
-  const Preferences(
-      {this.textBoxHeight = 114.0,
-      this.imageHeight = 1080,
-      this.spritesRoot = 'assets/sprites/',
-      this.backgroundsRoot = 'assets/backgrounds/',
-      this.spritePositions = const {
-        'left': Offset(0.33, 0.9),
-        'center': Offset(0.5, 0.9),
-        'right': Offset(0.67, 0.9),
-      }});
+  const Preferences({
+    this.textBoxHeight = 114.0,
+    this.imageHeight = 1080,
+    this.spritesRoot = 'assets/sprites/',
+    this.backgroundsRoot = 'assets/backgrounds/',
+    this.spritePositions = const {
+      'left': Offset(0.33, 0.9),
+      'center': Offset(0.5, 0.9),
+      'right': Offset(0.67, 0.9),
+    },
+    this.milliseconds = 20,
+  });
 
   ///Creates a copy of this preferences replacing the specified parameters.
-  Preferences apply(
-      {double? textBoxHeight,
-      double? imageHeight,
-      String? spritesRoot,
-      String? backgroundsRoot,
-      Map<String, Offset>? spritePositions}) {
+  Preferences apply({
+    double? textBoxHeight,
+    double? imageHeight,
+    String? spritesRoot,
+    String? backgroundsRoot,
+    Map<String, Offset>? spritePositions,
+    String? initialScene,
+    int? milliseconds,
+  }) {
     return Preferences(
         textBoxHeight: textBoxHeight ?? this.textBoxHeight,
         imageHeight: imageHeight ?? this.imageHeight,
         spritesRoot: spritesRoot ?? this.spritesRoot,
         backgroundsRoot: backgroundsRoot ?? this.backgroundsRoot,
-        spritePositions: spritePositions ?? this.spritePositions);
+        spritePositions: spritePositions ?? this.spritePositions,
+        milliseconds: milliseconds ?? this.milliseconds);
   }
 }

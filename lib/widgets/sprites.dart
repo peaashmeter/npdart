@@ -53,7 +53,7 @@ class _SpriteLayerState extends State<SpriteLayer> {
                   );
                 },
                 child: CustomPaint(
-                  key: ValueKey(Director().currentSceneId),
+                  key: ValueKey(Director().currentSceneId.value),
                   painter: SpritePainter(images, offsets),
                   child: Container(),
                 ),
