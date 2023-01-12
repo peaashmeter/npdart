@@ -80,9 +80,13 @@ class _TextTypewriterState extends State<TextTypewriter> {
   StreamSubscription<String> _subscribe() {
     final milliseconds = Director().preferences.milliseconds;
     return typeStream(milliseconds).listen((s) {
-      setState(() {
-        displayedText += s;
-      });
+      if (mounted) {
+        setState(() {
+          displayedText += s;
+        });
+      } else {
+        subscription.cancel();
+      }
     });
   }
 }

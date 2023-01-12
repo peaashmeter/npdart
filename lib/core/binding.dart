@@ -14,29 +14,27 @@ mixin Binding {
 
   final _colors = <String, Color>{
     'pushkin': Colors.blue.shade300,
-    'somebody': Colors.red.shade300
+    'catgirl': Colors.pink.shade300
   };
 
   final _strings = <String, String>{
-    'somebody': 'Какой-то чел',
-    'pushkin': 'Александр Сергеевич',
-    'onegin':
-        '''​Мой дядя самых честных правил, 😂 когда не в шутку занемог, он уважать себя заставил и лучше выдумать не мог. Его пример другим наука; но, боже мой, какая скука с больным сидеть и день и ночь, не отходя ни шагу прочь! Какое низкое коварство полуживого забавлять, ему подушки поправлять, печально подносить лекарство, вздыхать и думать про себя: когда же черт возьмет тебя!''',
+    'catgirl': 'Кошкодевочка',
     's2': 'ы',
-    'choice1': 'Питон – лучший язык программирования!',
-    'choice2': 'Мое мнение полностью выражается следующим символом: 🖕',
+    's3': 'Очень удивленное выражение лица...',
+    'choice1': 'Да, я пойду с тобой.',
+    'choice2': 'Нет, я останусь здесь.',
   };
 
   ///Все игровые сцены; инициализируются при запуске игры
   final _scenes = <String, Scene>{
     'test_scene': Scene(verse: Verse(), nextScene: 'test_scene'),
     'scene1': Scene(
-        verse: Verse(headerId: 'pushkin', stringId: 'onegin'),
+        verse: Verse(headerId: 'pushkin'),
         background: 'scenery1.jpg',
         sprites: {},
         choices: ['choice1', 'choice2']),
     'scene2': Scene(
-      verse: Verse(headerId: 'somebody', stringId: 's2'),
+      verse: Verse(headerId: 'catgirl', stringId: 's2'),
       background: 'scenery1.jpg',
       nextScene: 'scene3',
       choices: [],
@@ -45,7 +43,7 @@ mixin Binding {
       },
     ),
     'scene3': Scene(
-      verse: Verse(headerId: 'somebody', stringId: 's2'),
+      verse: Verse(headerId: 'catgirl', stringId: 's3'),
       background: 'tudasuda',
       nextScene: 'scene1',
       sprites: {
