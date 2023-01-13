@@ -3,6 +3,8 @@ import 'package:visual_novel/core/binding.dart';
 import 'package:visual_novel/core/game_state.dart';
 import 'package:visual_novel/core/preferences.dart';
 
+import 'loader.dart';
+
 ///Синглтон, который отвечает за все основное взаимодействие с игрой
 class Director with Binding, GameState {
   ///Инстанс синглтона
@@ -47,6 +49,7 @@ In this case, the function has a runtime type ${f.runtimeType}, and the args are
     return true;
   }
 
+  ///Changes the game state to the one described in a scene with [id].
   void setScene(String? id) {
     currentSceneId.value = id;
     final scene = getSceneById(id);
@@ -64,5 +67,16 @@ In this case, the function has a runtime type ${f.runtimeType}, and the args are
 
   void setPreferences(Preferences newPrefs) {
     _preferences = newPrefs;
+  }
+
+  ///Load the game from a save file, or load initialScene from [Preferences],
+  ///if the former is not available.
+  Future<void> loadSave() async {
+    final json = await SaveLoader().loadSaveFile();
+    if (json != null) {
+      loadStateFromJson(json);
+    } else {
+      setScene(_preferences.initialScene);
+    }
   }
 }

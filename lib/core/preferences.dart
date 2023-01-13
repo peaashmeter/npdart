@@ -23,6 +23,12 @@ class Preferences {
   ///and (1, 1) is the bottom-right one.
   final Map<String, Offset> spritePositions;
 
+  ///Relative path to the save file. Root is defined by getApplicationDocumentsDirectory().
+  final String savePath;
+
+  ///Game loads this scene if the saves are unavailable.
+  final String initialScene;
+
   const Preferences({
     this.textBoxHeight = 114.0,
     this.imageHeight = 1080,
@@ -34,6 +40,8 @@ class Preferences {
       'right': Offset(0.67, 0.9),
     },
     this.milliseconds = 20,
+    this.savePath = 'novel/save.json',
+    this.initialScene = 'scene1',
   });
 
   ///Creates a copy of this preferences replacing the specified parameters.
@@ -43,15 +51,19 @@ class Preferences {
     String? spritesRoot,
     String? backgroundsRoot,
     Map<String, Offset>? spritePositions,
-    String? initialScene,
     int? milliseconds,
+    String? savePath,
+    String? initialScene,
   }) {
     return Preferences(
-        textBoxHeight: textBoxHeight ?? this.textBoxHeight,
-        imageHeight: imageHeight ?? this.imageHeight,
-        spritesRoot: spritesRoot ?? this.spritesRoot,
-        backgroundsRoot: backgroundsRoot ?? this.backgroundsRoot,
-        spritePositions: spritePositions ?? this.spritePositions,
-        milliseconds: milliseconds ?? this.milliseconds);
+      textBoxHeight: textBoxHeight ?? this.textBoxHeight,
+      imageHeight: imageHeight ?? this.imageHeight,
+      spritesRoot: spritesRoot ?? this.spritesRoot,
+      backgroundsRoot: backgroundsRoot ?? this.backgroundsRoot,
+      spritePositions: spritePositions ?? this.spritePositions,
+      milliseconds: milliseconds ?? this.milliseconds,
+      savePath: savePath ?? this.savePath,
+      initialScene: initialScene ?? this.initialScene,
+    );
   }
 }

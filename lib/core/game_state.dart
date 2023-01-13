@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/core/verse.dart';
@@ -69,5 +71,23 @@ mixin GameState {
     }
 
     _variables[id] = value;
+  }
+
+  String getJsonFromState() {
+    final data = {
+      'variables': _variables,
+      'currentSceneId': _currentSceneId.value
+    };
+
+    return jsonEncode(data);
+  }
+
+  void loadStateFromJson(String json) {
+    final data = jsonDecode(json);
+    final id = data['currentSceneId'];
+    Director().setScene(id);
+
+    _variables.clear();
+    _variables.addAll(data['variables']);
   }
 }

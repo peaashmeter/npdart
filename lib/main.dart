@@ -3,13 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/widgets/scenery.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
-  Director().setScene('scene1');
-
+  Director().loadSave();
   runApp(const MyApp());
 }
 

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:visual_novel/core/director.dart';
+import 'package:visual_novel/core/loader.dart';
 import 'package:visual_novel/core/scene.dart';
 import 'package:visual_novel/core/verse.dart';
 import 'package:visual_novel/tudasuda/editor_game.dart';
@@ -54,14 +55,21 @@ mixin Binding {
 
   ///Таблица функций, которые вызываются при совершении действия с некоторым айди
   final _functions = <String, Function>{
-    'next_scene': () {
+    'next_scene': () async {
       assert(Director().nextScene.value != null);
       Director().setScene(Director().nextScene.value!);
+      await SaveLoader().writeSaveFile(Director().getJsonFromState());
     },
-    'choice1': () {
+    'choice1': () async {
       Director().setScene('scene2');
+      Director().setVariable('bottom_chosen', false);
+      await SaveLoader().writeSaveFile(Director().getJsonFromState());
     },
-    'choice2': () {}
+    'choice2': () async {
+      Director().setVariable('bottom_chosen', true);
+      Director().setScene('scene2');
+      await SaveLoader().writeSaveFile(Director().getJsonFromState());
+    }
   };
 
   ///A table of backgrounds, except plain images.
