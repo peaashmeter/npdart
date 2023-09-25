@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:visual_novel/core/director.dart';
 
 TextPainter getHeaderPainter(String header, TextStyle style) {
   final headerPainter = TextPainter()
@@ -19,10 +18,10 @@ class CustomTextPainter extends CustomPainter {
   final TextStyle _headerStyle;
   final TextStyle _stringStyle;
 
-  late final height = Director().preferences.textBoxHeight;
+  final double textBoxHeight;
 
   CustomTextPainter(this._width, this._text, this._header, this._headerStyle,
-      this._stringStyle);
+      this._stringStyle, this.textBoxHeight);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -34,14 +33,15 @@ class CustomTextPainter extends CustomPainter {
       ..text = TextSpan(text: _text, style: _stringStyle);
 
     textPainter.layout(maxWidth: width - 16);
-    final textPosition = Offset(-width * 0.5, -height) + const Offset(8, 8);
+    final textPosition =
+        Offset(-width * 0.5, -textBoxHeight) + const Offset(8, 8);
 
     final headerPainter = getHeaderPainter(_header, _headerStyle);
     headerPainter.layout();
 
     final headerHeight = headerPainter.height + 8;
     final headerPosition =
-        Offset(-width * 0.5, -height) + Offset(8, 8 - headerHeight);
+        Offset(-width * 0.5, -textBoxHeight) + Offset(8, 8 - headerHeight);
 
     headerPainter.paint(canvas, headerPosition);
     textPainter.paint(canvas, textPosition);

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:visual_novel/core/director.dart';
-
 import 'textpainter.dart';
 
 ///Отрисовщик формы для текста
@@ -15,9 +13,9 @@ class TextShape extends CustomPainter {
   //ширина окошка с текстом
   late final width = _width * 0.7;
 
-  late final height = Director().preferences.textBoxHeight;
+  final double textBoxHeight;
 
-  TextShape(this._width, this._header, this._headerStyle);
+  TextShape(this._width, this._header, this._headerStyle, this.textBoxHeight);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -37,7 +35,9 @@ class TextShape extends CustomPainter {
       ..addRRect(
         RRect.fromRectAndCorners(
           Rect.fromCenter(
-              center: Offset(0, -height * 0.5), width: width, height: height),
+              center: Offset(0, -textBoxHeight * 0.5),
+              width: width,
+              height: textBoxHeight),
           bottomLeft: const Radius.circular(8),
           bottomRight: const Radius.circular(8),
           topRight: const Radius.circular(8),
@@ -70,8 +70,8 @@ class TextShape extends CustomPainter {
     //окошко заголовка
     final Path headerBox = Path()
       ..addRRect(RRect.fromRectAndCorners(
-        Rect.fromLTWH(
-            -width * 0.5, -height - headerHeight, headerWidth, headerHeight),
+        Rect.fromLTWH(-width * 0.5, -textBoxHeight - headerHeight, headerWidth,
+            headerHeight),
         topLeft: const Radius.circular(8),
       ))
       ..close();

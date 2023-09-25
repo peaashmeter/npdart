@@ -1,13 +1,14 @@
 import 'dart:ui';
 
 import 'package:flutter/widgets.dart' hide Image;
-import 'package:visual_novel/core/director.dart';
 
 class SpritePainter extends CustomPainter {
   final List<Image> images;
   final List<Offset> offsets;
+  final double imageHeight;
+  final double imageWidth;
 
-  SpritePainter(this.images, this.offsets)
+  SpritePainter(this.images, this.offsets, this.imageHeight, this.imageWidth)
       : assert(images.length <= offsets.length);
 
   @override
@@ -17,9 +18,8 @@ class SpritePainter extends CustomPainter {
       final rect = Rect.fromCenter(
           center:
               Offset(offsets[i].dx * size.width, offsets[i].dy * size.height),
-          width: img.width * size.height / Director().preferences.imageHeight,
-          height:
-              img.height * size.height / Director().preferences.imageHeight);
+          width: img.width * size.height / imageHeight,
+          height: img.height * size.height / imageHeight);
       paintImage(
           canvas: canvas,
           rect: rect,

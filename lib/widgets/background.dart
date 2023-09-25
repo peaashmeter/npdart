@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:visual_novel/core/director.dart';
+import 'package:visual_novel/core/stage.dart';
 
-class BackgroundImage extends StatefulWidget {
+class BackgroundLayer extends StatefulWidget {
   final ValueNotifier<Offset> mousePosNotifier;
 
-  const BackgroundImage({
+  const BackgroundLayer({
     Key? key,
     required this.mousePosNotifier,
   }) : super(key: key);
 
   @override
-  State<BackgroundImage> createState() => _BackgroundImageState();
+  State<BackgroundLayer> createState() => _BackgroundLayerState();
 }
 
-class _BackgroundImageState extends State<BackgroundImage> {
+class _BackgroundLayerState extends State<BackgroundLayer> {
   //Отношение перемещения фона к перемещению мыши
   final parallaxFactor = 0.002;
 
@@ -21,35 +21,31 @@ class _BackgroundImageState extends State<BackgroundImage> {
   Widget build(BuildContext context) {
     final center = MediaQuery.of(context).size / 2;
 
-    return ValueListenableBuilder(
-        valueListenable: Director().background,
-        builder: (context, backgroundId, child) {
-          return AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              switchInCurve: Curves.easeIn,
-              switchOutCurve: Curves.easeOut,
-              transitionBuilder: (Widget child, Animation<double> animation) {
-                return SizedBox.expand(
-                  child: FadeTransition(
-                    opacity: animation,
-                    child: ValueListenableBuilder(
-                      valueListenable: widget.mousePosNotifier,
-                      builder: (context, mousePos, _) {
-                        return Transform.translate(
-                          offset: _calculateParallax(mousePos, center),
-                          child: Transform.scale(
-                              //увеличение для того, чтобы компенсировать сдвиг параллакса
-                              scale: 1 + parallaxFactor,
-                              filterQuality: FilterQuality.none,
-                              child: child),
-                        );
-                      },
-                    ),
-                  ),
-                );
-              },
-              child: Director().getBackgroundById(backgroundId));
-        });
+    return AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        switchInCurve: Curves.easeIn,
+        switchOutCurve: Curves.easeOut,
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return SizedBox.expand(
+            child: FadeTransition(
+              opacity: animation,
+              child: ValueListenableBuilder(
+                valueListenable: widget.mousePosNotifier,
+                builder: (context, mousePos, _) {
+                  return Transform.translate(
+                    offset: _calculateParallax(mousePos, center),
+                    child: Transform.scale(
+                        //увеличение для того, чтобы компенсировать сдвиг параллакса
+                        scale: 1 + parallaxFactor,
+                        filterQuality: FilterQuality.none,
+                        child: child),
+                  );
+                },
+              ),
+            ),
+          );
+        },
+        child: InheritedStage.of(context).background);
   }
 
   Offset _calculateParallax(Offset mousePos, Size center) {

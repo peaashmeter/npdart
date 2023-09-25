@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/widgets/scenery.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
-
-  Director().loadSave();
   runApp(const MyApp());
 }
 
@@ -25,7 +22,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Marmelad',
         textTheme: TextTheme(
           //Style for choices
-          headline4: TextStyle(
+          headlineMedium: TextStyle(
               color: Colors.yellow.shade100,
               fontSize: 24,
               shadows: const [
@@ -35,7 +32,7 @@ class MyApp extends StatelessWidget {
                 ),
               ]),
           //style for headers
-          headline5: const TextStyle(
+          headlineSmall: const TextStyle(
               color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -46,7 +43,7 @@ class MyApp extends StatelessWidget {
                 ),
               ]),
           //style for dialog strings
-          headline6: TextStyle(color: Colors.yellow.shade100, shadows: const [
+          titleLarge: TextStyle(color: Colors.yellow.shade100, shadows: const [
             Shadow(
               blurRadius: 2,
               offset: Offset(2, 2),
@@ -54,7 +51,7 @@ class MyApp extends StatelessWidget {
           ]),
         ),
       ),
-      home: const Scenery(),
+      home: const Stage(),
     );
   }
 }

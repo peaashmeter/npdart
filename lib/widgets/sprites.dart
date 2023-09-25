@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Image;
 import 'package:flutter/services.dart';
-import 'package:visual_novel/core/director.dart';
+import 'package:visual_novel/core/preferences.dart';
 import 'package:visual_novel/widgets/painting/spritepainter.dart';
 
 class SpriteLayer extends StatefulWidget {
@@ -25,7 +25,7 @@ class _SpriteLayerState extends State<SpriteLayer> {
     final center = MediaQuery.of(context).size / 2;
 
     return ValueListenableBuilder(
-      valueListenable: Director().sprites,
+      valueListenable: Scene().sprites,
       builder: (context, sprites, child) {
         imagesFuture = loadImages(sprites ?? {});
         return FutureBuilder(
@@ -53,7 +53,7 @@ class _SpriteLayerState extends State<SpriteLayer> {
                   );
                 },
                 child: CustomPaint(
-                  key: ValueKey(Director().currentSceneId.value),
+                  key: ValueKey(Scene().currentSceneId.value),
                   painter: SpritePainter(images, offsets),
                   child: Container(),
                 ),
@@ -67,10 +67,10 @@ class _SpriteLayerState extends State<SpriteLayer> {
     final offsets = <Offset>[];
     final images = <Image>[];
 
-    final root = Director().preferences.spritesRoot;
+    final root = Preferences.of(context).spritesRoot;
 
     for (var k in sprites.keys) {
-      final offset = Director().preferences.spritePositions[k];
+      final offset = Preferences.of(context).spritePositions[k];
       assert(offset != null);
       offsets.add(offset!);
     }

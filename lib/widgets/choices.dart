@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:visual_novel/core/director.dart';
 
 ///Список выборов, которые есть на сцене
-class OptionSpan extends StatelessWidget {
-  const OptionSpan({super.key});
+class OptionLayer extends StatelessWidget {
+  const OptionLayer({super.key});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return ValueListenableBuilder(
-        valueListenable: Director().choices,
-        builder: (context, choices, child) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for (var c in choices ?? [])
-                OptionContainer(
-                    size: size,
-                    text: Director().getStringById(c),
-                    callback: Director().getFunctionById(c)),
-            ],
-          );
-        });
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (var c in choices ?? [])
+            OptionContainer(
+                size: size,
+                text: Scene().getStringById(c),
+                callback: Scene().getFunctionById(c)),
+        ],
+      ),
+    );
   }
 }
 
@@ -44,8 +41,8 @@ class OptionContainer extends StatefulWidget {
 }
 
 class _OptionContainerState extends State<OptionContainer> {
-  late final defaultStyle = Theme.of(context).textTheme.headline4!;
-  late final onHoverStyle = Theme.of(context).textTheme.headline4!.apply(
+  late final defaultStyle = Theme.of(context).textTheme.headlineMedium!;
+  late final onHoverStyle = Theme.of(context).textTheme.headlineMedium!.apply(
         color: Colors.white,
       );
 

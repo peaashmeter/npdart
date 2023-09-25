@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/core/verse.dart';
 import 'package:visual_novel/widgets/painting/textpainter.dart';
 
@@ -68,9 +67,9 @@ class _TextTypewriterState extends State<TextTypewriter> {
 
   void _setup() {
     assert(widget.verse.stringId != null);
-    text = Director().getStringById(widget.verse.stringId);
-    header = Director().getStringById(widget.verse.headerId);
-    headerColor = Director().getColorById(widget.verse.headerId);
+    text = Scene().getStringById(widget.verse.stringId);
+    header = Scene().getStringById(widget.verse.headerId);
+    headerColor = Scene().getColorById(widget.verse.headerId);
 
     displayedText = '';
 
@@ -78,7 +77,7 @@ class _TextTypewriterState extends State<TextTypewriter> {
   }
 
   StreamSubscription<String> _subscribe() {
-    final milliseconds = Director().preferences.milliseconds;
+    final milliseconds = Scene().preferences.milliseconds;
     return typeStream(milliseconds).listen((s) {
       if (mounted) {
         setState(() {

@@ -1,7 +1,7 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 ///Глобальные константы, определяющие работу игры.
-class Preferences {
+class Preferences extends InheritedWidget {
   ///Высота текстового окна. По умолчанию равна 3 сантиметрам в логических пикселях.
   final double textBoxHeight;
 
@@ -30,6 +30,7 @@ class Preferences {
   final String initialScene;
 
   const Preferences({
+    super.key,
     this.textBoxHeight = 114.0,
     this.imageHeight = 1080,
     this.spritesRoot = 'assets/sprites/',
@@ -42,6 +43,7 @@ class Preferences {
     this.milliseconds = 20,
     this.savePath = 'novel/save.json',
     this.initialScene = 'scene1',
+    required super.child,
   });
 
   ///Creates a copy of this preferences replacing the specified parameters.
@@ -64,6 +66,13 @@ class Preferences {
       milliseconds: milliseconds ?? this.milliseconds,
       savePath: savePath ?? this.savePath,
       initialScene: initialScene ?? this.initialScene,
+      child: child,
     );
   }
+
+  @override
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) => true;
+
+  static Preferences of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<Preferences>()!;
 }

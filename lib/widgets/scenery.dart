@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:visual_novel/core/director.dart';
 import 'package:visual_novel/widgets/background.dart';
 import 'package:visual_novel/widgets/choices.dart';
 import 'package:visual_novel/widgets/sprites.dart';
 import 'package:visual_novel/widgets/textbox.dart';
 
-class Scenery extends StatefulWidget {
-  const Scenery({super.key});
+class Stage extends StatefulWidget {
+  const Stage({super.key});
 
   @override
-  State<Scenery> createState() => _SceneryState();
+  State<Stage> createState() => _StageState();
 }
 
-class _SceneryState extends State<Scenery> {
+class _StageState extends State<Stage> {
   final ValueNotifier<Offset> mousePosNotifier = ValueNotifier(Offset.zero);
 
   @override
@@ -20,7 +19,7 @@ class _SceneryState extends State<Scenery> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        Director().runAction(Director().onLeaveActionId.value, []);
+        //next action
       },
       child: MouseRegion(
         //Необходимо захватывать положение курсора здесь для того, чтобы
@@ -29,18 +28,12 @@ class _SceneryState extends State<Scenery> {
         opaque: false,
         child: Stack(
           children: [
-            BackgroundImage(mousePosNotifier: mousePosNotifier),
+            BackgroundLayer(mousePosNotifier: mousePosNotifier),
             SpriteLayer(
               mousePosNotifier: mousePosNotifier,
             ),
-            const Align(
-              alignment: Alignment.center,
-              child: OptionSpan(),
-            ),
-            const Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(padding: EdgeInsets.all(16.0), child: TextBox()),
-            ),
+            const OptionLayer(),
+            const TextLayer(),
           ],
         ),
       ),
