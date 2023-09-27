@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:visual_novel/core/stage.dart';
-import 'package:visual_novel/widgets/painting/textshape.dart';
-import 'package:visual_novel/widgets/typewriter.dart';
+import 'package:npdart/core/preferences.dart';
+import 'package:npdart/core/stage.dart';
+import 'package:npdart/widgets/painting/textshape.dart';
+import 'package:npdart/widgets/typewriter.dart';
 
 class TextBox extends StatelessWidget {
   const TextBox({super.key});
@@ -9,23 +10,19 @@ class TextBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final verse = InheritedStage.of(context).verse;
 
-    //если на сцене нет текста, не нужно рисовать текстбокс
-
-    return ValueListenableBuilder(
-        valueListenable: Scene().verse,
-        builder: (context, verse, child) {
-          if (verse != null && verse.stringId != null) {
-            return CustomPaint(
-              painter: TextShape(
-                  size.width,
-                  Scene().getStringById(verse.headerId),
-                  Theme.of(context).textTheme.headline5!),
-              child: TextTypewriter(width: size.width, verse: verse),
-            );
-          }
-          return const SizedBox.shrink();
-        });
+    if (verse != null) {
+      return CustomPaint(
+        painter: TextShape(
+            size.width,
+            verse.header,
+            Theme.of(context).textTheme.headlineSmall!,
+            Preferences.of(context).textBoxHeight),
+        child: TextTypewriter(width: size.width),
+      );
+    }
+    return const SizedBox.shrink();
   }
 }
 

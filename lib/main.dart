@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:visual_novel/widgets/scenery.dart';
+import 'package:npdart/widgets/stage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

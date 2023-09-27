@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:visual_novel/core/verse.dart';
+import 'package:npdart/core/choice.dart';
+import 'package:npdart/core/verse.dart';
 
 class InheritedStage extends InheritedWidget {
   final Widget? background;
-  final Set<Widget>? actors;
+  final Set<Widget> actors;
+  final Set<Choice> choices;
   final Verse? verse;
   const InheritedStage(
       {super.key,
       required this.background,
       required this.actors,
       required this.verse,
+      required this.choices,
       required super.child});
 
   @override

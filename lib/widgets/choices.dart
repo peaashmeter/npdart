@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:npdart/core/stage.dart';
 
 ///Список выборов, которые есть на сцене
 class OptionLayer extends StatelessWidget {
@@ -7,16 +8,14 @@ class OptionLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final choices = InheritedStage.of(context).choices;
 
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          for (var c in choices ?? [])
-            OptionContainer(
-                size: size,
-                text: Scene().getStringById(c),
-                callback: Scene().getFunctionById(c)),
+          for (var c in choices)
+            OptionContainer(size: size, text: c.label, callback: c.callback),
         ],
       ),
     );

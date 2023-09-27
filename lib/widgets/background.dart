@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:visual_novel/core/stage.dart';
+import 'package:npdart/core/mouse.dart';
+import 'package:npdart/core/stage.dart';
 
 class BackgroundLayer extends StatefulWidget {
-  final ValueNotifier<Offset> mousePosNotifier;
-
   const BackgroundLayer({
     Key? key,
-    required this.mousePosNotifier,
   }) : super(key: key);
 
   @override
@@ -29,18 +27,14 @@ class _BackgroundLayerState extends State<BackgroundLayer> {
           return SizedBox.expand(
             child: FadeTransition(
               opacity: animation,
-              child: ValueListenableBuilder(
-                valueListenable: widget.mousePosNotifier,
-                builder: (context, mousePos, _) {
-                  return Transform.translate(
-                    offset: _calculateParallax(mousePos, center),
-                    child: Transform.scale(
-                        //увеличение для того, чтобы компенсировать сдвиг параллакса
-                        scale: 1 + parallaxFactor,
-                        filterQuality: FilterQuality.none,
-                        child: child),
-                  );
-                },
+              child: Transform.translate(
+                offset: _calculateParallax(
+                    InheritedMouse.of(context).mousePos, center),
+                child: Transform.scale(
+                    //увеличение для того, чтобы компенсировать сдвиг параллакса
+                    scale: 1 + parallaxFactor,
+                    filterQuality: FilterQuality.none,
+                    child: child),
               ),
             ),
           );

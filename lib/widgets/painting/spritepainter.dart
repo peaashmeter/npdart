@@ -6,9 +6,8 @@ class SpritePainter extends CustomPainter {
   final List<Image> images;
   final List<Offset> offsets;
   final double imageHeight;
-  final double imageWidth;
 
-  SpritePainter(this.images, this.offsets, this.imageHeight, this.imageWidth)
+  SpritePainter(this.images, this.offsets, this.imageHeight)
       : assert(images.length <= offsets.length);
 
   @override

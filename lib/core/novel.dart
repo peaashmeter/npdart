@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:visual_novel/core/preferences.dart';
-import 'package:visual_novel/widgets/scenery.dart';
+import 'package:npdart/core/preferences.dart';
+import 'package:npdart/widgets/stage.dart';
 
 class Novel extends StatefulWidget {
   const Novel({super.key});

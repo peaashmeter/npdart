@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:visual_novel/core/verse.dart';
-import 'package:visual_novel/widgets/painting/textpainter.dart';
+import 'package:npdart/core/preferences.dart';
+import 'package:npdart/core/stage.dart';
+import 'package:npdart/widgets/painting/textpainter.dart';
 
 ///Отрисовка текста побуквенно
 class TextTypewriter extends StatefulWidget {
   static const punctuation = ['.', ',', '!', '?', ';', ':'];
   final double width;
-  final Verse verse;
 
-  const TextTypewriter({super.key, required this.width, required this.verse});
+  const TextTypewriter({super.key, required this.width});
 
   @override
   State<TextTypewriter> createState() => _TextTypewriterState();
@@ -33,8 +33,8 @@ class _TextTypewriterState extends State<TextTypewriter> {
 
     final stringStyle = Theme.of(context).textTheme.headline6!;
     return CustomPaint(
-      painter: CustomTextPainter(
-          widget.width, displayedText, header, headerStyle, stringStyle),
+      painter: CustomTextPainter(widget.width, displayedText, header,
+          headerStyle, stringStyle, Preferences.of(context).textBoxHeight),
     );
   }
 
@@ -66,10 +66,9 @@ class _TextTypewriterState extends State<TextTypewriter> {
   }
 
   void _setup() {
-    assert(widget.verse.stringId != null);
-    text = Scene().getStringById(widget.verse.stringId);
-    header = Scene().getStringById(widget.verse.headerId);
-    headerColor = Scene().getColorById(widget.verse.headerId);
+    text = InheritedStage.of(context).verse?.string ?? '';
+    header = InheritedStage.of(context).verse?.header ?? '';
+    headerColor = Colors.pink;
 
     displayedText = '';
 
@@ -77,7 +76,7 @@ class _TextTypewriterState extends State<TextTypewriter> {
   }
 
   StreamSubscription<String> _subscribe() {
-    final milliseconds = Scene().preferences.milliseconds;
+    final milliseconds = Preferences.of(context).milliseconds;
     return typeStream(milliseconds).listen((s) {
       if (mounted) {
         setState(() {
