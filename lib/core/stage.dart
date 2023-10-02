@@ -4,7 +4,7 @@ import 'package:npdart/core/verse.dart';
 
 class InheritedStage extends InheritedWidget {
   final Widget? background;
-  final Set<Widget> actors;
+  final Set<Character> actors;
   final Set<Choice> choices;
   final Verse? verse;
   const InheritedStage(
@@ -20,4 +20,12 @@ class InheritedStage extends InheritedWidget {
 
   static InheritedStage of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<InheritedStage>()!;
+}
+
+class Character {
+  Widget get widget => Container(
+        color: Colors.red,
+        width: 100,
+        height: 100,
+      );
 }

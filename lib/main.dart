@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:npdart/core/novel.dart';
 import 'package:npdart/widgets/stage.dart';
 
 void main() async {
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
           ]),
         ),
       ),
-      home: const Stage(),
+      home: const Novel(),
     );
   }
 }

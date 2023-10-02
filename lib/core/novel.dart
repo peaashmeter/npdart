@@ -12,6 +12,6 @@ class Novel extends StatefulWidget {
 class _NovelState extends State<Novel> {
   @override
   Widget build(BuildContext context) {
-    return const Preferences(child: Stage());
+    return const Preferences(child: Scaffold(body: Stage()));
   }
 }

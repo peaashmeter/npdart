@@ -14,6 +14,7 @@ class Stage extends StatefulWidget {
 }
 
 class _StageState extends State<Stage> {
+  Set<Character> actors = {};
   Offset mousePos = Offset.zero;
 
   @override
@@ -21,30 +22,29 @@ class _StageState extends State<Stage> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        //next action
+        setState(() {
+          actors = {Character()};
+        });
       },
       child: MouseRegion(
         //Необходимо захватывать положение курсора здесь для того, чтобы
         //параллакс работал при наведении на любой виджет.
-        onHover: (event) => setState(() {
-          mousePos = event.position;
-        }),
+        // onHover: (event) => setState(() {
+        //   mousePos = event.position;
+        // }),
         opaque: false,
-        child: InheritedMouse(
-          mousePos: mousePos,
-          child: InheritedStage(
-            actors: {},
-            background: null,
-            choices: {},
-            verse: null,
-            child: const Stack(
-              children: [
-                BackgroundLayer(),
-                SpriteLayer(),
-                OptionLayer(),
-                TextLayer(),
-              ],
-            ),
+        child: InheritedStage(
+          actors: actors,
+          background: null,
+          choices: {},
+          verse: null,
+          child: const Stack(
+            children: [
+              BackgroundLayer(),
+              SpriteLayer(),
+              OptionLayer(),
+              TextLayer(),
+            ],
           ),
         ),
       ),
