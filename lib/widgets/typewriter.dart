@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:npdart/core/preferences.dart';
-import 'package:npdart/core/stage.dart';
+import 'package:npdart/core/singletons/stage.dart';
 import 'package:npdart/widgets/painting/textpainter.dart';
 
 ///Отрисовка текста побуквенно
@@ -66,8 +66,8 @@ class _TextTypewriterState extends State<TextTypewriter> {
   }
 
   void _setup() {
-    text = InheritedStage.of(context).verse?.string ?? '';
-    header = InheritedStage.of(context).verse?.header ?? '';
+    text = InheritedStage.of(context).notifier?.verse?.string ?? '';
+    header = InheritedStage.of(context).notifier?.verse?.header ?? '';
     headerColor = Colors.pink;
 
     displayedText = '';

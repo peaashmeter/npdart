@@ -5,8 +5,7 @@ import 'package:flutter/material.dart' hide Image;
 import 'package:flutter/services.dart';
 import 'package:npdart/core/mouse.dart';
 import 'package:npdart/core/preferences.dart';
-import 'package:npdart/core/stage.dart';
-import 'package:npdart/widgets/painting/spritepainter.dart';
+import 'package:npdart/core/singletons/stage.dart';
 
 class SpriteLayer extends StatefulWidget {
   const SpriteLayer({super.key});
@@ -23,13 +22,12 @@ class _SpriteLayerState extends State<SpriteLayer> {
 
   @override
   Widget build(BuildContext context) {
-    // final mousePos = InheritedMouse.of(context).mousePos;
-    // print(mousePos);
+    final mousePos = InheritedMouse.of(context).mousePos;
 
     final center = MediaQuery.of(context).size / 2;
 
     final stage = InheritedStage.of(context);
-    final characters = stage.actors.map((c) => c.widget);
+    final characters = stage.notifier?.characters.map((c) => c.widget);
 
     return AnimatedSwitcher(
         duration: const Duration(milliseconds: 150),
@@ -39,13 +37,13 @@ class _SpriteLayerState extends State<SpriteLayer> {
           return FadeTransition(
             opacity: animation,
             child: Transform.translate(
-              offset: Offset.zero, // _calculateParallax(mousePos, center),
+              offset: _calculateParallax(mousePos, center),
               child: child,
             ),
           );
         },
         child: Stack(
-          children: [...characters],
+          children: [...characters!],
         ));
   }
 

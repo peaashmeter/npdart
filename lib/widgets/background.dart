@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:npdart/core/mouse.dart';
-import 'package:npdart/core/stage.dart';
+import 'package:npdart/core/singletons/stage.dart';
 
 class BackgroundLayer extends StatefulWidget {
   const BackgroundLayer({
@@ -39,7 +39,7 @@ class _BackgroundLayerState extends State<BackgroundLayer> {
             ),
           );
         },
-        child: InheritedStage.of(context).background);
+        child: InheritedStage.of(context).notifier?.background);
   }
 
   Offset _calculateParallax(Offset mousePos, Size center) {

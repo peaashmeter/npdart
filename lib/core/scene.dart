@@ -1,8 +1,11 @@
 import 'dart:core';
 
 class Scene {
-  final Function? script;
-  final Set<String>? nextScene;
+  final Function()? script;
+  final String? description;
 
-  Scene({this.script, this.nextScene});
+  Scene({
+    required this.script,
+    required this.description,
+  });
 }

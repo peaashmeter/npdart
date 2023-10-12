@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:npdart/core/preferences.dart';
-import 'package:npdart/core/stage.dart';
+import 'package:npdart/core/singletons/stage.dart';
 import 'package:npdart/widgets/painting/textshape.dart';
 import 'package:npdart/widgets/typewriter.dart';
 
@@ -10,7 +10,7 @@ class TextBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final verse = InheritedStage.of(context).verse;
+    final verse = InheritedStage.of(context).notifier?.verse;
 
     if (verse != null) {
       return CustomPaint(

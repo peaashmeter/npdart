@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:npdart/core/novel.dart';
-import 'package:npdart/widgets/stage.dart';
+import 'package:npdart/core/scene.dart';
+import 'package:npdart/core/singletons/stage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +53,28 @@ class MyApp extends StatelessWidget {
           ]),
         ),
       ),
-      home: const Novel(),
+      home: Novel(
+        tree: {
+          'scene1': Scene(
+            description: 'Тестовая сцена',
+            script: () async {
+              final square = Character();
+              final background = Image.asset(
+                'assets/backgrounds/scenery1.jpg',
+                fit: BoxFit.cover,
+              );
+
+              await Stage().waitForInput();
+              Stage().setBackground(background);
+              square.enterScene();
+              await Stage().waitForInput();
+              square.leaveScene();
+
+              Stage().loadScene('scene1');
+            },
+          )
+        },
+      ),
     );
   }
 }
