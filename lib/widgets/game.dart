@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:npdart/core/character.dart';
 import 'package:npdart/core/event.dart';
 import 'package:npdart/core/mouse.dart';
 import 'package:npdart/core/scene.dart';
@@ -31,6 +32,7 @@ class _GameState extends State<Game> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
+        if (Stage().choices.isNotEmpty) return;
         Stage().dispatchEvent(RequestNextEvent());
       },
       child: MouseRegion(

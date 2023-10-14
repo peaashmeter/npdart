@@ -14,13 +14,12 @@ class TextBox extends StatelessWidget {
 
     if (verse != null) {
       return CustomPaint(
-        painter: TextShape(
-            size.width,
-            verse.header,
-            Theme.of(context).textTheme.headlineSmall!,
-            Preferences.of(context).textBoxHeight),
-        child: TextTypewriter(width: size.width),
-      );
+          painter: TextShape(
+              size.width,
+              verse.header,
+              Theme.of(context).textTheme.headlineSmall!,
+              Preferences.of(context).textBoxHeight),
+          child: TextTypewriter(width: size.width));
     }
     return const SizedBox.shrink();
   }

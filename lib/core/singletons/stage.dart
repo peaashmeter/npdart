@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:npdart/core/character.dart';
 import 'package:npdart/core/choice.dart';
 import 'package:npdart/core/event.dart';
 import 'package:npdart/core/singletons/tree.dart';
@@ -17,16 +18,31 @@ class Stage with ChangeNotifier {
   Stage._();
 
   // <----->
-  Widget? background;
-  Set<Character> characters = {};
-  Set<Choice> choices = {};
-  Verse? verse;
+  Widget? _background;
+
+  Widget? get background => _background;
+
+  Set<Character> _characters = {};
+
+  Set<Character> get characters => _characters;
+
+  Set<Choice> _choices = {};
+
+  Set<Choice> get choices => _choices;
+
+  Verse? _verse;
+
+  Verse? get verse => _verse;
+
   // <----->
 
   final StreamController<NovelInputEvent> _eventStream =
       StreamController.broadcast();
 
+  ///
   Future<NovelInputEvent> waitForInput() async {
+    notifyListeners();
+
     Completer<NovelInputEvent> result = Completer();
 
     final subscription = _eventStream.stream.listen(null);
@@ -43,21 +59,26 @@ class Stage with ChangeNotifier {
   }
 
   void loadScene(String id) {
-    background = null;
-    characters = {};
-    choices = {};
-    verse = null;
+    _background = null;
+    _characters = {};
+    _choices = {};
+    _verse = null;
 
     final scene = Tree().getScene(id);
     scene.script?.call();
   }
 
   void setBackground(Widget background) {
-    this.background = background;
-    notifyListeners();
+    _background = background;
   }
 
-  void rebuild() => notifyListeners();
+  void setVerse(Verse? verse) {
+    _verse = verse;
+  }
+
+  void showChoices(Set<Choice> choices) {
+    _choices = choices;
+  }
 }
 
 class InheritedStage extends InheritedNotifier<Stage> {
@@ -65,22 +86,4 @@ class InheritedStage extends InheritedNotifier<Stage> {
 
   static InheritedStage of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<InheritedStage>()!;
-}
-
-class Character {
-  void enterScene() {
-    Stage().characters.add(this);
-    Stage().rebuild();
-  }
-
-  void leaveScene() {
-    Stage().characters.remove(this);
-    Stage().rebuild();
-  }
-
-  Widget get widget => Container(
-        color: Colors.red,
-        width: 100,
-        height: 100,
-      );
 }

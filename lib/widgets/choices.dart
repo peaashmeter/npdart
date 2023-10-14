@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:npdart/core/event.dart';
 import 'package:npdart/core/singletons/stage.dart';
 
 ///Список выборов, которые есть на сцене
@@ -59,7 +60,11 @@ class _OptionContainerState extends State<OptionContainer> {
           hover = false;
         }),
         child: GestureDetector(
-          onTap: () => widget.callback.call(),
+          onTap: () {
+            widget.callback();
+            Stage().showChoices({});
+            Stage().dispatchEvent(DialogOptionEvent());
+          },
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [

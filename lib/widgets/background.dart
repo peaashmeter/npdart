@@ -13,7 +13,7 @@ class BackgroundLayer extends StatefulWidget {
 
 class _BackgroundLayerState extends State<BackgroundLayer> {
   //Отношение перемещения фона к перемещению мыши
-  final parallaxFactor = 0.002;
+  final parallaxFactor = 0.05;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,10 @@ class _BackgroundLayerState extends State<BackgroundLayer> {
             ),
           );
         },
-        child: InheritedStage.of(context).notifier?.background);
+        child: InheritedStage.of(context).notifier?.background ??
+            Container(
+              color: Colors.black,
+            ));
   }
 
   Offset _calculateParallax(Offset mousePos, Size center) {

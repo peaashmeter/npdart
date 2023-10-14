@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:npdart/core/character.dart';
+import 'package:npdart/core/choice.dart';
 import 'package:npdart/core/novel.dart';
 import 'package:npdart/core/scene.dart';
 import 'package:npdart/core/singletons/stage.dart';
@@ -58,7 +60,7 @@ class MyApp extends StatelessWidget {
           'scene1': Scene(
             description: 'Тестовая сцена',
             script: () async {
-              final square = Character();
+              final square = RedSquare();
               final background = Image.asset(
                 'assets/backgrounds/scenery1.jpg',
                 fit: BoxFit.cover,
@@ -68,8 +70,18 @@ class MyApp extends StatelessWidget {
               Stage().setBackground(background);
               square.enterScene();
               await Stage().waitForInput();
-              square.leaveScene();
+              square.say('Hello, world!');
+              square.say('abc');
+              await Stage().waitForInput();
 
+              Stage().showChoices({
+                Choice(label: 'Выбор 1', callback: () => print('1')),
+                Choice(label: 'Выбор 2', callback: () => print('2')),
+              });
+
+              square.say('123');
+              await Stage().waitForInput();
+              square.leaveScene();
               Stage().loadScene('scene1');
             },
           )

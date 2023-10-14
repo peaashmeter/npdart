@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:npdart/core/preferences.dart';
 import 'package:npdart/core/singletons/stage.dart';
+import 'package:npdart/core/verse.dart';
 import 'package:npdart/widgets/painting/textpainter.dart';
 
 ///Отрисовка текста побуквенно
@@ -17,43 +18,40 @@ class TextTypewriter extends StatefulWidget {
 }
 
 class _TextTypewriterState extends State<TextTypewriter> {
-  late String text;
-  late String displayedText;
-
-  late String header;
-
-  late Color headerColor;
+  Verse? verse;
+  String displayedText = '';
 
   late StreamSubscription<String> subscription;
 
   @override
   Widget build(BuildContext context) {
     final headerStyle =
-        Theme.of(context).textTheme.headline5!.apply(color: headerColor);
+        Theme.of(context).textTheme.headlineSmall!.apply(color: verse?.color);
 
-    final stringStyle = Theme.of(context).textTheme.headline6!;
+    final stringStyle = Theme.of(context).textTheme.titleLarge!;
+    if (verse == null) return const SizedBox.shrink();
     return CustomPaint(
-      painter: CustomTextPainter(widget.width, displayedText, header,
-          headerStyle, stringStyle, Preferences.of(context).textBoxHeight),
+      painter: CustomTextPainter(
+          widget.width,
+          displayedText,
+          verse?.header ?? '',
+          headerStyle,
+          stringStyle,
+          Preferences.of(context).textBoxHeight),
     );
   }
 
   @override
-  void didUpdateWidget(covariant TextTypewriter oldWidget) {
-    subscription.cancel();
-    _setup();
-    super.didUpdateWidget(oldWidget);
-  }
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
-  @override
-  void initState() {
     _setup();
-    super.initState();
   }
 
   Stream<String> typeStream(int milliseconds) async* {
-    for (var i = 0; i < text.characters.length; i++) {
-      final s = text.characters.elementAt(i);
+    final text = verse!.string.characters;
+    for (var i = 0; i < text.length; i++) {
+      final s = text.elementAt(i);
       yield s;
 
       //повышение читабельности текста
@@ -66,25 +64,19 @@ class _TextTypewriterState extends State<TextTypewriter> {
   }
 
   void _setup() {
-    text = InheritedStage.of(context).notifier?.verse?.string ?? '';
-    header = InheritedStage.of(context).notifier?.verse?.header ?? '';
-    headerColor = Colors.pink;
-
+    final verse_ = InheritedStage.of(context).notifier?.verse;
+    if (verse == verse_ || verse_ == null) return;
+    verse = verse_;
     displayedText = '';
-
     subscription = _subscribe();
   }
 
   StreamSubscription<String> _subscribe() {
     final milliseconds = Preferences.of(context).milliseconds;
     return typeStream(milliseconds).listen((s) {
-      if (mounted) {
-        setState(() {
-          displayedText += s;
-        });
-      } else {
-        subscription.cancel();
-      }
+      setState(() {
+        displayedText += s;
+      });
     });
   }
 }
