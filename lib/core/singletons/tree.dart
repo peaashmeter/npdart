@@ -4,6 +4,8 @@ import 'package:npdart/core/scene.dart';
 class Tree {
   static Tree? instance;
 
+  final Map<String, Scene> _tree = {};
+
   factory Tree() {
     instance ??= Tree._();
     return instance!;
@@ -11,13 +13,15 @@ class Tree {
 
   Tree._();
 
-  final Map<String, Scene> _tree = {};
-
-  Scene getScene(String id) => _tree[id]!;
+  Scene getScene(String id) {
+    assert(_tree.containsKey(id),
+        'There is no scene with id $id. Also note that a scene with id "root" should be defined.');
+    return _tree[id]!;
+  }
 
   ///Fills the inner map with provided scenes.
   ///It is implicitly called by [Novel] when loaded.
-  void populateTree(Map<String, Scene> tree) {
+  void populate(Map<String, Scene> tree) {
     _tree.addAll(tree);
   }
 }

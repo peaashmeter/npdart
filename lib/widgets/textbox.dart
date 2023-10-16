@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:npdart/core/preferences.dart';
+import 'package:npdart/core/singletons/preferences.dart';
 import 'package:npdart/core/singletons/stage.dart';
 import 'package:npdart/widgets/painting/textshape.dart';
 import 'package:npdart/widgets/typewriter.dart';
@@ -18,7 +18,7 @@ class TextBox extends StatelessWidget {
               size.width,
               verse.header,
               Theme.of(context).textTheme.headlineSmall!,
-              Preferences.of(context).textBoxHeight),
+              Preferences().textBoxHeight),
           child: TextTypewriter(width: size.width));
     }
     return const SizedBox.shrink();

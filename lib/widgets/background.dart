@@ -13,7 +13,7 @@ class BackgroundLayer extends StatefulWidget {
 
 class _BackgroundLayerState extends State<BackgroundLayer> {
   //Отношение перемещения фона к перемещению мыши
-  final parallaxFactor = 0.05;
+  final parallaxFactor = 0.005;
 
   @override
   Widget build(BuildContext context) {

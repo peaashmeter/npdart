@@ -3,12 +3,32 @@ import 'package:npdart/core/singletons/stage.dart';
 import 'package:npdart/core/verse.dart';
 
 abstract class Character {
+  Offset _offset = const Offset(0, 0);
+
+  double _scale = 1;
+
+  Color color;
+
+  String name;
+
+  Widget widget;
+
+  Character({required this.color, required this.name, required this.widget});
+
+  Offset get offset => _offset;
+
+  double get scale => _scale;
+
   void enterScene() {
     Stage().characters.add(this);
   }
 
   void leaveScene() {
-    Stage().characters.remove(this);
+    setWidget(const SizedBox.shrink());
+  }
+
+  void moveTo(Offset offset) {
+    _offset = offset;
   }
 
   void say(String phrase) {
@@ -16,23 +36,19 @@ abstract class Character {
     Stage().setVerse(verse);
   }
 
-  Color get color;
-  String get name;
+  void setScale(double scale) {
+    _scale = scale;
+  }
 
-  Widget get widget;
+  void setWidget(Widget newWidget) {
+    widget = newWidget;
+  }
 }
 
-class RedSquare extends Character {
-  @override
-  Color get color => Colors.red;
-
-  @override
-  String get name => 'Красный квадрат';
-
-  @override
-  Widget get widget => Container(
-        width: 100,
-        height: 100,
-        color: Colors.red,
-      );
+class Lena extends Character {
+  Lena()
+      : super(
+            color: Colors.red,
+            name: 'Олег',
+            widget: Image.asset('assets/sprites/lena.png'));
 }

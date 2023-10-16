@@ -57,32 +57,47 @@ class MyApp extends StatelessWidget {
       ),
       home: Novel(
         tree: {
-          'scene1': Scene(
+          'root': Scene(
             description: 'Тестовая сцена',
             script: () async {
-              final square = RedSquare();
               final background = Image.asset(
                 'assets/backgrounds/scenery1.jpg',
                 fit: BoxFit.cover,
               );
 
+              final oleg = Lena();
+              final sanya = Lena();
+
               await Stage().waitForInput();
               Stage().setBackground(background);
-              square.enterScene();
+
+              sanya.enterScene();
+              sanya.moveTo(const Offset(0.3, 0.5));
+
+              oleg.enterScene();
+              oleg.moveTo(const Offset(0, 0.5));
+              oleg.setScale(1.2);
+
               await Stage().waitForInput();
-              square.say('Hello, world!');
-              square.say('abc');
+              oleg.say('Hello, world!');
+              oleg.setScale(0.7);
               await Stage().waitForInput();
 
               Stage().showChoices({
-                Choice(label: 'Выбор 1', callback: () => print('1')),
-                Choice(label: 'Выбор 2', callback: () => print('2')),
+                Choice(
+                    label: 'Выбор 1',
+                    callback: () => oleg.say('Ты выбрал вариант 1')),
+                Choice(
+                    label: 'Выбор 2',
+                    callback: () => sanya.say('Ты выбрал вариант 2')),
               });
 
-              square.say('123');
               await Stage().waitForInput();
-              square.leaveScene();
-              Stage().loadScene('scene1');
+              oleg.leaveScene();
+              await Stage().waitForInput();
+              sanya.leaveScene();
+              await Stage().waitForInput();
+              Stage().loadScene('root');
             },
           )
         },
