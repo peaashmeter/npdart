@@ -5,7 +5,17 @@ import 'package:npdart/core/verse.dart';
 abstract class Character {
   Offset _offset = const Offset(0, 0);
 
-  double _scale = 1;
+  double scale = 1;
+
+  double _depth = 0;
+
+  double get depth => _depth;
+
+  set depth(double value) {
+    assert(value >= 0 && value <= 1,
+        'A value of depth must be between 0 and 1, inclusive');
+    _depth = value;
+  }
 
   Color color;
 
@@ -16,8 +26,6 @@ abstract class Character {
   Character({required this.color, required this.name, required this.widget});
 
   Offset get offset => _offset;
-
-  double get scale => _scale;
 
   void enterScene() {
     Stage().characters.add(this);
@@ -34,10 +42,6 @@ abstract class Character {
   void say(String phrase) {
     final verse = Verse(name, phrase, color);
     Stage().setVerse(verse);
-  }
-
-  void setScale(double scale) {
-    _scale = scale;
   }
 
   void setWidget(Widget newWidget) {

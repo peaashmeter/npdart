@@ -76,11 +76,12 @@ class MyApp extends StatelessWidget {
 
               oleg.enterScene();
               oleg.moveTo(const Offset(0, 0.5));
-              oleg.setScale(1.2);
+              oleg.scale = 1.2;
 
               await Stage().waitForInput();
               oleg.say('Hello, world!');
-              oleg.setScale(0.7);
+              oleg.scale = 1.2;
+              oleg.depth = 0.5;
               await Stage().waitForInput();
 
               Stage().showChoices({

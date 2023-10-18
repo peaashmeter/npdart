@@ -10,6 +10,9 @@ class Preferences {
   ///It's the time between drawing characters of the string on the scene.
   final int typingDelay = 20;
 
+  ///Parallax intensity of background and sprites with depth set to 1.
+  final double backgroundParallax = 0.005;
+
   ///Named relative positions of the sprites on a scene.
   ///Each position is represented as [Offset] from the center
   ///of the screen, where (-1, -1) is the top-left corner,

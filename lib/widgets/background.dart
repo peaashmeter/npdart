@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:npdart/core/mouse.dart';
+import 'package:npdart/core/singletons/preferences.dart';
 import 'package:npdart/core/singletons/stage.dart';
 
 class BackgroundLayer extends StatefulWidget {
@@ -13,7 +14,7 @@ class BackgroundLayer extends StatefulWidget {
 
 class _BackgroundLayerState extends State<BackgroundLayer> {
   //Отношение перемещения фона к перемещению мыши
-  final parallaxFactor = 0.005;
+  final parallaxFactor = Preferences().backgroundParallax;
 
   @override
   Widget build(BuildContext context) {
