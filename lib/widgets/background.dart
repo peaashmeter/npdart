@@ -33,7 +33,7 @@ class _BackgroundLayerState extends State<BackgroundLayer> {
                     InheritedMouse.of(context).mousePos, center),
                 child: Transform.scale(
                     //увеличение для того, чтобы компенсировать сдвиг параллакса
-                    scale: 1 + parallaxFactor,
+                    scale: 1 + 2 * parallaxFactor,
                     filterQuality: FilterQuality.none,
                     child: child),
               ),

@@ -98,9 +98,21 @@ class MyApp extends StatelessWidget {
               await Stage().waitForInput();
               sanya.leaveScene();
               await Stage().waitForInput();
-              Stage().loadScene('root');
+              Stage().loadScene('scene1');
             },
-          )
+          ),
+          'scene1': Scene(
+              script: () async {
+                await Stage().waitForInput();
+                final background = Image.asset(
+                  'assets/backgrounds/scenery2.jpg',
+                  fit: BoxFit.cover,
+                );
+                Stage().setBackground(background);
+                await Stage().waitForInput();
+                Stage().loadScene('root');
+              },
+              description: "Поле")
         },
       ),
     );
