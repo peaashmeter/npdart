@@ -10,6 +10,7 @@ import 'package:npdart/widgets/background.dart';
 import 'package:npdart/widgets/choices.dart';
 import 'package:npdart/widgets/sprites.dart';
 import 'package:npdart/widgets/textbox.dart';
+import 'package:npdart/widgets/ui.dart';
 
 class Game extends StatefulWidget {
   final Scene initialScene;
@@ -72,6 +73,7 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
                 SpriteLayer(),
                 OptionLayer(),
                 TextLayer(),
+                UiLayer(),
               ],
             ),
           ),

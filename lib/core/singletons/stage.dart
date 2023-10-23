@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:npdart/core/character.dart';
@@ -28,6 +29,8 @@ class Stage with ChangeNotifier {
 
   // <----->
 
+  final _history = Queue<Verse>();
+
   final StreamController<NovelInputEvent> _eventStream =
       StreamController.broadcast();
 
@@ -45,6 +48,15 @@ class Stage with ChangeNotifier {
   Set<Choice> get choices => _choices;
 
   Verse? get verse => _verse;
+
+  List<Verse> get history => List.unmodifiable(_history);
+
+  void _logVerse(Verse verse) {
+    if (_history.length > 100) {
+      _history.removeLast();
+    }
+    _history.addFirst(verse);
+  }
 
   void dispatchEvent(NovelInputEvent event) {
     _eventStream.add(event);
@@ -66,6 +78,10 @@ class Stage with ChangeNotifier {
 
   void setVerse(Verse? verse) {
     _verse = verse;
+
+    if (verse != null) {
+      _logVerse(verse);
+    }
   }
 
   void showChoices(Set<Choice> choices) {
