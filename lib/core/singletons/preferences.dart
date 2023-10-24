@@ -29,7 +29,7 @@ class Preferences {
   };
 
   ///Relative path to the save file. Root is defined by getApplicationDocumentsDirectory().
-  final String savePath = 'novel/save.json';
+  final String savePath = '/novel/save.json';
 
   factory Preferences() {
     instance ??= Preferences._();

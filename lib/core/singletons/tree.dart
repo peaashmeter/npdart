@@ -20,7 +20,6 @@ class Tree {
   }
 
   ///Fills the inner map with provided scenes.
-  ///It is implicitly called by [Novel] when loaded.
   void populate(Map<String, Scene> tree) {
     _tree.addAll(tree);
   }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:npdart/core/character.dart';
 import 'package:npdart/core/choice.dart';
 import 'package:npdart/core/event.dart';
+import 'package:npdart/core/singletons/state.dart';
 import 'package:npdart/core/singletons/tree.dart';
 import 'package:npdart/core/verse.dart';
 
@@ -18,7 +19,6 @@ class InheritedStage extends InheritedNotifier<Stage> {
 class Stage with ChangeNotifier {
   static Stage? instance;
 
-  // <----->
   Widget? _background;
 
   Set<Character> _characters = {};
@@ -26,8 +26,6 @@ class Stage with ChangeNotifier {
   Set<Choice> _choices = {};
 
   Verse? _verse;
-
-  // <----->
 
   final _history = Queue<Verse>();
 
@@ -47,16 +45,9 @@ class Stage with ChangeNotifier {
 
   Set<Choice> get choices => _choices;
 
-  Verse? get verse => _verse;
-
   List<Verse> get history => List.unmodifiable(_history);
 
-  void _logVerse(Verse verse) {
-    if (_history.length > 100) {
-      _history.removeLast();
-    }
-    _history.addFirst(verse);
-  }
+  Verse? get verse => _verse;
 
   void dispatchEvent(NovelInputEvent event) {
     _eventStream.add(event);
@@ -70,6 +61,9 @@ class Stage with ChangeNotifier {
 
     final scene = Tree().getScene(id);
     scene.script?.call();
+
+    NovelState().sceneId = id;
+    NovelState().save();
   }
 
   void setBackground(Widget background) {
@@ -88,7 +82,7 @@ class Stage with ChangeNotifier {
     _choices = choices;
   }
 
-  ///
+  ///Rebuilds the stage according to provided changes, then waits for user input (usually screen tap)
   Future<NovelInputEvent> waitForInput() async {
     notifyListeners();
 
@@ -101,5 +95,12 @@ class Stage with ChangeNotifier {
     });
 
     return result.future;
+  }
+
+  void _logVerse(Verse verse) {
+    if (_history.length > 100) {
+      _history.removeLast();
+    }
+    _history.addFirst(verse);
   }
 }
