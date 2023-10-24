@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:npdart/core/singletons/stage.dart';
 
@@ -50,16 +51,16 @@ class MenuDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             MenuOption(
-                text: 'History',
+                text: 'menu_history'.tr(),
                 callback: () {
                   Navigator.of(context).pop();
                   showDialog(
                       context: context,
                       builder: (context) => const HistoryContainer());
                 }),
-            MenuOption(text: 'Save', callback: () {}),
-            MenuOption(text: 'Load', callback: () {}),
-            MenuOption(text: 'Main Menu', callback: () {}),
+            MenuOption(text: 'menu_save'.tr(), callback: () {}),
+            MenuOption(text: 'menu_load'.tr(), callback: () {}),
+            MenuOption(text: 'menu_menu'.tr(), callback: () {}),
           ],
         ),
       ),

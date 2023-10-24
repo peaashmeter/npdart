@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:npdart/core/character.dart';
@@ -8,9 +9,17 @@ import 'package:npdart/core/singletons/stage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
-  runApp(const MyApp());
+  runApp(EasyLocalization(
+      path: 'assets/translations',
+      supportedLocales: const [
+        Locale('ru'),
+        Locale('en'),
+      ],
+      fallbackLocale: const Locale('en'),
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,6 +29,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
