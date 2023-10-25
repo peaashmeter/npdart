@@ -10,7 +10,7 @@ import 'package:npdart/widgets/background.dart';
 import 'package:npdart/widgets/choices.dart';
 import 'package:npdart/widgets/sprites.dart';
 import 'package:npdart/widgets/textbox.dart';
-import 'package:npdart/widgets/ui.dart';
+import 'package:npdart/widgets/ui/ui.dart';
 
 class Game extends StatefulWidget {
   const Game({super.key});
