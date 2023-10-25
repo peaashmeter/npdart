@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:npdart/core/singletons/stage.dart';
+import 'package:npdart/core/singletons/state.dart';
 
 class UiLayer extends StatelessWidget {
   const UiLayer({super.key});
@@ -43,12 +45,7 @@ class MenuDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.black.withOpacity(0),
-      content: Container(
-        decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.8),
-            borderRadius: BorderRadius.circular(8),
-            border:
-                Border.all(color: Colors.white30.withOpacity(0.3), width: 2)),
+      content: UiBorder(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -58,7 +55,23 @@ class MenuDialog extends StatelessWidget {
                   Navigator.of(context).pop();
                   showDialog(
                       context: context,
-                      builder: (context) => const HistoryContainer());
+                      builder: (context) => const HistoryDialog());
+                }),
+            MenuOption(
+                text: 'menu_save'.tr(),
+                callback: () {
+                  Navigator.of(context).pop();
+                  showDialog(
+                      context: context,
+                      builder: (context) => const SaveGameDialog());
+                }),
+            MenuOption(
+                text: 'menu_load'.tr(),
+                callback: () {
+                  Navigator.of(context).pop();
+                  showDialog(
+                      context: context,
+                      builder: (context) => const LoadDialog());
                 }),
             MenuOption(
                 text: 'menu_menu'.tr(),
@@ -72,8 +85,62 @@ class MenuDialog extends StatelessWidget {
   }
 }
 
-class HistoryContainer extends StatelessWidget {
-  const HistoryContainer({
+class SaveGameDialog extends StatelessWidget {
+  const SaveGameDialog({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = TextEditingController(text: _generateSaveName());
+
+    return AlertDialog(
+      backgroundColor: Colors.black.withOpacity(0),
+      content: UiBorder(
+        child: Material(
+          color: Colors.black.withOpacity(0),
+          child: SizedBox(
+              width: MediaQuery.sizeOf(context).width * 2 / 3,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'menu_save_description',
+                      style: Theme.of(context).textTheme.titleLarge,
+                      textAlign: TextAlign.start,
+                    ).tr(),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: TextField(
+                          controller: controller,
+                          maxLength: 50,
+                        )),
+                        TextButton(
+                            onPressed: () async {
+                              final nav = Navigator.of(context);
+                              await NovelState().save(controller.text);
+                              nav.pop();
+                            },
+                            child: const Text('menu_save_button').tr())
+                      ],
+                    ),
+                  ],
+                ),
+              )),
+        ),
+      ),
+    );
+  }
+
+  String _generateSaveName() => 'save_${DateTime.now()}';
+}
+
+class HistoryDialog extends StatelessWidget {
+  const HistoryDialog({
     super.key,
   });
 
@@ -81,31 +148,86 @@ class HistoryContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
         backgroundColor: Colors.black.withOpacity(0),
-        content: Container(
-          width: MediaQuery.sizeOf(context).width * 2 / 3,
-          decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.8),
-              borderRadius: BorderRadius.circular(8),
-              border:
-                  Border.all(color: Colors.white30.withOpacity(0.3), width: 2)),
-          child: ListView(
-            children: Stage()
-                .history
-                .map((verse) => ListTile(
-                      title: Text(
-                        verse.header,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .apply(color: verse.color),
-                      ),
-                      isThreeLine: true,
-                      subtitle: Text(
-                        verse.string,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ))
-                .toList(),
+        content: UiBorder(
+          child: SizedBox(
+            width: MediaQuery.sizeOf(context).width * 2 / 3,
+            child: ListView(
+              children: Stage()
+                  .history
+                  .map((verse) => ListTile(
+                        title: Text(
+                          verse.header,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .apply(color: verse.color),
+                        ),
+                        isThreeLine: true,
+                        subtitle: Text(
+                          verse.string,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ))
+                  .toList(),
+            ),
+          ),
+        ));
+  }
+}
+
+class LoadDialog extends StatefulWidget {
+  const LoadDialog({
+    super.key,
+  });
+
+  @override
+  State<LoadDialog> createState() => _LoadDialogState();
+}
+
+class _LoadDialogState extends State<LoadDialog> {
+  @override
+  void initState() {
+    initializeDateFormatting();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        backgroundColor: Colors.black.withOpacity(0),
+        content: UiBorder(
+          child: SizedBox(
+            width: MediaQuery.sizeOf(context).width * 2 / 3,
+            child: FutureBuilder(
+                future: NovelState().listSaves(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const CircularProgressIndicator();
+                  }
+                  return ListView(
+                      children: snapshot.data!
+                          .map((save) => ListTile(
+                                title: Text(
+                                  save.description,
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                                subtitle: Text(
+                                  DateFormat("dd.MM.yyyy HH:mm:ss")
+                                      .format(save.createdAt),
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                                trailing: TextButton(
+                                    onPressed: () async {
+                                      final nav = Navigator.of(context);
+                                      await NovelState().load(save);
+                                      Stage().loadScene(NovelState().sceneId!);
+                                      nav.pop();
+                                    },
+                                    child: const Text('load_save_btn').tr()),
+                              ))
+                          .toList());
+                }),
           ),
         ));
   }

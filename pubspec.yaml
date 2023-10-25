@@ -40,6 +40,8 @@ dependencies:
   path_provider: ^2.0.11
   equatable: ^2.0.5
   easy_localization: ^3.0.3
+  intl: ^0.18.1
+  async: ^2.11.0
 
 dev_dependencies:
   flutter_test:

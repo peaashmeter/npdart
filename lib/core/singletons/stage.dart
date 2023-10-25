@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:npdart/core/character.dart';
 import 'package:npdart/core/choice.dart';
 import 'package:npdart/core/event.dart';
+import 'package:npdart/core/scene.dart';
 import 'package:npdart/core/singletons/state.dart';
 import 'package:npdart/core/singletons/tree.dart';
 import 'package:npdart/core/verse.dart';
@@ -39,6 +40,8 @@ class Stage with ChangeNotifier {
 
   Stage._();
 
+  Scene? _scene;
+
   Widget? get background => _background;
 
   Set<Character> get characters => _characters;
@@ -53,17 +56,18 @@ class Stage with ChangeNotifier {
     _eventStream.add(event);
   }
 
-  void loadScene(String id) {
+  loadScene(String id) {
     _background = null;
     _characters = {};
     _choices = {};
     _verse = null;
 
     final scene = Tree().getScene(id);
+    _scene = scene;
     scene.script?.call();
 
     NovelState().sceneId = id;
-    NovelState().save();
+    NovelState().autosave();
   }
 
   void setBackground(Widget background) {
@@ -83,14 +87,15 @@ class Stage with ChangeNotifier {
   }
 
   ///Rebuilds the stage according to provided changes, then waits for user input (usually screen tap)
-  Future<NovelInputEvent> waitForInput() async {
+  Future<bool> waitForInput() async {
     notifyListeners();
+    final oldScene = _scene;
 
-    Completer<NovelInputEvent> result = Completer();
+    Completer<bool> result = Completer();
 
     final subscription = _eventStream.stream.listen(null);
     subscription.onData((data) {
-      result.complete(data);
+      result.complete(oldScene == _scene);
       subscription.cancel();
     });
 

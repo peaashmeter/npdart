@@ -28,8 +28,8 @@ class Preferences {
     'right': Offset(2 / 3, 0.5),
   };
 
-  ///Relative path to the save file. Root is defined by getApplicationDocumentsDirectory().
-  final String savePath = '/novel/save.json';
+  ///Relative path to the save folder. Root is defined by getApplicationDocumentsDirectory().
+  final String savePath = '/novel/';
 
   factory Preferences() {
     instance ??= Preferences._();

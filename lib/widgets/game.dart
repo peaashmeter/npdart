@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:npdart/core/character.dart';
 import 'package:npdart/core/event.dart';
 import 'package:npdart/core/mouse.dart';
-import 'package:npdart/core/scene.dart';
 import 'package:npdart/core/singletons/stage.dart';
+import 'package:npdart/core/singletons/state.dart';
 import 'package:npdart/widgets/background.dart';
 import 'package:npdart/widgets/choices.dart';
 import 'package:npdart/widgets/sprites.dart';
@@ -13,8 +13,7 @@ import 'package:npdart/widgets/textbox.dart';
 import 'package:npdart/widgets/ui.dart';
 
 class Game extends StatefulWidget {
-  final Scene initialScene;
-  const Game({super.key, required this.initialScene});
+  const Game({super.key});
 
   @override
   State<Game> createState() => _GameState();
@@ -45,7 +44,8 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
       reverse: true,
     );
 
-    widget.initialScene.script?.call();
+    Stage().loadScene(NovelState().sceneId ?? 'root');
+
     super.initState();
   }
 

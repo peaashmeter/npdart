@@ -3,6 +3,7 @@ import 'package:npdart/core/character.dart';
 import 'package:npdart/core/choice.dart';
 import 'package:npdart/core/scene.dart';
 import 'package:npdart/core/singletons/stage.dart';
+import 'package:npdart/core/utils/step.dart';
 
 final scenes = {
   'root': Scene(
@@ -16,21 +17,21 @@ final scenes = {
       final oleg = Lena();
       final sanya = Lena();
 
-      await Stage().waitForInput();
+      if (!await step()) return;
       Stage().setBackground(background);
 
-      sanya.enterScene();
+      sanya.enterStage();
       sanya.moveTo(const Offset(0.3, 0.5));
 
-      oleg.enterScene();
+      oleg.enterStage();
       oleg.moveTo(const Offset(0, 0.5));
       oleg.scale = 1.2;
 
-      await Stage().waitForInput();
+      if (!await step()) return;
       oleg.say('Hello, world!');
       oleg.scale = 1.2;
       oleg.depth = 0.5;
-      await Stage().waitForInput();
+      if (!await step()) return;
 
       Stage().showChoices({
         Choice(
@@ -39,24 +40,28 @@ final scenes = {
             label: 'Выбор 2', callback: () => sanya.say('Ты выбрал вариант 2')),
       });
 
-      await Stage().waitForInput();
+      if (!await step()) return;
       oleg.leaveScene();
-      await Stage().waitForInput();
+      if (!await step()) return;
       sanya.leaveScene();
-      await Stage().waitForInput();
+      if (!await step()) return;
       Stage().loadScene('scene1');
     },
   ),
   'scene1': Scene(
       script: () async {
-        await Stage().waitForInput();
+        if (!await step()) return;
         final background = Image.asset(
           'assets/backgrounds/scenery2.jpg',
           fit: BoxFit.cover,
         );
+        final oleg = Lena();
+        oleg.say('test');
         Stage().setBackground(background);
-        await Stage().waitForInput();
+        if (!await step()) return;
         Stage().loadScene('root');
+
+        if (!await step()) return;
       },
       description: "Поле")
 };

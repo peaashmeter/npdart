@@ -27,7 +27,7 @@ abstract class Character {
 
   Offset get offset => _offset;
 
-  void enterScene() {
+  enterStage() {
     Stage().characters.add(this);
   }
 

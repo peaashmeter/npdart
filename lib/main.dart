@@ -14,8 +14,8 @@ void main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
-  await NovelState().init();
   Tree().populate(scenes);
+  await NovelState().init();
 
   runApp(EasyLocalization(
       path: 'assets/translations',
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       locale: context.locale,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.yellow,
         fontFamily: 'Marmelad',
         textTheme: TextTheme(
           //Style for choices
@@ -52,6 +52,14 @@ class MyApp extends StatelessWidget {
                   offset: Offset(2, 2),
                 ),
               ]),
+          //style for text input
+          titleMedium:
+              const TextStyle(color: Colors.white, fontSize: 16, shadows: [
+            Shadow(
+              blurRadius: 2,
+              offset: Offset(2, 2),
+            ),
+          ]),
           //style for headers
           headlineSmall: const TextStyle(
               color: Colors.white,

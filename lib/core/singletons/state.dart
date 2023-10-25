@@ -18,48 +18,98 @@ class NovelState {
   }
   NovelState._();
 
+  Future<void> autosave() async {
+    final savePath = await _getAutoSavePath();
+    final saveFile = await File(savePath).create(recursive: true);
+
+    final data = {
+      'scene_id': sceneId,
+      'description': 'autosave_${DateTime.now()}',
+      'state': _state
+    };
+    await saveFile.writeAsString(jsonEncode(data));
+  }
+
   Object? getData(String key) => _state[key];
 
   Future<void> init() async {
     try {
-      await load();
+      final saves = await listSaves();
+      await load(saves.first);
     } catch (e) {
       sceneId = 'root';
       _state.clear();
     }
   }
 
-  Future<void> load() async {
-    final savePath = (await getApplicationDocumentsDirectory()).path +
-        Preferences().savePath;
-    final saveFile = File(savePath);
-    if (!await saveFile.exists()) throw SaveFileNotFoundException();
-    try {
-      final data = jsonDecode(await saveFile.readAsString());
-      final String sceneId = data['scene_id'];
-      final Map<String, dynamic> gameState = data['state'];
+  Future<List<SaveData>> listSaves() async {
+    final savesDir = Directory(
+        '${(await getApplicationDocumentsDirectory()).path}${Preferences().savePath}');
+    if (!await savesDir.exists()) return [];
+    final saves = <SaveData>[];
+    await for (final save in savesDir.list()) {
+      if (save is File) {
+        try {
+          final data = jsonDecode(await save.readAsString());
 
-      this.sceneId = sceneId;
-      _state.clear();
-      _state.addAll(gameState);
-    } catch (e) {
-      throw SaveFileCorruptedException();
+          final String sceneId = data['scene_id'];
+          final String description = data['description'];
+          final Map<String, dynamic> state = data['state'];
+          final DateTime createdAt = (await save.stat()).changed;
+
+          saves.add(SaveData(
+              sceneId: sceneId,
+              description: description,
+              createdAt: createdAt,
+              state: state));
+        } catch (e) {
+          continue;
+        }
+      }
     }
+    return saves..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  }
+
+  Future<void> load(SaveData data) async {
+    _state.clear();
+    _state.addAll(data.state);
+    sceneId = data.sceneId;
   }
 
   void removeData(String key) => _state.remove(key);
 
-  Future<void> save() async {
-    final savePath = (await getApplicationDocumentsDirectory()).path +
-        Preferences().savePath;
+  Future<void> save(String description) async {
+    final savePath =
+        '${(await getApplicationDocumentsDirectory()).path}${Preferences().savePath}save_${DateTime.now().millisecondsSinceEpoch}.json';
     final saveFile = await File(savePath).create(recursive: true);
 
-    final data = {'scene_id': sceneId, 'state': _state};
+    final data = {
+      'scene_id': sceneId,
+      'description': description,
+      'state': _state
+    };
+
     await saveFile.writeAsString(jsonEncode(data));
   }
 
   ///Binds provided [value] with [key]. Value object must be json-encodable.
   void setData(String key, Object value) => _state[key] = value;
+
+  Future<String> _getAutoSavePath() async =>
+      '${(await getApplicationDocumentsDirectory()).path}${Preferences().savePath}autosave.json';
+}
+
+class SaveData {
+  String sceneId;
+  String description;
+  DateTime createdAt;
+  Map<String, dynamic> state;
+
+  SaveData(
+      {required this.sceneId,
+      required this.description,
+      required this.createdAt,
+      required this.state});
 }
 
 class SaveFileCorruptedException implements Exception {}

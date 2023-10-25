@@ -2,5 +2,7 @@
     "menu_history": "История",
     "menu_save": "Сохранить",
     "menu_load": "Загрузить",
-    "menu_menu": "Выйти в меню"
+    "menu_menu": "Выйти",
+    "menu_save_description": "Сохранить игру",
+    "menu_save_button": "OK"
 }
