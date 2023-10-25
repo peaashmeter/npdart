@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
       locale: context.locale,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.yellow,
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow),
         fontFamily: 'Marmelad',
         textTheme: TextTheme(
           //Style for choices

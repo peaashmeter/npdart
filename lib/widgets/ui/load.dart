@@ -24,6 +24,7 @@ class _LoadDialogState extends State<LoadDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.black.withOpacity(0),
         content: UiBorder(
           child: SizedBox(

@@ -13,6 +13,7 @@ class SaveGameDialog extends StatelessWidget {
     final controller = TextEditingController(text: _generateSaveName());
 
     return AlertDialog(
+      surfaceTintColor: Colors.transparent,
       backgroundColor: Colors.black.withOpacity(0),
       content: UiBorder(
         child: Material(

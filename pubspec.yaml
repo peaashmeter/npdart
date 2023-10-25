@@ -42,6 +42,7 @@ dependencies:
   easy_localization: ^3.0.3
   intl: ^0.18.1
   async: ^2.11.0
+  audioplayers: ^5.2.0
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,7 @@ flutter:
     - assets/backgrounds/
     - assets/sprites/
     - assets/translations/
+    - assets/sounds/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

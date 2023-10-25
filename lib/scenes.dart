@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:npdart/core/character.dart';
 import 'package:npdart/core/choice.dart';
 import 'package:npdart/core/scene.dart';
+import 'package:npdart/core/singletons/audio.dart';
 import 'package:npdart/core/singletons/stage.dart';
 import 'package:npdart/core/utils/step.dart';
 
@@ -9,6 +10,7 @@ final scenes = {
   'root': Scene(
     description: 'Тестовая сцена',
     script: () async {
+      AudioManager().playBackgroundSound('sounds/minecraft.mp3');
       final background = Image.asset(
         'assets/backgrounds/scenery1.jpg',
         fit: BoxFit.cover,
@@ -29,6 +31,7 @@ final scenes = {
 
       if (!await step()) return;
       oleg.say('Hello, world!');
+      AudioManager().playSound('sounds/anal.mp3');
       oleg.scale = 1.2;
       oleg.depth = 0.5;
       if (!await step()) return;

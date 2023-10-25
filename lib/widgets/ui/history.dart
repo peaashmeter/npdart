@@ -10,6 +10,7 @@ class HistoryDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.black.withOpacity(0),
         content: UiBorder(
           child: SizedBox(
