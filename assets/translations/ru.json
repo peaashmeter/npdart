@@ -4,5 +4,6 @@
     "menu_load": "Загрузить",
     "menu_menu": "Выйти",
     "menu_save_description": "Сохранить игру",
-    "menu_save_button": "OK"
+    "menu_save_button": "OK",
+    "load_save_button": "Загрузить"
 }

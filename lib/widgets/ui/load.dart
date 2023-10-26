@@ -33,8 +33,10 @@ class _LoadDialogState extends State<LoadDialog> {
                 future: NovelState().listSaves(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return const CircularProgressIndicator();
+                    return const SizedBox.expand(
+                        child: Center(child: CircularProgressIndicator()));
                   }
+
                   return ListView(
                       children: snapshot.data!
                           .map((save) => ListTile(
@@ -55,7 +57,7 @@ class _LoadDialogState extends State<LoadDialog> {
                                       Stage().loadScene(NovelState().sceneId!);
                                       nav.pop();
                                     },
-                                    child: const Text('load_save_btn').tr()),
+                                    child: const Text('load_save_button').tr()),
                               ))
                           .toList());
                 }),

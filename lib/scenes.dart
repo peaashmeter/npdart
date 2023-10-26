@@ -10,7 +10,6 @@ final scenes = {
   'root': Scene(
     description: 'Тестовая сцена',
     script: () async {
-      AudioManager().playBackgroundSound('sounds/minecraft.mp3');
       final background = Image.asset(
         'assets/backgrounds/scenery1.jpg',
         fit: BoxFit.cover,

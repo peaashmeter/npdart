@@ -28,7 +28,7 @@ class AudioManager {
     }
   }
 
-  ///If an old player exists, applies crossfade.
+  ///If a song is already playing, applies crossfade.
   playBackgroundSound(String assetPath, {double volume = 1}) async {
     try {
       if (_backgroundPlayer != null) {
@@ -40,7 +40,7 @@ class AudioManager {
       await _backgroundPlayer!.play(
         AssetSource(assetPath),
         volume: 0.0,
-        mode: PlayerMode.mediaPlayer,
+        mode: PlayerMode.lowLatency,
       );
       await lerpBackroundVolume(volume, const Duration(milliseconds: 1000));
     } catch (e) {

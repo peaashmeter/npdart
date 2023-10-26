@@ -63,7 +63,7 @@ class Stage with ChangeNotifier {
     _verse = null;
 
     final scene = Tree().getScene(id);
-    _scene = scene;
+    _scene = Scene.from(scene);
     scene.script?.call();
 
     NovelState().sceneId = id;
@@ -87,6 +87,7 @@ class Stage with ChangeNotifier {
   }
 
   ///Rebuilds the stage according to provided changes, then waits for user input (usually screen tap)
+  ///Returns false if a scene is changed.
   Future<bool> waitForInput() async {
     notifyListeners();
     final oldScene = _scene;

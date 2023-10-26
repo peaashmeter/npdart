@@ -4,5 +4,6 @@
     "menu_load": "Load",
     "menu_menu": "Exit",
     "menu_save_description": "Save the game",
-    "menu_save_button": "OK"
+    "menu_save_button": "OK",
+    "load_save_button": "Load"
 }
