@@ -48,11 +48,3 @@ abstract class Character {
     widget = newWidget;
   }
 }
-
-class Lena extends Character {
-  Lena()
-      : super(
-            color: Colors.red,
-            name: 'Олег',
-            widget: Image.asset('assets/sprites/lena.png'));
-}
