@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:npdart/core/mouse.dart';
 import 'package:npdart/core/singletons/preferences.dart';
-import 'package:npdart/core/singletons/stage.dart';
+import 'package:npdart/core/stage.dart';
 
 class BackgroundLayer extends StatefulWidget {
   const BackgroundLayer({

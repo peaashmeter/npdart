@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:npdart/core/singletons/stage.dart';
+import 'package:npdart/core/novel.dart';
 import 'package:npdart/widgets/ui/border.dart';
 
 class HistoryDialog extends StatelessWidget {
+  final NovelState state;
   const HistoryDialog({
     super.key,
+    required this.state,
   });
 
   @override
@@ -16,8 +18,7 @@ class HistoryDialog extends StatelessWidget {
           child: SizedBox(
             width: MediaQuery.sizeOf(context).width * 2 / 3,
             child: ListView(
-              children: Stage()
-                  .history
+              children: state.history
                   .map((verse) => ListTile(
                         title: Text(
                           verse.header,

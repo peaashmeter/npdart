@@ -2,8 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:npdart/core/novel.dart';
+import 'package:npdart/core/save.dart';
+import 'package:npdart/core/singletons/preferences.dart';
 
-import 'package:npdart/core/singletons/state.dart';
 import 'package:npdart/core/singletons/tree.dart';
 import 'package:npdart/scenes.dart';
 
@@ -15,7 +16,15 @@ void main() async {
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
   Tree().populate(scenes);
-  await NovelState().init();
+
+  final saves = await listSaves(Preferences().savePath);
+  late final SaveData saveData;
+
+  if (saves.isNotEmpty) {
+    saveData = saves.first;
+  } else {
+    saveData = SaveData.fallback();
+  }
 
   runApp(EasyLocalization(
       path: 'assets/translations',
@@ -24,11 +33,14 @@ void main() async {
         Locale('en'),
       ],
       fallbackLocale: const Locale('en'),
-      child: const MyApp()));
+      child: MyApp(
+        saveData: saveData,
+      )));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final SaveData saveData;
+  const MyApp({super.key, required this.saveData});
 
   // This widget is the root of your application.
   @override
@@ -81,7 +93,7 @@ class MyApp extends StatelessWidget {
           ]),
         ),
       ),
-      home: const Novel(),
+      home: Novel(initialState: saveData),
     );
   }
 }

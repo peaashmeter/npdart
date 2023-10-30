@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:npdart/core/singletons/preferences.dart';
-import 'package:npdart/core/singletons/stage.dart';
+import 'package:npdart/core/stage.dart';
 import 'package:npdart/widgets/painting/textshape.dart';
 import 'package:npdart/widgets/typewriter.dart';
 

@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:npdart/core/character.dart';
 import 'package:npdart/core/event.dart';
 import 'package:npdart/core/mouse.dart';
-import 'package:npdart/core/singletons/stage.dart';
-import 'package:npdart/core/singletons/state.dart';
+import 'package:npdart/core/novel.dart';
+import 'package:npdart/core/stage.dart';
+import 'package:npdart/core/singletons/tree.dart';
 import 'package:npdart/widgets/background.dart';
 import 'package:npdart/widgets/choices.dart';
 import 'package:npdart/widgets/sprites.dart';
@@ -20,11 +20,11 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> with SingleTickerProviderStateMixin {
-  Set<Character> actors = {};
   Offset mousePos = Offset.zero;
-
   late AnimationController fakeMouseController;
   late Animation<double> fakeMouseAnimation;
+
+  late Stage stage;
 
   @override
   void initState() {
@@ -44,7 +44,8 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
       reverse: true,
     );
 
-    Stage().loadScene(NovelState().sceneId ?? 'root');
+    final globalState = context.findAncestorStateOfType<NovelState>()!;
+    _assignNewScene(globalState.sceneId);
 
     super.initState();
   }
@@ -58,15 +59,15 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        if (Stage().choices.isNotEmpty) return;
-        Stage().dispatchEvent(RequestNextEvent());
+        if (stage.choices.isNotEmpty) return;
+        stage.dispatchEvent(RequestNextEvent());
       },
       child: MouseRegion(
         opaque: false,
         child: InheritedMouse(
           mousePos: mousePos,
           child: InheritedStage(
-            notifier: Stage(),
+            notifier: stage,
             child: const Stack(
               children: [
                 BackgroundLayer(),
@@ -80,5 +81,16 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  void _assignNewScene(String id) {
+    final scene = Tree().getScene(id);
+    final globalState = context.findAncestorStateOfType<NovelState>()!;
+    final newStage = Stage(_assignNewScene, globalState);
+
+    scene.script?.call(newStage, globalState);
+    setState(() {
+      stage = newStage;
+    });
   }
 }

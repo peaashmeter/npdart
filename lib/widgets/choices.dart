@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:npdart/core/event.dart';
-import 'package:npdart/core/singletons/stage.dart';
+import 'package:npdart/core/stage.dart';
 
 ///Список выборов, которые есть на сцене
 class OptionLayer extends StatelessWidget {
@@ -62,8 +62,9 @@ class _OptionContainerState extends State<OptionContainer> {
         child: GestureDetector(
           onTap: () {
             widget.callback();
-            Stage().showChoices({});
-            Stage().dispatchEvent(DialogOptionEvent());
+            InheritedStage.of(context).notifier!
+              ..showChoices({})
+              ..dispatchEvent(DialogOptionEvent());
           },
           child: Container(
             decoration: BoxDecoration(

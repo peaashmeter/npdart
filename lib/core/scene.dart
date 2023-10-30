@@ -1,7 +1,8 @@
-import 'dart:core';
+import 'package:npdart/core/novel.dart';
+import 'package:npdart/core/stage.dart';
 
 class Scene {
-  final Function()? script;
+  final Function(Stage stage, NovelState state)? script;
   final String? description;
 
   ///A timestamp to differentiate two instances of a same scene, loaded in different times

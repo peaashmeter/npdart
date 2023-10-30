@@ -1,11 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:npdart/core/singletons/state.dart';
+import 'package:npdart/core/novel.dart';
+import 'package:npdart/core/save.dart';
+import 'package:npdart/core/singletons/preferences.dart';
 import 'package:npdart/widgets/ui/border.dart';
 
 class SaveGameDialog extends StatelessWidget {
+  final NovelState state;
   const SaveGameDialog({
     super.key,
+    required this.state,
   });
 
   @override
@@ -41,7 +45,8 @@ class SaveGameDialog extends StatelessWidget {
                         TextButton(
                             onPressed: () async {
                               final nav = Navigator.of(context);
-                              await NovelState().save(controller.text);
+                              await save(state.asSaveData(controller.text),
+                                  Preferences().savePath);
                               nav.pop();
                             },
                             child: const Text('menu_save_button').tr())
