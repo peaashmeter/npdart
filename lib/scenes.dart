@@ -45,7 +45,8 @@ final scenes = {
       await stage.waitForInput();
       sanya.leaveStage();
       await stage.waitForInput();
-      stage.loadScene('scene1');
+
+      return state.logVerses(stage.verseHistory).loadScene('scene1');
     },
   ),
   'scene1': Scene(
@@ -59,9 +60,10 @@ final scenes = {
         oleg.say('test');
         stage.setBackground(background);
         await stage.waitForInput();
-        stage.loadScene('root');
 
         await stage.waitForInput();
+
+        return state.logVerses(stage.verseHistory).loadScene('root');
       },
       description: "Поле")
 };

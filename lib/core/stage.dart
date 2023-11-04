@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:npdart/core/character.dart';
 import 'package:npdart/core/choice.dart';
 import 'package:npdart/core/event.dart';
-import 'package:npdart/core/novel.dart';
 import 'package:npdart/core/verse.dart';
 
 class InheritedStage extends InheritedNotifier<Stage> {
@@ -15,10 +14,9 @@ class InheritedStage extends InheritedNotifier<Stage> {
 }
 
 class Stage with ChangeNotifier {
-  final Function(String newScene) _sceneChangeHandler;
-  final NovelState _globalState;
+  Stage();
 
-  Stage(this._sceneChangeHandler, this._globalState);
+  final List<Verse> verseHistory = [];
 
   Widget? _background;
 
@@ -43,10 +41,6 @@ class Stage with ChangeNotifier {
     _eventStream.add(event);
   }
 
-  loadScene(String id) {
-    _sceneChangeHandler(id);
-  }
-
   void setBackground(Widget background) {
     _background = background;
   }
@@ -55,7 +49,7 @@ class Stage with ChangeNotifier {
     _verse = verse;
 
     if (verse != null) {
-      _globalState.logVerse(verse);
+      verseHistory.add(verse);
     }
   }
 

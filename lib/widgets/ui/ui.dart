@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:npdart/core/novel.dart';
-import 'package:npdart/core/stage.dart';
 import 'package:npdart/widgets/ui/border.dart';
 import 'package:npdart/widgets/ui/menu.dart';
 
@@ -19,14 +17,11 @@ class UiLayer extends StatelessWidget {
             color: Colors.black.withOpacity(0),
             child: InkWell(
                 onTap: () {
-                  final stage = InheritedStage.of(context).notifier!;
-                  final state = context.globalState;
+                  //should pass inherited ones here, as they won't be visible then
                   showDialog(
                       context: context,
-                      builder: (context) => MenuDialog(
-                            state: state,
-                            stage: stage,
-                          ));
+                      useRootNavigator: false,
+                      builder: (context) => const MenuDialog());
                 },
                 child: UiBorder(
                   child: Icon(

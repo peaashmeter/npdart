@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:npdart/core/novel.dart';
+import 'package:npdart/core/stage.dart';
+import 'package:npdart/core/state.dart';
 import 'package:npdart/widgets/ui/border.dart';
 
 class HistoryDialog extends StatelessWidget {
-  final NovelState state;
   const HistoryDialog({
     super.key,
-    required this.state,
   });
 
   @override
   Widget build(BuildContext context) {
+    final history = InheritedNovelState.of(context).snapshot.verseHistory +
+        InheritedStage.of(context).notifier!.verseHistory;
+
     return AlertDialog(
         surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.black.withOpacity(0),
@@ -18,7 +20,7 @@ class HistoryDialog extends StatelessWidget {
           child: SizedBox(
             width: MediaQuery.sizeOf(context).width * 2 / 3,
             child: ListView(
-              children: state.history
+              children: history
                   .map((verse) => ListTile(
                         title: Text(
                           verse.header,

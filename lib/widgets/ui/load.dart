@@ -1,19 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:npdart/core/novel.dart';
 import 'package:npdart/core/save.dart';
 import 'package:npdart/core/singletons/preferences.dart';
-import 'package:npdart/core/stage.dart';
+import 'package:npdart/core/state.dart';
 import 'package:npdart/widgets/ui/border.dart';
 
 class LoadDialog extends StatefulWidget {
-  final NovelState state;
-  final Stage stage;
   const LoadDialog({
     super.key,
-    required this.state,
-    required this.stage,
   });
 
   @override
@@ -59,9 +54,15 @@ class _LoadDialogState extends State<LoadDialog> {
                                 trailing: TextButton(
                                     onPressed: () async {
                                       final nav = Navigator.of(context);
-                                      await widget.state.load(save);
-                                      widget.stage
-                                          .loadScene(widget.state.sceneId);
+                                      //no dependency
+                                      final state = context
+                                          .getInheritedWidgetOfExactType<
+                                              InheritedNovelState>()!
+                                          .snapshot
+                                          .loadScene(save.sceneId);
+                                      NovelStateEvent(snapshot: state)
+                                          .dispatch(context);
+
                                       nav.pop();
                                     },
                                     child: const Text('load_save_button').tr()),

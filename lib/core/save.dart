@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:npdart/core/state.dart';
 import 'package:path_provider/path_provider.dart';
 
 class SaveData {
@@ -20,6 +21,13 @@ class SaveData {
             description: '_',
             createdAt: DateTime.now(),
             state: {});
+
+  SaveData.fromStateSnapshot(NovelStateSnapshot snapshot, String description)
+      : this(
+            createdAt: DateTime.now(),
+            description: description,
+            sceneId: snapshot.sceneId,
+            state: snapshot.variables);
 }
 
 class SaveFileCorruptedException implements Exception {}
