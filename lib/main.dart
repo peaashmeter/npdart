@@ -4,8 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:npdart/core/novel.dart';
 import 'package:npdart/core/save.dart';
 import 'package:npdart/core/singletons/preferences.dart';
-
-import 'package:npdart/core/singletons/tree.dart';
+import 'package:npdart/core/tree.dart';
 import 'package:npdart/scenes.dart';
 
 void main() async {
@@ -14,8 +13,6 @@ void main() async {
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
-
-  Tree().populate(scenes);
 
   final saves = await listSaves(Preferences().savePath);
   late final SaveData saveData;
@@ -93,7 +90,7 @@ class MyApp extends StatelessWidget {
           ]),
         ),
       ),
-      home: Novel(initialState: saveData),
+      home: Novel(initialState: saveData, tree: Tree(scenes: scenes)),
     );
   }
 }

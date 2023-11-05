@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:npdart/core/tree.dart';
 import 'package:npdart/core/verse.dart';
 
 class NovelStateEvent extends Notification {
@@ -24,20 +25,24 @@ class NovelStateSnapshot {
   final List<Verse> verseHistory;
   final String sceneId;
   final Map<String, dynamic> variables;
+  final Tree tree;
 
   NovelStateSnapshot(
       {required this.sceneId,
       required this.variables,
-      required this.verseHistory});
+      required this.verseHistory,
+      required this.tree});
 
   NovelStateSnapshot copyWith(
           {String? sceneId,
           Map<String, dynamic>? variables,
-          List<Verse>? verseHistory}) =>
+          List<Verse>? verseHistory,
+          Tree? tree}) =>
       NovelStateSnapshot(
           sceneId: sceneId ?? this.sceneId,
           variables: variables ?? this.variables,
-          verseHistory: verseHistory ?? this.verseHistory);
+          verseHistory: verseHistory ?? this.verseHistory,
+          tree: tree ?? this.tree);
 
   Object? getData(String key) => variables[key];
 

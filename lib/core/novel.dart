@@ -1,12 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:npdart/core/save.dart';
+import 'package:npdart/core/tree.dart';
 import 'package:npdart/core/state.dart';
 import 'package:npdart/widgets/game.dart';
 
 class Novel extends StatefulWidget {
   final SaveData initialState;
-  const Novel({super.key, required this.initialState});
+  final Tree tree;
+  const Novel({super.key, required this.initialState, required this.tree});
 
   @override
   State<Novel> createState() => NovelState._();
@@ -22,7 +23,8 @@ class NovelState extends State<Novel> {
     snapshot = NovelStateSnapshot(
         sceneId: widget.initialState.sceneId,
         variables: widget.initialState.state,
-        verseHistory: []);
+        verseHistory: [],
+        tree: widget.tree);
     super.initState();
   }
 

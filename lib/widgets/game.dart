@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:npdart/core/event.dart';
 import 'package:npdart/core/mouse.dart';
 import 'package:npdart/core/stage.dart';
-import 'package:npdart/core/singletons/tree.dart';
 import 'package:npdart/core/state.dart';
 import 'package:npdart/widgets/background.dart';
 import 'package:npdart/widgets/choices.dart';
@@ -52,7 +51,7 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
     //create a new stage for each new global state
     stage = Stage();
     final state = InheritedNovelState.of(context).snapshot;
-    Tree().getScene(state.sceneId).script(stage, state).then(
+    state.tree.getScene(state.sceneId).script(stage, state).then(
         (snapshot) => NovelStateEvent(snapshot: snapshot).dispatch(context));
     super.didChangeDependencies();
   }
