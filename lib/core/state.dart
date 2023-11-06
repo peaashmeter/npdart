@@ -1,4 +1,6 @@
 import 'package:flutter/widgets.dart';
+import 'package:npdart/core/audio.dart';
+import 'package:npdart/core/preferences.dart';
 import 'package:npdart/core/tree.dart';
 import 'package:npdart/core/verse.dart';
 
@@ -26,23 +28,34 @@ class NovelStateSnapshot {
   final String sceneId;
   final Map<String, dynamic> variables;
   final Tree tree;
+  final Preferences preferences;
 
-  NovelStateSnapshot(
-      {required this.sceneId,
-      required this.variables,
-      required this.verseHistory,
-      required this.tree});
+  ///Should have a reference to the current [AudioManager] here to maintain audio between states.
+  final AudioManager audio;
+
+  NovelStateSnapshot({
+    required this.sceneId,
+    required this.variables,
+    required this.verseHistory,
+    required this.tree,
+    required this.audio,
+    required this.preferences,
+  });
 
   NovelStateSnapshot copyWith(
           {String? sceneId,
           Map<String, dynamic>? variables,
           List<Verse>? verseHistory,
-          Tree? tree}) =>
+          Tree? tree,
+          AudioManager? audio,
+          Preferences? preferences}) =>
       NovelStateSnapshot(
           sceneId: sceneId ?? this.sceneId,
           variables: variables ?? this.variables,
           verseHistory: verseHistory ?? this.verseHistory,
-          tree: tree ?? this.tree);
+          tree: tree ?? this.tree,
+          audio: audio ?? this.audio,
+          preferences: preferences ?? this.preferences);
 
   Object? getData(String key) => variables[key];
 
@@ -63,4 +76,7 @@ class NovelStateSnapshot {
       copyWith(verseHistory: List.from(verseHistory..addAll(verses)));
 
   NovelStateSnapshot loadScene(String sceneId) => copyWith(sceneId: sceneId);
+
+  NovelStateSnapshot updatePreferences(Preferences preferences) =>
+      copyWith(preferences: preferences);
 }

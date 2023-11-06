@@ -24,6 +24,7 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
   late Animation<double> fakeMouseAnimation;
 
   late Stage stage;
+  late Size size;
 
   @override
   void initState() {
@@ -49,8 +50,8 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     //create a new stage for each new global state
-    stage = Stage();
     final state = InheritedNovelState.of(context).snapshot;
+    stage = Stage(audio: state.audio);
     state.tree.getScene(state.sceneId).script(stage, state).then(
         (snapshot) => NovelStateEvent(snapshot: snapshot).dispatch(context));
     super.didChangeDependencies();

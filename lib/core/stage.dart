@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:npdart/core/character.dart';
 import 'package:npdart/core/choice.dart';
 import 'package:npdart/core/event.dart';
+import 'package:npdart/core/audio.dart';
 import 'package:npdart/core/verse.dart';
 
 class InheritedStage extends InheritedNotifier<Stage> {
@@ -14,7 +15,8 @@ class InheritedStage extends InheritedNotifier<Stage> {
 }
 
 class Stage with ChangeNotifier {
-  Stage();
+  final AudioManager audio;
+  Stage({required this.audio});
 
   final List<Verse> verseHistory = [];
 

@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:npdart/core/save.dart';
-import 'package:npdart/core/singletons/preferences.dart';
 import 'package:npdart/core/state.dart';
 import 'package:npdart/widgets/ui/border.dart';
 
@@ -31,7 +30,10 @@ class _LoadDialogState extends State<LoadDialog> {
           child: SizedBox(
             width: MediaQuery.sizeOf(context).width * 2 / 3,
             child: FutureBuilder(
-                future: listSaves(Preferences().savePath),
+                future: listSaves(InheritedNovelState.of(context)
+                    .snapshot
+                    .preferences
+                    .savePath),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const SizedBox.expand(
@@ -54,12 +56,10 @@ class _LoadDialogState extends State<LoadDialog> {
                                 trailing: TextButton(
                                     onPressed: () async {
                                       final nav = Navigator.of(context);
-                                      //no dependency
-                                      final state = context
-                                          .getInheritedWidgetOfExactType<
-                                              InheritedNovelState>()!
-                                          .snapshot
-                                          .loadScene(save.sceneId);
+                                      final state =
+                                          InheritedNovelState.of(context)
+                                              .snapshot
+                                              .loadScene(save.sceneId);
                                       NovelStateEvent(snapshot: state)
                                           .dispatch(context);
 

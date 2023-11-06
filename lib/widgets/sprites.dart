@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide Image;
 import 'package:npdart/core/mouse.dart';
-import 'package:npdart/core/singletons/preferences.dart';
 import 'package:npdart/core/stage.dart';
+import 'package:npdart/core/state.dart';
 
 class SpriteLayer extends StatefulWidget {
   const SpriteLayer({super.key});
@@ -47,8 +47,10 @@ class _SpriteLayerState extends State<SpriteLayer> {
   }
 
   Offset _calculateParallax(Offset mousePos, Size center, double depth) {
-    final parallaxFactor = Preferences().backgroundParallax +
-        Preferences().backgroundParallax * (1 - depth);
+    final backgroundParallax =
+        InheritedNovelState.of(context).snapshot.preferences.backgroundParallax;
+    final parallaxFactor =
+        backgroundParallax + backgroundParallax * (1 - depth);
 
     final offsetX = (center.width - mousePos.dx) * parallaxFactor;
     final offsetY = (center.height - mousePos.dy) * parallaxFactor;

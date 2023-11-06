@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:npdart/core/audio.dart';
 import 'package:npdart/core/save.dart';
+import 'package:npdart/core/preferences.dart';
 import 'package:npdart/core/tree.dart';
 import 'package:npdart/core/state.dart';
 import 'package:npdart/widgets/game.dart';
@@ -7,7 +9,12 @@ import 'package:npdart/widgets/game.dart';
 class Novel extends StatefulWidget {
   final SaveData initialState;
   final Tree tree;
-  const Novel({super.key, required this.initialState, required this.tree});
+  final Preferences preferences;
+  const Novel(
+      {super.key,
+      required this.initialState,
+      required this.tree,
+      required this.preferences});
 
   @override
   State<Novel> createState() => NovelState._();
@@ -24,7 +31,9 @@ class NovelState extends State<Novel> {
         sceneId: widget.initialState.sceneId,
         variables: widget.initialState.state,
         verseHistory: [],
-        tree: widget.tree);
+        audio: AudioManager(),
+        tree: widget.tree,
+        preferences: widget.preferences);
     super.initState();
   }
 

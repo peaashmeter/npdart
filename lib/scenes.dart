@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:npdart/core/character.dart';
 import 'package:npdart/core/choice.dart';
 import 'package:npdart/core/scene.dart';
-import 'package:npdart/core/singletons/audio.dart';
+import 'package:npdart/core/audio.dart';
 
 final scenes = {
   'root': Scene(

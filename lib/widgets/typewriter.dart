@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:npdart/core/singletons/preferences.dart';
 import 'package:npdart/core/stage.dart';
+import 'package:npdart/core/state.dart';
 import 'package:npdart/core/verse.dart';
 import 'package:npdart/widgets/painting/textpainter.dart';
 
@@ -37,7 +37,7 @@ class _TextTypewriterState extends State<TextTypewriter> {
           verse?.header ?? '',
           headerStyle,
           stringStyle,
-          Preferences().textBoxHeight),
+          InheritedNovelState.of(context).snapshot.preferences.textBoxHeight),
     );
   }
 
@@ -72,7 +72,8 @@ class _TextTypewriterState extends State<TextTypewriter> {
   }
 
   StreamSubscription<String> _subscribe() {
-    final milliseconds = Preferences().typingDelay;
+    final milliseconds =
+        InheritedNovelState.of(context).snapshot.preferences.typingDelay;
     return typeStream(milliseconds).listen((s) {
       if (mounted) {
         setState(() {
