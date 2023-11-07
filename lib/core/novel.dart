@@ -17,13 +17,13 @@ class Novel extends StatefulWidget {
       required this.preferences});
 
   @override
-  State<Novel> createState() => NovelState._();
+  State<Novel> createState() => _NovelState._();
 }
 
-class NovelState extends State<Novel> {
+class _NovelState extends State<Novel> {
   late NovelStateSnapshot snapshot;
 
-  NovelState._();
+  _NovelState._();
 
   @override
   void initState() {

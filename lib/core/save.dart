@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:npdart/core/preferences.dart';
 import 'package:npdart/core/state.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -89,4 +90,14 @@ Future<List<SaveData>> listSaves(String savePath) async {
     }
   }
   return saves..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+}
+
+///Returns the most recent save is case if one exists. Otherwise returns a clear state defined by [Savedata.fallback()];
+Future<SaveData> getDefaultInitialSaveData() async {
+  final saves = await listSaves(const Preferences().savePath);
+  if (saves.isNotEmpty) {
+    return saves.first;
+  } else {
+    return SaveData.fallback();
+  }
 }
