@@ -1,0 +1,9 @@
+{
+    "menu_history": "History",
+    "menu_save": "Save",
+    "menu_load": "Load",
+    "menu_menu": "Exit",
+    "menu_save_description": "Save the game",
+    "menu_save_button": "OK",
+    "load_save_button": "Load"
+}
