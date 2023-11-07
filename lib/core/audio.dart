@@ -3,16 +3,8 @@ import 'dart:developer';
 
 import 'package:audioplayers/audioplayers.dart';
 
-///A singleton for managing audio-channels
+///A class for managing audio-channels.
 class AudioManager {
-  static AudioManager? instance;
-
-  factory AudioManager() {
-    instance ??= AudioManager._();
-    return instance!;
-  }
-  AudioManager._();
-
   AudioPlayer? _backgroundPlayer;
 
   playSound(String assetPath, {double volume = 1}) async {

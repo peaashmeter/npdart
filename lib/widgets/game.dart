@@ -1,11 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:npdart/core/character.dart';
 import 'package:npdart/core/event.dart';
 import 'package:npdart/core/mouse.dart';
-import 'package:npdart/core/singletons/stage.dart';
-import 'package:npdart/core/singletons/state.dart';
+import 'package:npdart/core/stage.dart';
+import 'package:npdart/core/state.dart';
 import 'package:npdart/widgets/background.dart';
 import 'package:npdart/widgets/choices.dart';
 import 'package:npdart/widgets/sprites.dart';
@@ -20,11 +19,12 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> with SingleTickerProviderStateMixin {
-  Set<Character> actors = {};
   Offset mousePos = Offset.zero;
-
   late AnimationController fakeMouseController;
   late Animation<double> fakeMouseAnimation;
+
+  late Stage stage;
+  late Size size;
 
   @override
   void initState() {
@@ -44,9 +44,17 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
       reverse: true,
     );
 
-    Stage().loadScene(NovelState().sceneId ?? 'root');
-
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    //create a new stage for each new global state
+    final state = InheritedNovelState.of(context).snapshot;
+    stage = Stage(audio: state.audio);
+    state.tree.getScene(state.sceneId).script(stage, state).then(
+        (snapshot) => NovelStateEvent(snapshot: snapshot).dispatch(context));
+    super.didChangeDependencies();
   }
 
   @override
@@ -58,25 +66,28 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        if (Stage().choices.isNotEmpty) return;
-        Stage().dispatchEvent(RequestNextEvent());
+        if (stage.choices.isNotEmpty) return;
+        stage.dispatchEvent(RequestNextEvent());
       },
       child: MouseRegion(
         opaque: false,
         child: InheritedMouse(
           mousePos: mousePos,
           child: InheritedStage(
-            notifier: Stage(),
-            child: const Stack(
-              children: [
-                BackgroundLayer(),
-                SpriteLayer(),
-                OptionLayer(),
-                TextLayer(),
-                UiLayer(),
-              ],
-            ),
-          ),
+              notifier: stage,
+              child: Navigator(
+                  onGenerateRoute: (route) => MaterialPageRoute(
+                        settings: route,
+                        builder: (context) => const Stack(
+                          children: [
+                            BackgroundLayer(),
+                            SpriteLayer(),
+                            OptionLayer(),
+                            TextLayer(),
+                            UiLayer(),
+                          ],
+                        ),
+                      ))),
         ),
       ),
     );

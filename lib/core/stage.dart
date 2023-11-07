@@ -1,13 +1,10 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:npdart/core/character.dart';
 import 'package:npdart/core/choice.dart';
 import 'package:npdart/core/event.dart';
-import 'package:npdart/core/scene.dart';
-import 'package:npdart/core/singletons/state.dart';
-import 'package:npdart/core/singletons/tree.dart';
+import 'package:npdart/core/audio.dart';
 import 'package:npdart/core/verse.dart';
 
 class InheritedStage extends InheritedNotifier<Stage> {
@@ -18,29 +15,21 @@ class InheritedStage extends InheritedNotifier<Stage> {
 }
 
 class Stage with ChangeNotifier {
-  static Stage? instance;
+  final AudioManager audio;
+  Stage({required this.audio});
+
+  final List<Verse> verseHistory = [];
 
   Widget? _background;
 
-  Set<Character> _characters = {};
+  final Set<Character> _characters = {};
 
-  Set<Choice> _choices = {};
+  final Set<Choice> _choices = {};
 
   Verse? _verse;
 
-  final _history = Queue<Verse>();
-
   final StreamController<NovelInputEvent> _eventStream =
       StreamController.broadcast();
-
-  factory Stage() {
-    instance ??= Stage._();
-    return instance!;
-  }
-
-  Stage._();
-
-  Scene? _scene;
 
   Widget? get background => _background;
 
@@ -48,26 +37,10 @@ class Stage with ChangeNotifier {
 
   Set<Choice> get choices => _choices;
 
-  List<Verse> get history => List.unmodifiable(_history);
-
   Verse? get verse => _verse;
 
   void dispatchEvent(NovelInputEvent event) {
     _eventStream.add(event);
-  }
-
-  loadScene(String id) {
-    _background = null;
-    _characters = {};
-    _choices = {};
-    _verse = null;
-
-    final scene = Tree().getScene(id);
-    _scene = Scene.from(scene);
-    scene.script?.call();
-
-    NovelState().sceneId = id;
-    NovelState().autosave();
   }
 
   void setBackground(Widget background) {
@@ -78,35 +51,27 @@ class Stage with ChangeNotifier {
     _verse = verse;
 
     if (verse != null) {
-      _logVerse(verse);
+      verseHistory.add(verse);
     }
   }
 
   void showChoices(Set<Choice> choices) {
-    _choices = choices;
+    _choices.clear();
+    _choices.addAll(choices);
   }
 
   ///Rebuilds the stage according to provided changes, then waits for user input (usually screen tap)
-  ///Returns false if a scene is changed.
-  Future<bool> waitForInput() async {
+  Future<NovelInputEvent> waitForInput() async {
     notifyListeners();
-    final oldScene = _scene;
 
-    Completer<bool> result = Completer();
+    Completer<NovelInputEvent> result = Completer();
 
     final subscription = _eventStream.stream.listen(null);
     subscription.onData((data) {
-      result.complete(oldScene == _scene);
+      result.complete(data);
       subscription.cancel();
     });
 
     return result.future;
-  }
-
-  void _logVerse(Verse verse) {
-    if (_history.length > 100) {
-      _history.removeLast();
-    }
-    _history.addFirst(verse);
   }
 }

@@ -27,8 +27,9 @@ class MenuDialog extends StatelessWidget {
                 callback: () {
                   Navigator.of(context).pop();
                   showDialog(
+                      useRootNavigator: false,
                       context: context,
-                      builder: (context) => const HistoryDialog());
+                      builder: (_) => const HistoryDialog());
                 }),
             MenuOption(
                 text: 'menu_save'.tr(),
@@ -36,15 +37,18 @@ class MenuDialog extends StatelessWidget {
                   Navigator.of(context).pop();
                   showDialog(
                       context: context,
-                      builder: (context) => const SaveGameDialog());
+                      builder: (_) => const SaveGameDialog(),
+                      useRootNavigator: false);
                 }),
             MenuOption(
                 text: 'menu_load'.tr(),
                 callback: () {
                   Navigator.of(context).pop();
+
                   showDialog(
+                      useRootNavigator: false,
                       context: context,
-                      builder: (context) => const LoadDialog());
+                      builder: (_) => const LoadDialog());
                 }),
             MenuOption(
                 text: 'menu_menu'.tr(),

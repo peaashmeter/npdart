@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:npdart/core/singletons/stage.dart';
+import 'package:npdart/core/stage.dart';
 import 'package:npdart/core/verse.dart';
 
 abstract class Character {
+  final Stage stage;
+
   Offset _offset = const Offset(0, 0);
 
   double scale = 1;
@@ -23,15 +25,19 @@ abstract class Character {
 
   Widget widget;
 
-  Character({required this.color, required this.name, required this.widget});
+  Character(
+      {required this.stage,
+      required this.color,
+      required this.name,
+      required this.widget});
 
   Offset get offset => _offset;
 
   enterStage() {
-    Stage().characters.add(this);
+    stage.characters.add(this);
   }
 
-  void leaveScene() {
+  void leaveStage() {
     setWidget(const SizedBox.shrink());
   }
 
@@ -41,10 +47,19 @@ abstract class Character {
 
   void say(String phrase) {
     final verse = Verse(name, phrase, color);
-    Stage().setVerse(verse);
+    stage.setVerse(verse);
   }
 
   void setWidget(Widget newWidget) {
     widget = newWidget;
   }
+}
+
+class Lena extends Character {
+  Lena(Stage stage)
+      : super(
+            stage: stage,
+            color: Colors.red,
+            name: 'Олег',
+            widget: Image.asset('assets/sprites/lena.png'));
 }

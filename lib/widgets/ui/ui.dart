@@ -17,8 +17,10 @@ class UiLayer extends StatelessWidget {
             color: Colors.black.withOpacity(0),
             child: InkWell(
                 onTap: () {
+                  //should pass inherited ones here, as they won't be visible then
                   showDialog(
                       context: context,
+                      useRootNavigator: false,
                       builder: (context) => const MenuDialog());
                 },
                 child: UiBorder(
