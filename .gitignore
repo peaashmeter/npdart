@@ -47,3 +47,5 @@ app.*.map.json
 /windows/
 /android/
 /web/
+
+pubspec.lock
