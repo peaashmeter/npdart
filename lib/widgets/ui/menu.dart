@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:npdart/core/state.dart';
 import 'package:npdart/widgets/ui/border.dart';
 import 'package:npdart/widgets/ui/history.dart';
 import 'package:npdart/widgets/ui/load.dart';
@@ -15,6 +15,7 @@ class MenuDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = InheritedNovelState.of(context).snapshot.preferences;
     return AlertDialog(
       surfaceTintColor: Colors.transparent,
       backgroundColor: Colors.black.withOpacity(0),
@@ -23,7 +24,7 @@ class MenuDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             MenuOption(
-                text: 'menu_history'.tr(),
+                text: prefs.translate('menu_history'),
                 callback: () {
                   Navigator.of(context).pop();
                   showDialog(
@@ -32,7 +33,7 @@ class MenuDialog extends StatelessWidget {
                       builder: (_) => const HistoryDialog());
                 }),
             MenuOption(
-                text: 'menu_save'.tr(),
+                text: prefs.translate('menu_save'),
                 callback: () {
                   Navigator.of(context).pop();
                   showDialog(
@@ -41,7 +42,7 @@ class MenuDialog extends StatelessWidget {
                       useRootNavigator: false);
                 }),
             MenuOption(
-                text: 'menu_load'.tr(),
+                text: prefs.translate('menu_load'),
                 callback: () {
                   Navigator.of(context).pop();
 
@@ -51,7 +52,7 @@ class MenuDialog extends StatelessWidget {
                       builder: (_) => const LoadDialog());
                 }),
             MenuOption(
-                text: 'menu_menu'.tr(),
+                text: prefs.translate('menu_menu'),
                 callback: () {
                   exit(0);
                 }),

@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:npdart/core/save.dart';
 import 'package:npdart/core/state.dart';
 import 'package:npdart/widgets/ui/border.dart';
@@ -23,6 +23,8 @@ class _LoadDialogState extends State<LoadDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = InheritedNovelState.of(context).snapshot.preferences;
+
     return AlertDialog(
         surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.black.withOpacity(0),
@@ -65,7 +67,8 @@ class _LoadDialogState extends State<LoadDialog> {
 
                                       nav.pop();
                                     },
-                                    child: const Text('load_save_button').tr()),
+                                    child: Text(
+                                        prefs.translate('load_save_button'))),
                               ))
                           .toList());
                 }),

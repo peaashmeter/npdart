@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:npdart/core/save.dart';
 import 'package:npdart/core/state.dart';
@@ -12,6 +11,7 @@ class SaveGameDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = TextEditingController(text: _generateSaveName());
+    final prefs = InheritedNovelState.of(context).snapshot.preferences;
 
     return AlertDialog(
       surfaceTintColor: Colors.transparent,
@@ -28,10 +28,10 @@ class SaveGameDialog extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'menu_save_description',
+                      prefs.translate('menu_save_description'),
                       style: Theme.of(context).textTheme.titleLarge,
                       textAlign: TextAlign.start,
-                    ).tr(),
+                    ),
                     Row(
                       children: [
                         Expanded(
@@ -50,7 +50,7 @@ class SaveGameDialog extends StatelessWidget {
                                   snapshot.preferences.savePath);
                               nav.pop();
                             },
-                            child: const Text('menu_save_button').tr())
+                            child: Text(prefs.translate('menu_save_button')))
                       ],
                     ),
                   ],

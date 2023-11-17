@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:example/scenes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,14 +6,18 @@ import 'package:npdart/core/core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await EasyLocalization.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
   final saveData = await getDefaultInitialSaveData();
 
-  runApp(MyApp(
-    saveData: saveData,
+  runApp(EasyLocalization(
+    supportedLocales: const [Locale('en'), Locale('ru')],
+    path: 'assets/translations',
+    child: MyApp(
+      saveData: saveData,
+    ),
   ));
 }
 
@@ -22,11 +27,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'npdart demo',
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      theme: theme,
+      title: 'novel demo',
       home: Novel(
         initialState: saveData,
         tree: Tree(scenes: scenes),
-        preferences: const Preferences(),
+        preferences: Preferences(translate: (s) => s.tr()),
       ),
     );
   }

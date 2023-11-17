@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 ///Глобальные константы, определяющие работу игры.
 class Preferences {
+  static String defaultTranslator(String s) => s;
+
   ///Высота текстового окна. По умолчанию равна 3 сантиметрам в логических пикселях.
   final double textBoxHeight;
 
@@ -20,6 +22,10 @@ class Preferences {
   ///Relative path to the save folder. Root is defined by getApplicationDocumentsDirectory().
   final String savePath;
 
+  ///A callback which translates the engine built-in strings.
+  ///Default to [Preferences.defaultTranslator]
+  final String Function(String) translate;
+
   const Preferences(
       {this.textBoxHeight = 114,
       this.typingDelay = 20,
@@ -34,5 +40,6 @@ class Preferences {
         'left': Offset(-2 / 3, 0.5),
         'right': Offset(2 / 3, 0.5),
       },
-      this.savePath = '/novel/'});
+      this.savePath = '/novel/',
+      this.translate = Preferences.defaultTranslator});
 }
