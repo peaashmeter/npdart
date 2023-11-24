@@ -19,12 +19,58 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> with SingleTickerProviderStateMixin {
+  late Stage stage;
+  late Size size;
+
+  @override
+  void didChangeDependencies() {
+    //create a new stage for each new global state
+    final state = InheritedNovelState.of(context).snapshot;
+    stage = Stage(audio: state.audio);
+    state.tree.getScene(state.sceneId).script(stage, state).then(
+        (snapshot) => NovelStateEvent(snapshot: snapshot).dispatch(context));
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        if (stage.choices.isNotEmpty) return;
+        stage.dispatchEvent(RequestNextEvent());
+      },
+      child: InheritedStage(
+          notifier: stage,
+          child: Navigator(
+              onGenerateRoute: (route) => MaterialPageRoute(
+                    settings: route,
+                    builder: (context) => const Stack(
+                      children: [
+                        BackgroundLayer(),
+                        SpriteLayer(),
+                        OptionLayer(),
+                        TextLayer(),
+                        UiLayer(),
+                      ],
+                    ),
+                  ))),
+    );
+  }
+}
+
+class ParralaxHandler extends StatefulWidget {
+  const ParralaxHandler({super.key});
+
+  @override
+  State<ParralaxHandler> createState() => _ParralaxHandlerState();
+}
+
+class _ParralaxHandlerState extends State<ParralaxHandler>
+    with SingleTickerProviderStateMixin {
   Offset mousePos = Offset.zero;
   late AnimationController fakeMouseController;
   late Animation<double> fakeMouseAnimation;
-
-  late Stage stage;
-  late Size size;
 
   @override
   void initState() {
@@ -48,48 +94,11 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
   }
 
   @override
-  void didChangeDependencies() {
-    //create a new stage for each new global state
-    final state = InheritedNovelState.of(context).snapshot;
-    stage = Stage(audio: state.audio);
-    state.tree.getScene(state.sceneId).script(stage, state).then(
-        (snapshot) => NovelStateEvent(snapshot: snapshot).dispatch(context));
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     mousePos = Offset(size.width * fakeMouseAnimation.value,
         size.height / 2 - sin(pi * fakeMouseAnimation.value) * size.height / 2);
 
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () {
-        if (stage.choices.isNotEmpty) return;
-        stage.dispatchEvent(RequestNextEvent());
-      },
-      child: MouseRegion(
-        opaque: false,
-        child: InheritedMouse(
-          mousePos: mousePos,
-          child: InheritedStage(
-              notifier: stage,
-              child: Navigator(
-                  onGenerateRoute: (route) => MaterialPageRoute(
-                        settings: route,
-                        builder: (context) => const Stack(
-                          children: [
-                            BackgroundLayer(),
-                            SpriteLayer(),
-                            OptionLayer(),
-                            TextLayer(),
-                            UiLayer(),
-                          ],
-                        ),
-                      ))),
-        ),
-      ),
-    );
+    return InheritedMouse(mousePos: mousePos, child: const Game());
   }
 }

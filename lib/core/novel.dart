@@ -47,7 +47,7 @@ class _NovelState extends State<Novel> {
               });
               return true;
             },
-            child:
-                InheritedNovelState(snapshot: snapshot, child: const Game())));
+            child: InheritedNovelState(
+                snapshot: snapshot, child: const ParralaxHandler())));
   }
 }
