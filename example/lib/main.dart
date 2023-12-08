@@ -13,7 +13,8 @@ void main() async {
   final saveData = await getDefaultInitialSaveData();
 
   runApp(EasyLocalization(
-    supportedLocales: const [Locale('en'), Locale('ru')],
+    supportedLocales: const [Locale('ru')],
+    fallbackLocale: const Locale('ru'),
     path: 'assets/translations',
     child: MyApp(
       saveData: saveData,
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
       home: Novel(
         initialState: saveData,
         tree: Tree(scenes: scenes),
-        preferences: Preferences(translate: (s) => s.tr()),
+        preferences: Preferences(translate: (s) => s.tr(), typingDelay: 35),
       ),
     );
   }
@@ -43,7 +44,8 @@ class MyApp extends StatelessWidget {
 
 final theme = ThemeData(
   useMaterial3: true,
-  colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow),
+  colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.yellow, brightness: Brightness.dark),
   fontFamily: 'Marmelad',
   textTheme: TextTheme(
     //Style for choices

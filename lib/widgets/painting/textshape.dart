@@ -45,10 +45,12 @@ class TextShape extends CustomPainter {
       )
       ..close();
 
-    //окошко заголовка
-    final headerBox = _getHeaderPath(width);
-
-    final path = Path.combine(PathOperation.union, textBox, headerBox);
+    var path = textBox;
+    if (_header.isNotEmpty) {
+      //окошко заголовка
+      final headerBox = _getHeaderPath(width);
+      path = Path.combine(PathOperation.union, textBox, headerBox);
+    }
 
     canvas.drawPath(path, fill);
     canvas.drawPath(path, outerStroke);
