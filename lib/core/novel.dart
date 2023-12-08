@@ -42,6 +42,8 @@ class _NovelState extends State<Novel> {
     return Scaffold(
         body: NotificationListener<NovelStateEvent>(
             onNotification: (event) {
+              autosave(SaveData.fromStateSnapshot(snapshot, ''),
+                  event.snapshot.preferences.savePath);
               setState(() {
                 snapshot = event.snapshot;
               });

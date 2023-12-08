@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:audioplayers/audioplayers.dart';
+import 'package:just_audio/just_audio.dart';
 
 ///A class for managing audio-channels.
 class AudioManager {
@@ -10,11 +10,10 @@ class AudioManager {
   playSound(String assetPath, {double volume = 1}) async {
     try {
       final player = AudioPlayer();
-      await player.play(AssetSource(assetPath),
-          volume: volume, mode: PlayerMode.lowLatency);
-      player.onPlayerComplete.listen((event) {
-        player.dispose();
-      });
+      player.setAsset(assetPath);
+      player.setVolume(volume);
+      await player.play();
+      await player.dispose();
     } catch (e) {
       log('[AUDIO] $e', error: e);
     }
@@ -26,14 +25,12 @@ class AudioManager {
       if (_backgroundPlayer != null) {
         await smoothlyStopBackground(const Duration(milliseconds: 1000));
       }
-      _backgroundPlayer = AudioPlayer(
-        playerId: 'background',
-      );
-      await _backgroundPlayer!.play(
-        AssetSource(assetPath),
-        volume: 0.0,
-        mode: PlayerMode.lowLatency,
-      );
+      _backgroundPlayer = AudioPlayer();
+      _backgroundPlayer?.setAsset(assetPath);
+      _backgroundPlayer?.setVolume(0);
+      _backgroundPlayer?.setLoopMode(LoopMode.one);
+      _backgroundPlayer?.play();
+
       await lerpBackroundVolume(volume, const Duration(milliseconds: 1000));
     } catch (e) {
       log('[AUDIO] $e', error: e);
@@ -42,7 +39,7 @@ class AudioManager {
 
   pauseBackgroundSound() => _backgroundPlayer?.pause();
 
-  resumeBackgroundSound() => _backgroundPlayer?.resume();
+  resumeBackgroundSound() => _backgroundPlayer?.play();
 
   setBackroudVolume(double volume) => _backgroundPlayer?.setVolume(volume);
 
@@ -63,7 +60,7 @@ class AudioManager {
     final ticks = time.inSeconds * 20;
 
     Timer.periodic(const Duration(milliseconds: 50), (timer) {
-      if (timer.tick == ticks) {
+      if (timer.tick >= ticks) {
         result.complete();
         timer.cancel();
       }

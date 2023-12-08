@@ -21,7 +21,7 @@ class _TextTypewriterState extends State<TextTypewriter> {
   Verse? verse;
   String displayedText = '';
 
-  late StreamSubscription<String> subscription;
+  StreamSubscription<String>? subscription;
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +68,7 @@ class _TextTypewriterState extends State<TextTypewriter> {
     if (verse == verse_ || verse_ == null) return;
     verse = verse_;
     displayedText = '';
+    subscription?.cancel();
     subscription = _subscribe();
   }
 
@@ -80,7 +81,7 @@ class _TextTypewriterState extends State<TextTypewriter> {
           displayedText += s;
         });
       } else {
-        subscription.cancel();
+        subscription?.cancel();
       }
     });
   }

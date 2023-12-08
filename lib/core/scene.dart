@@ -8,6 +8,6 @@ class Scene {
 
   Scene({
     required this.script,
-    required this.description,
+    this.description,
   });
 }
