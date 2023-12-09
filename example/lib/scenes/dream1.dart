@@ -6,8 +6,10 @@ import 'package:npdart/npdart.dart';
 final nothing = Scene(
   script: (stage, state) async {
     final narrator = Narrator(stage);
+
     await stage.waitForInput();
     narrator.say('ellipsis'.tr());
+    state.audio.playBackgroundSound('assets/ost/dream.mp3');
     await stage.waitForInput();
     narrator.say('dream1'.tr());
     await stage.waitForInput();

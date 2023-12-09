@@ -13,6 +13,8 @@ final dream3Beginning = Scene(
 
     await stage.waitForInput();
     narrator.say('ellipsis'.tr());
+
+    state.audio.playBackgroundSound('assets/ost/dream.mp3');
     await stage.waitForInput();
     narrator.say('dream1'.tr());
     await stage.waitForInput();
@@ -69,6 +71,7 @@ final dream3Snow = Scene(
     final me = Me(stage);
     await stage.waitForInput();
     stage.setBackground(snowfield);
+    state.audio.playBackgroundSound('assets/ost/dream.mp3');
     await stage.waitForInput();
 
     narrator.say('d3s1'.tr());
