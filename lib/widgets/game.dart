@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:npdart/core/event.dart';
 import 'package:npdart/core/mouse.dart';
 import 'package:npdart/core/stage.dart';
@@ -22,6 +23,14 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
   late Stage stage;
   late Size size;
 
+  late final FocusNode focusNode;
+
+  @override
+  void initState() {
+    focusNode = FocusNode();
+    super.initState();
+  }
+
   @override
   void didChangeDependencies() {
     //create a new stage for each new global state
@@ -40,21 +49,30 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
       onTap: () {
         stage.dispatchEvent(RequestNextEvent());
       },
-      child: InheritedStage(
-        notifier: stage,
-        child: Navigator(
-            onGenerateRoute: (route) => MaterialPageRoute(
-                  settings: route,
-                  builder: (context) => const Stack(
-                    children: [
-                      BackgroundLayer(),
-                      SpriteLayer(),
-                      OptionLayer(),
-                      TextLayer(),
-                      UiLayer(),
-                    ],
-                  ),
-                )),
+      child: KeyboardListener(
+        focusNode: focusNode,
+        onKeyEvent: (event) {
+          if (event is KeyDownEvent &&
+              event.logicalKey == LogicalKeyboardKey.space) {
+            stage.dispatchEvent(RequestNextEvent());
+          }
+        },
+        child: InheritedStage(
+          notifier: stage,
+          child: Navigator(
+              onGenerateRoute: (route) => MaterialPageRoute(
+                    settings: route,
+                    builder: (context) => const Stack(
+                      children: [
+                        BackgroundLayer(),
+                        SpriteLayer(),
+                        OptionLayer(),
+                        TextLayer(),
+                        UiLayer(),
+                      ],
+                    ),
+                  )),
+        ),
       ),
     );
   }
