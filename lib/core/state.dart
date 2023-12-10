@@ -30,6 +30,9 @@ class NovelStateSnapshot {
   final Tree tree;
   final Preferences preferences;
 
+  ///Will cause exit from scenes tree if this is true.
+  final bool isTerminator;
+
   ///Should have a reference to the current [AudioManager] here to maintain audio between states.
   final AudioManager audio;
 
@@ -40,6 +43,7 @@ class NovelStateSnapshot {
     required this.tree,
     required this.audio,
     required this.preferences,
+    required this.isTerminator,
   });
 
   NovelStateSnapshot copyWith(
@@ -48,14 +52,16 @@ class NovelStateSnapshot {
           List<Verse>? verseHistory,
           Tree? tree,
           AudioManager? audio,
-          Preferences? preferences}) =>
+          Preferences? preferences,
+          bool? isTerminator}) =>
       NovelStateSnapshot(
           sceneId: sceneId ?? this.sceneId,
           variables: variables ?? this.variables,
           verseHistory: verseHistory ?? this.verseHistory,
           tree: tree ?? this.tree,
           audio: audio ?? this.audio,
-          preferences: preferences ?? this.preferences);
+          preferences: preferences ?? this.preferences,
+          isTerminator: isTerminator ?? this.isTerminator);
 
   Object? getData(String key) => variables[key];
 
@@ -79,4 +85,6 @@ class NovelStateSnapshot {
 
   NovelStateSnapshot updatePreferences(Preferences preferences) =>
       copyWith(preferences: preferences);
+
+  NovelStateSnapshot terminate() => copyWith(isTerminator: true);
 }

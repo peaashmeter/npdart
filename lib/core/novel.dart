@@ -10,11 +10,13 @@ class Novel extends StatefulWidget {
   final SaveData initialState;
   final Tree tree;
   final Preferences preferences;
+  final Function? onExit;
   const Novel(
       {super.key,
       required this.initialState,
       required this.tree,
-      required this.preferences});
+      required this.preferences,
+      this.onExit});
 
   @override
   State<Novel> createState() => _NovelState._();
@@ -28,12 +30,14 @@ class _NovelState extends State<Novel> {
   @override
   void initState() {
     snapshot = NovelStateSnapshot(
-        sceneId: widget.initialState.sceneId,
-        variables: widget.initialState.state,
-        verseHistory: [],
-        audio: AudioManager(),
-        tree: widget.tree,
-        preferences: widget.preferences);
+      sceneId: widget.initialState.sceneId,
+      variables: widget.initialState.state,
+      verseHistory: [],
+      audio: AudioManager(),
+      tree: widget.tree,
+      preferences: widget.preferences,
+      isTerminator: false,
+    );
     super.initState();
   }
 
@@ -42,6 +46,11 @@ class _NovelState extends State<Novel> {
     return Scaffold(
         body: NotificationListener<NovelStateEvent>(
             onNotification: (event) {
+              if (event.snapshot.isTerminator) {
+                widget.onExit?.call();
+                return true;
+              }
+
               autosave(SaveData.fromStateSnapshot(snapshot, ''),
                   event.snapshot.preferences.savePath);
               setState(() {
