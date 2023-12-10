@@ -44,6 +44,11 @@ class Stage with ChangeNotifier {
   bool isFullTextShown = true;
 
   void dispatchEvent(NovelInputEvent event) {
+    if (choices.isNotEmpty) return;
+    if (!isFullTextShown) {
+      isFullTextShown = true;
+      return;
+    }
     _eventStream.add(event);
   }
 

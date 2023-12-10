@@ -93,8 +93,8 @@ Future<List<SaveData>> listSaves(String savePath) async {
 }
 
 ///Returns the most recent save is case if one exists. Otherwise returns a clear state defined by [Savedata.fallback()];
-Future<SaveData> getDefaultInitialSaveData() async {
-  final saves = await listSaves(const Preferences().savePath);
+Future<SaveData> getDefaultInitialSaveData(Preferences preferences) async {
+  final saves = await listSaves(preferences.savePath);
   if (saves.isNotEmpty) {
     return saves.first;
   } else {

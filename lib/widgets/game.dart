@@ -38,12 +38,6 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        if (stage.choices.isNotEmpty) return;
-        if (!stage.isFullTextShown) {
-          stage.isFullTextShown = true;
-          return;
-        }
-
         stage.dispatchEvent(RequestNextEvent());
       },
       child: InheritedStage(

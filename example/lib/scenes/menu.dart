@@ -30,7 +30,7 @@ final menuScene = Scene(script: (stage, state) async {
     return state.loadScene('root');
   }
 
-  final saveData = await getDefaultInitialSaveData();
+  final saveData = await getDefaultInitialSaveData(state.preferences);
   final sceneId = saveData.sceneId;
 
   return state.loadScene(sceneId);

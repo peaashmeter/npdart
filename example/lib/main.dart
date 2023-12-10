@@ -10,41 +10,46 @@ void main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
-  final saveData = await getSaveData();
-
   runApp(EasyLocalization(
     supportedLocales: const [Locale('ru')],
     fallbackLocale: const Locale('ru'),
     path: 'assets/translations',
-    child: MyApp(
-      saveData: saveData,
-    ),
+    child: const OneDay(),
   ));
 }
 
-class MyApp extends StatelessWidget {
-  final SaveData saveData;
-  const MyApp({super.key, required this.saveData});
+class OneDay extends StatelessWidget {
+  const OneDay({
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
+    final prefs = Preferences(
+        translate: (s) => s.tr(), savePath: '/oneday/', typingDelay: 35);
+
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: theme,
       title: 'title'.tr(),
-      home: Novel(
-        initialState: saveData,
-        tree: Tree(scenes: scenes),
-        preferences: Preferences(
-            translate: (s) => s.tr(), savePath: '/oneday/', typingDelay: 35),
+      home: FutureBuilder(
+        future: getSaveData(prefs),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return Container(color: Colors.black);
+
+          return Novel(
+              initialState: snapshot.data!,
+              tree: Tree(scenes: scenes),
+              preferences: prefs);
+        },
       ),
     );
   }
 }
 
-Future<SaveData> getSaveData() async {
-  var saveData = await getDefaultInitialSaveData();
+Future<SaveData> getSaveData(Preferences preferences) async {
+  var saveData = await getDefaultInitialSaveData(preferences);
 
   if (saveData.sceneId == 'menu') {
     saveData = SaveData.fallback();
