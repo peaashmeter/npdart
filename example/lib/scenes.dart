@@ -4,8 +4,10 @@ import 'package:example/scenes/day3.dart';
 import 'package:example/scenes/dream1.dart';
 import 'package:example/scenes/dream2.dart';
 import 'package:example/scenes/dream3.dart';
+import 'package:example/scenes/menu.dart';
 
 final scenes = {
+  'menu': menuScene,
   'root': nothing,
   'planet': planetDream,
   'awakening1': day1Room,

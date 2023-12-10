@@ -10,7 +10,15 @@ void main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
-  final saveData = await getDefaultInitialSaveData();
+  var saveData = await getDefaultInitialSaveData();
+
+  if (saveData.sceneId != 'root') {
+    saveData = SaveData(
+        sceneId: 'menu',
+        description: '',
+        createdAt: DateTime.now(),
+        state: saveData.state);
+  }
 
   runApp(EasyLocalization(
     supportedLocales: const [Locale('ru')],
