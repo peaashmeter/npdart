@@ -64,12 +64,19 @@ class _TextTypewriterState extends State<TextTypewriter> {
   }
 
   void _setup() {
-    final verse_ = InheritedStage.of(context).notifier?.verse;
-    if (verse == verse_ || verse_ == null) return;
+    final stage = InheritedStage.of(context).notifier!;
+    final verse_ = stage.verse;
+    if (verse == verse_ || verse_ == null) {
+      stage.isFullTextShown = true;
+      return;
+    }
     verse = verse_;
     displayedText = '';
     subscription?.cancel();
     subscription = _subscribe();
+    subscription?.onDone(() {
+      stage.isFullTextShown = true;
+    });
   }
 
   StreamSubscription<String> _subscribe() {
@@ -77,6 +84,13 @@ class _TextTypewriterState extends State<TextTypewriter> {
         InheritedNovelState.of(context).snapshot.preferences.typingDelay;
     return typeStream(milliseconds).listen((s) {
       if (mounted) {
+        if (InheritedStage.of(context).notifier!.isFullTextShown) {
+          subscription?.cancel();
+          setState(() {
+            displayedText = verse!.string;
+          });
+          return;
+        }
         setState(() {
           displayedText += s;
         });

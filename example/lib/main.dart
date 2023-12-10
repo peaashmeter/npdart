@@ -10,15 +10,7 @@ void main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
-  var saveData = await getDefaultInitialSaveData();
-
-  if (saveData.sceneId != 'root') {
-    saveData = SaveData(
-        sceneId: 'menu',
-        description: '',
-        createdAt: DateTime.now(),
-        state: saveData.state);
-  }
+  final saveData = await getSaveData();
 
   runApp(EasyLocalization(
     supportedLocales: const [Locale('ru')],
@@ -49,6 +41,21 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<SaveData> getSaveData() async {
+  var saveData = await getDefaultInitialSaveData();
+
+  if (saveData.sceneId == 'menu') {
+    saveData = SaveData.fallback();
+  } else if (saveData.sceneId != 'root') {
+    saveData = SaveData(
+        sceneId: 'menu',
+        description: '',
+        createdAt: DateTime.now(),
+        state: saveData.state);
+  }
+  return saveData;
 }
 
 final theme = ThemeData(

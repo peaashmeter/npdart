@@ -39,6 +39,10 @@ class Stage with ChangeNotifier {
 
   Verse? get verse => _verse;
 
+  /// When verse is still being typed,
+  /// we should show full text instead of changing scenes.
+  bool isFullTextShown = true;
+
   void dispatchEvent(NovelInputEvent event) {
     _eventStream.add(event);
   }
@@ -52,6 +56,9 @@ class Stage with ChangeNotifier {
 
     if (verse != null) {
       verseHistory.add(verse);
+      isFullTextShown = false;
+    } else {
+      isFullTextShown = true;
     }
   }
 

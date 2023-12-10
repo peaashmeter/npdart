@@ -29,6 +29,7 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
     stage = Stage(audio: state.audio);
     state.tree.getScene(state.sceneId).script(stage, state).then(
         (snapshot) => NovelStateEvent(snapshot: snapshot).dispatch(context));
+
     super.didChangeDependencies();
   }
 
@@ -38,23 +39,29 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
       behavior: HitTestBehavior.translucent,
       onTap: () {
         if (stage.choices.isNotEmpty) return;
+        if (!stage.isFullTextShown) {
+          stage.isFullTextShown = true;
+          return;
+        }
+
         stage.dispatchEvent(RequestNextEvent());
       },
       child: InheritedStage(
-          notifier: stage,
-          child: Navigator(
-              onGenerateRoute: (route) => MaterialPageRoute(
-                    settings: route,
-                    builder: (context) => const Stack(
-                      children: [
-                        BackgroundLayer(),
-                        SpriteLayer(),
-                        OptionLayer(),
-                        TextLayer(),
-                        UiLayer(),
-                      ],
-                    ),
-                  ))),
+        notifier: stage,
+        child: Navigator(
+            onGenerateRoute: (route) => MaterialPageRoute(
+                  settings: route,
+                  builder: (context) => const Stack(
+                    children: [
+                      BackgroundLayer(),
+                      SpriteLayer(),
+                      OptionLayer(),
+                      TextLayer(),
+                      UiLayer(),
+                    ],
+                  ),
+                )),
+      ),
     );
   }
 }
