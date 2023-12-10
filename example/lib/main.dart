@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: theme,
-      title: 'novel demo',
+      title: 'title'.tr(),
       home: Novel(
         initialState: saveData,
         tree: Tree(scenes: scenes),

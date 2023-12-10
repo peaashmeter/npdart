@@ -11,6 +11,7 @@ final nothing = Scene(
     narrator.say('ellipsis'.tr());
     state.audio.playBackgroundSound('assets/ost/dream.mp3');
     await stage.waitForInput();
+
     narrator.say('dream1'.tr());
     await stage.waitForInput();
     narrator.say('dream2'.tr());
@@ -44,6 +45,7 @@ final planetDream = Scene(script: (stage, state) async {
   stage.setBackground(planet);
 
   final narrator = Narrator(stage);
+  state.audio.playBackgroundSound('assets/ost/dream.mp3');
   narrator.say('d1s1'.tr());
   await stage.waitForInput();
   narrator.say('d1s2'.tr());
@@ -72,7 +74,7 @@ final planetDream = Scene(script: (stage, state) async {
   narrator.say('d1s12'.tr());
   await stage.waitForInput();
   narrator.say('ellipsis'.tr());
-  state.audio.playSound('assets/sounds/drill.mp3', volume: 0.5);
+  state.audio.playSound('assets/sounds/drill.mp3', volume: 0.33);
   await stage.waitForInput();
   narrator.say('eyes_opened'.tr());
   await stage.waitForInput();
