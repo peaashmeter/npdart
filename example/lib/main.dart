@@ -44,7 +44,8 @@ class MyApp extends StatelessWidget {
       home: Novel(
         initialState: saveData,
         tree: Tree(scenes: scenes),
-        preferences: Preferences(translate: (s) => s.tr(), typingDelay: 35),
+        preferences: Preferences(
+            translate: (s) => s.tr(), savePath: '/oneday/', typingDelay: 35),
       ),
     );
   }
