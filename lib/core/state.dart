@@ -4,12 +4,6 @@ import 'package:npdart/core/preferences.dart';
 import 'package:npdart/core/tree.dart';
 import 'package:npdart/core/verse.dart';
 
-class NovelStateEvent extends Notification {
-  final NovelStateSnapshot snapshot;
-
-  NovelStateEvent({required this.snapshot});
-}
-
 class InheritedNovelState extends InheritedWidget {
   final NovelStateSnapshot snapshot;
   const InheritedNovelState(
@@ -23,6 +17,12 @@ class InheritedNovelState extends InheritedWidget {
       context.dependOnInheritedWidgetOfExactType<InheritedNovelState>()!;
 }
 
+class NovelStateEvent extends Notification {
+  final NovelStateSnapshot snapshot;
+
+  NovelStateEvent({required this.snapshot});
+}
+
 class NovelStateSnapshot {
   final List<Verse> verseHistory;
   final String sceneId;
@@ -33,18 +33,21 @@ class NovelStateSnapshot {
   ///Will cause exit from scenes tree if this is true.
   final bool isTerminator;
 
+  ///Will not affect autosaving if this is false.
+  final bool shouldAutosave;
+
   ///Should have a reference to the current [AudioManager] here to maintain audio between states.
   final AudioManager audio;
 
-  NovelStateSnapshot({
-    required this.sceneId,
-    required this.variables,
-    required this.verseHistory,
-    required this.tree,
-    required this.audio,
-    required this.preferences,
-    required this.isTerminator,
-  });
+  NovelStateSnapshot(
+      {required this.sceneId,
+      required this.variables,
+      required this.verseHistory,
+      required this.tree,
+      required this.audio,
+      required this.preferences,
+      this.isTerminator = false,
+      this.shouldAutosave = true});
 
   NovelStateSnapshot copyWith(
           {String? sceneId,
@@ -53,17 +56,30 @@ class NovelStateSnapshot {
           Tree? tree,
           AudioManager? audio,
           Preferences? preferences,
-          bool? isTerminator}) =>
+          bool? isTerminator,
+          bool? shouldAutosave}) =>
       NovelStateSnapshot(
-          sceneId: sceneId ?? this.sceneId,
-          variables: variables ?? this.variables,
-          verseHistory: verseHistory ?? this.verseHistory,
-          tree: tree ?? this.tree,
-          audio: audio ?? this.audio,
-          preferences: preferences ?? this.preferences,
-          isTerminator: isTerminator ?? this.isTerminator);
+        sceneId: sceneId ?? this.sceneId,
+        variables: variables ?? this.variables,
+        verseHistory: verseHistory ?? this.verseHistory,
+        tree: tree ?? this.tree,
+        audio: audio ?? this.audio,
+        preferences: preferences ?? this.preferences,
+        isTerminator: isTerminator ?? this.isTerminator,
+        shouldAutosave: shouldAutosave ?? this.shouldAutosave,
+      );
+
+  ///Makes this [NovelStateSnapshot] not affect the saves.
+  NovelStateSnapshot doNotSave() => copyWith(shouldAutosave: false);
 
   Object? getData(String key) => variables[key];
+
+  ///Seeks a scene with [sceneId] in the [Tree], then makes it the next one.
+  NovelStateSnapshot loadScene(String sceneId) => copyWith(sceneId: sceneId);
+
+  ///Adds all the verses from current scene to the history log.
+  NovelStateSnapshot logVerses(List<Verse> verses) =>
+      copyWith(verseHistory: List.from(verseHistory..addAll(verses)));
 
   NovelStateSnapshot removeData(String key) {
     final copy = Map<String, dynamic>.from(variables);
@@ -78,13 +94,11 @@ class NovelStateSnapshot {
     return copyWith(variables: copy);
   }
 
-  NovelStateSnapshot logVerses(List<Verse> verses) =>
-      copyWith(verseHistory: List.from(verseHistory..addAll(verses)));
+  ///Makes this [NovelStateSnapshot] a terminator.
+  ///It will cause the novel to call onExit() callback.
+  NovelStateSnapshot terminate() => copyWith(isTerminator: true);
 
-  NovelStateSnapshot loadScene(String sceneId) => copyWith(sceneId: sceneId);
-
+  ///Updates [Preferences] according to the provided changes.
   NovelStateSnapshot updatePreferences(Preferences preferences) =>
       copyWith(preferences: preferences);
-
-  NovelStateSnapshot terminate() => copyWith(isTerminator: true);
 }

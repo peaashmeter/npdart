@@ -50,9 +50,11 @@ class _NovelState extends State<Novel> {
                 widget.onExit?.call();
                 return true;
               }
+              if (event.snapshot.shouldAutosave) {
+                autosave(SaveData.fromStateSnapshot(event.snapshot, ''),
+                    event.snapshot.preferences.savePath);
+              }
 
-              autosave(SaveData.fromStateSnapshot(snapshot, ''),
-                  event.snapshot.preferences.savePath);
               setState(() {
                 snapshot = event.snapshot;
               });

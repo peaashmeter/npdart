@@ -37,13 +37,13 @@ final menuScene = Scene(script: (stage, state) async {
   await stage.waitForInput();
 
   if (choice == MenuOptions.newGame) {
-    return state.loadScene('root');
+    return state.loadScene('root').doNotSave();
   } else if (choice == MenuOptions.support) {
-    return state.loadScene('menu');
+    return state.loadScene('menu').doNotSave();
   }
 
   final saveData = await getDefaultInitialSaveData(state.preferences);
   final sceneId = saveData.sceneId;
 
-  return state.loadScene(sceneId);
+  return state.loadScene(sceneId).doNotSave();
 });
