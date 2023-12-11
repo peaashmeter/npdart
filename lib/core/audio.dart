@@ -12,8 +12,12 @@ class AudioManager {
       final player = AudioPlayer();
       player.setAsset(assetPath);
       player.setVolume(volume);
-      await player.play();
-      await player.dispose();
+      player.play();
+      player.playerStateStream.listen((event) {
+        if (event.processingState == ProcessingState.completed) {
+          player.dispose();
+        }
+      });
     } catch (e) {
       log('[AUDIO] $e', error: e);
     }

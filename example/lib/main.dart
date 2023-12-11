@@ -97,7 +97,8 @@ final theme = ThemeData(
           ),
         ]),
     //style for dialog strings
-    titleLarge: TextStyle(color: Colors.yellow.shade100, shadows: const [
+    titleLarge:
+        TextStyle(color: Colors.yellow.shade100, fontSize: 16, shadows: const [
       Shadow(
         blurRadius: 2,
         offset: Offset(2, 2),

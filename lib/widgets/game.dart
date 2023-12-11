@@ -83,8 +83,8 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
                       children: [
                         BackgroundLayer(),
                         SpriteLayer(),
-                        OptionLayer(),
                         TextLayer(),
+                        OptionLayer(),
                         UiLayer(),
                       ],
                     ),

@@ -74,7 +74,7 @@ final planetDream = Scene(script: (stage, state) async {
   narrator.say('d1s12'.tr());
   await stage.waitForInput();
   narrator.say('ellipsis'.tr());
-  state.audio.playSound('assets/sounds/drill.m4a', volume: 0.33);
+  state.audio.playSound('assets/sounds/drill.wav', volume: 0.2);
   await stage.waitForInput();
   narrator.say('eyes_opened'.tr());
   await stage.waitForInput();
