@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -45,6 +46,8 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    //do not affect the bgm while running on desktop.
+    if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) return;
     if (state == AppLifecycleState.resumed) {
       stage.audio.resumeBackgroundSound();
     } else {
