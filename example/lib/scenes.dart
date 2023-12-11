@@ -1,10 +1,10 @@
-import 'package:example/scenes/day1.dart';
-import 'package:example/scenes/day2.dart';
-import 'package:example/scenes/day3.dart';
-import 'package:example/scenes/dream1.dart';
-import 'package:example/scenes/dream2.dart';
-import 'package:example/scenes/dream3.dart';
-import 'package:example/scenes/menu.dart';
+import 'package:oneday/scenes/day1.dart';
+import 'package:oneday/scenes/day2.dart';
+import 'package:oneday/scenes/day3.dart';
+import 'package:oneday/scenes/dream1.dart';
+import 'package:oneday/scenes/dream2.dart';
+import 'package:oneday/scenes/dream3.dart';
+import 'package:oneday/scenes/menu.dart';
 
 final scenes = {
   'menu': menuScene,

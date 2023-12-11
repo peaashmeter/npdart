@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:example/characters.dart';
+import 'package:oneday/characters.dart';
 import 'package:flutter/material.dart';
 import 'package:npdart/npdart.dart';
 
