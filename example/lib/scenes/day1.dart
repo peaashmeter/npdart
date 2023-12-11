@@ -48,7 +48,7 @@ final day1Kitchen1 = Scene(script: (stage, state) async {
   await stage.waitForInput();
   narrator.say('awakening5'.tr());
   await stage.waitForInput();
-  state.audio.playSound('assets/sounds/rampage.mp3', volume: 0.2);
+  state.audio.playSound('assets/sounds/rampage.m4a', volume: 0.2);
   await stage.waitForInput();
   narrator.say('awakening6'.tr());
   await stage.waitForInput();

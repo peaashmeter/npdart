@@ -9,6 +9,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
   runApp(EasyLocalization(
     supportedLocales: const [Locale('ru')],
@@ -32,7 +33,7 @@ class OneDay extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: theme,
-      title: 'title'.tr(),
+      title: 'One Day',
       home: FutureBuilder(
         future: getSaveData(prefs),
         builder: (context, snapshot) {

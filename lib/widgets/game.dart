@@ -19,7 +19,7 @@ class Game extends StatefulWidget {
   State<Game> createState() => _GameState();
 }
 
-class _GameState extends State<Game> with SingleTickerProviderStateMixin {
+class _GameState extends State<Game> with WidgetsBindingObserver {
   late Stage stage;
   late Size size;
 
@@ -28,6 +28,7 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     focusNode = FocusNode();
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
@@ -40,6 +41,22 @@ class _GameState extends State<Game> with SingleTickerProviderStateMixin {
         (snapshot) => NovelStateEvent(snapshot: snapshot).dispatch(context));
 
     super.didChangeDependencies();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      stage.audio.resumeBackgroundSound();
+    } else {
+      stage.audio.pauseBackgroundSound();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    stage.audio.smoothlyStopBackground(const Duration(seconds: 1));
+    super.dispose();
   }
 
   @override
