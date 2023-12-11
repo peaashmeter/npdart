@@ -172,6 +172,7 @@ final day2ShawarmaStore = Scene(script: (stage, state) async {
   aldiyar.say('shawarma_d2_question'.tr());
   await stage.waitForInput();
 
+  stage.setVerse(null);
   var spicyCounter = state.getData('spicyCounter');
 
   stage.showChoices({
@@ -198,7 +199,6 @@ final day2ShawarmaStore = Scene(script: (stage, state) async {
         }),
   });
 
-  await stage.waitForInput();
   await stage.waitForInput();
 
   me.say('shawarma_d2_sad'.tr());

@@ -56,7 +56,8 @@ class _NovelState extends State<Novel> {
               }
 
               setState(() {
-                snapshot = event.snapshot;
+                snapshot = event.snapshot
+                    .copyWith(shouldAutosave: true, isTerminator: false);
               });
               return true;
             },

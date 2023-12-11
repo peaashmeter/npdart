@@ -115,6 +115,7 @@ final day1ShawarmaStore = Scene(script: (stage, state) async {
   aldiyar.say('shawarma_d1'.tr());
   await stage.waitForInput();
 
+  stage.setVerse(null);
   int spicyCounter = 0;
 
   stage.showChoices({
@@ -139,7 +140,6 @@ final day1ShawarmaStore = Scene(script: (stage, state) async {
         }),
   });
 
-  await stage.waitForInput();
   await stage.waitForInput();
 
   aldiyar.say('shawarma_d1_sad'.tr());

@@ -98,6 +98,8 @@ final day3Shawarma = Scene(script: (stage, state) async {
     aldiyar.say('shawarma_d3_alexey2'.tr());
     await stage.waitForInput();
 
+    stage.setVerse(null);
+
     bool trueEnding = false;
 
     stage.showChoices({

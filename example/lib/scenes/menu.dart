@@ -17,6 +17,7 @@ final menuScene = Scene(script: (stage, state) async {
   narrator.say('menu_verse'.tr());
 
   await stage.waitForInput();
+  stage.setVerse(null);
   var choice = MenuOptions.lastSave;
 
   stage.showChoices({

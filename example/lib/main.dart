@@ -88,11 +88,11 @@ final theme = ThemeData(
       ),
     ]),
     //style for headers
-    headlineSmall: const TextStyle(
+    headlineSmall: TextStyle(
         color: Colors.white,
-        fontSize: 20,
+        fontSize: Platform.isAndroid || Platform.isIOS ? 16 : 20,
         fontWeight: FontWeight.bold,
-        shadows: [
+        shadows: const [
           Shadow(
             blurRadius: 2,
             offset: Offset(2, 2),

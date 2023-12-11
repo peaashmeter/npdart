@@ -70,8 +70,11 @@ class NovelStateSnapshot {
       );
 
   ///Makes this [NovelStateSnapshot] not affect the saves.
+  ///This behavior will not persist through the next states.
   NovelStateSnapshot doNotSave() => copyWith(shouldAutosave: false);
 
+  ///Return a data binded with a [key] from the global state if such a [key] exists.
+  ///Otherwise returns null.
   Object? getData(String key) => variables[key];
 
   ///Seeks a scene with [sceneId] in the [Tree], then makes it the next one.
