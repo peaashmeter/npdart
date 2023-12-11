@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:example/scenes.dart';
 import 'package:flutter/material.dart';
@@ -97,12 +99,14 @@ final theme = ThemeData(
           ),
         ]),
     //style for dialog strings
-    titleLarge:
-        TextStyle(color: Colors.yellow.shade100, fontSize: 16, shadows: const [
-      Shadow(
-        blurRadius: 2,
-        offset: Offset(2, 2),
-      ),
-    ]),
+    titleLarge: TextStyle(
+        color: Colors.yellow.shade100,
+        fontSize: Platform.isAndroid || Platform.isIOS ? 16 : null,
+        shadows: const [
+          Shadow(
+            blurRadius: 2,
+            offset: Offset(2, 2),
+          ),
+        ]),
   ),
 );
