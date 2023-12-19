@@ -42,4 +42,20 @@ class Preferences {
       },
       this.savePath = '/novel/',
       this.translate = Preferences.defaultTranslator});
+
+  Preferences copyWith({
+    double? textBoxHeight,
+    int? typingDelay,
+    double? backgroundParallax,
+    Map<String, Offset>? spritePositions,
+    String? savePath,
+    String Function(String)? translate,
+  }) =>
+      Preferences(
+          textBoxHeight: textBoxHeight ?? this.textBoxHeight,
+          typingDelay: typingDelay ?? this.typingDelay,
+          backgroundParallax: backgroundParallax ?? this.backgroundParallax,
+          spritePositions: spritePositions ?? this.spritePositions,
+          savePath: savePath ?? this.savePath,
+          translate: translate ?? this.translate);
 }
