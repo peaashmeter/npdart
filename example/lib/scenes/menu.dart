@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:npdart/core/event.dart';
 import 'package:oneday/characters.dart';
 import 'package:flutter/material.dart';
 import 'package:npdart/npdart.dart';
@@ -18,28 +19,23 @@ final menuScene = Scene(script: (stage, state) async {
 
   await stage.waitForInput();
   stage.setVerse(null);
-  var choice = MenuOptions.lastSave;
 
   stage.showChoices({
-    Choice(
-        label: 'new_game'.tr(),
-        callback: () {
-          choice = MenuOptions.newGame;
-        }),
-    Choice(label: 'continue'.tr(), callback: () {}),
+    Choice(label: 'new_game'.tr(), callback: () => MenuOptions.newGame),
+    Choice(label: 'continue'.tr(), callback: () => MenuOptions.lastSave),
     Choice(
         label: 'support'.tr(),
         callback: () {
           launchUrl(Uri.parse('https://boosty.to/peaashmeter'));
-          choice = MenuOptions.support;
+          return MenuOptions.support;
         }),
   });
 
-  await stage.waitForInput();
+  final result = ((await stage.waitForInput()) as DialogOptionEvent).result;
 
-  if (choice == MenuOptions.newGame) {
+  if (result == MenuOptions.newGame) {
     return state.loadScene('root').doNotSave();
-  } else if (choice == MenuOptions.support) {
+  } else if (result == MenuOptions.support) {
     return state.loadScene('menu').doNotSave();
   }
 

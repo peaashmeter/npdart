@@ -44,11 +44,19 @@ class Stage with ChangeNotifier {
   bool isFullTextShown = true;
 
   void dispatchEvent(NovelInputEvent event) {
-    if (choices.isNotEmpty) return;
-    if (!isFullTextShown) {
-      isFullTextShown = true;
-      return;
+    switch (event) {
+      case RequestNextEvent():
+        if (!isFullTextShown) {
+          isFullTextShown = true;
+          return;
+        }
+        if (choices.isNotEmpty) return;
+        break;
+      case DialogOptionEvent():
+        _choices.clear();
+        break;
     }
+
     _eventStream.add(event);
   }
 
@@ -72,7 +80,8 @@ class Stage with ChangeNotifier {
     _choices.addAll(choices);
   }
 
-  ///Rebuilds the stage according to provided changes, then waits for user input (usually screen tap)
+  ///Rebuilds the stage according to provided changes, then waits for user input (usually screen tap).
+  ///If the user input is a choice, returns a [DialogOptionEvent] so you can read the result.
   Future<NovelInputEvent> waitForInput() async {
     notifyListeners();
 

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:npdart/core/event.dart';
 import 'package:oneday/characters.dart';
 import 'package:flutter/material.dart';
 import 'package:npdart/npdart.dart';
@@ -121,26 +122,27 @@ final day1ShawarmaStore = Scene(script: (stage, state) async {
   stage.showChoices({
     Choice(
         label: 'shawarma_d1_choice1'.tr(),
-        callback: () async {
-          narrator.say('shawarma_d1_choice1_reaction'.tr());
-          await stage.waitForInput();
-        }),
+        callback: () => () async {
+              narrator.say('shawarma_d1_choice1_reaction'.tr());
+              await stage.waitForInput();
+            }),
     Choice(
         label: 'shawarma_d1_choice2'.tr(),
-        callback: () async {
-          narrator.say('shawarma_d1_choice2_reaction'.tr());
-          await stage.waitForInput();
-        }),
+        callback: () => () async {
+              narrator.say('shawarma_d1_choice2_reaction'.tr());
+              await stage.waitForInput();
+            }),
     Choice(
         label: 'shawarma_d1_choice3'.tr(),
-        callback: () async {
-          narrator.say('shawarma_d1_choice3_reaction'.tr());
-          spicyCounter = 1;
-          await stage.waitForInput();
-        }),
+        callback: () => () async {
+              narrator.say('shawarma_d1_choice3_reaction'.tr());
+              spicyCounter = 1;
+              await stage.waitForInput();
+            }),
   });
 
-  await stage.waitForInput();
+  final event = await stage.waitForInput() as DialogOptionEvent;
+  await event.result();
 
   aldiyar.say('shawarma_d1_sad'.tr());
   await stage.waitForInput();

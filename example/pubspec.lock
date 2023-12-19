@@ -304,10 +304,9 @@ packages:
   npdart:
     dependency: "direct main"
     description:
-      name: npdart
-      sha256: "95c4bba9237f0d474b3d4b18a5583c3c5dcbdfba3ac98a516d075a4536c490d2"
-      url: "https://pub.dev"
-    source: hosted
+      path: ".."
+      relative: true
+    source: path
     version: "0.1.0"
   path:
     dependency: transitive

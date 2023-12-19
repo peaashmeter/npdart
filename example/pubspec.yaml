@@ -33,7 +33,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  npdart: 0.1.0
+  npdart:
+    path: '../'
   url_launcher: ^6.2.2
 
 dev_dependencies:

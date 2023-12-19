@@ -240,7 +240,7 @@ final foxEnding = Scene(script: (stage, state) async {
   me.say('fox_ending4'.tr());
   await stage.waitForInput();
 
-  me.say('fox_ending5'.tr());
+  narrator.say('fox_ending5'.tr());
   await stage.waitForInput();
 
   narrator.say('fox_ending6'.tr());

@@ -65,10 +65,10 @@ class _OptionContainerState extends State<OptionContainer> {
           type: MaterialType.transparency,
           child: InkWell(
             onTap: () {
-              widget.callback();
-              InheritedStage.of(context).notifier!
-                ..showChoices({})
-                ..dispatchEvent(DialogOptionEvent());
+              final result = widget.callback();
+              InheritedStage.of(context)
+                  .notifier!
+                  .dispatchEvent(DialogOptionEvent(result: result));
             },
             child: Ink(
               decoration: BoxDecoration(
