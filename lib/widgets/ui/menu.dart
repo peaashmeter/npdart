@@ -20,43 +20,44 @@ class MenuDialog extends StatelessWidget {
       surfaceTintColor: Colors.transparent,
       backgroundColor: Colors.black.withOpacity(0),
       content: UiBorder(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            MenuOption(
-                text: prefs.translate('menu_history'),
-                callback: () {
-                  Navigator.of(context).pop();
-                  showDialog(
-                      useRootNavigator: false,
-                      context: context,
-                      builder: (_) => const HistoryDialog());
-                }),
-            MenuOption(
-                text: prefs.translate('menu_save'),
-                callback: () {
-                  Navigator.of(context).pop();
-                  showDialog(
-                      context: context,
-                      builder: (_) => const SaveGameDialog(),
-                      useRootNavigator: false);
-                }),
-            MenuOption(
-                text: prefs.translate('menu_load'),
-                callback: () {
-                  Navigator.of(context).pop();
-
-                  showDialog(
-                      useRootNavigator: false,
-                      context: context,
-                      builder: (_) => const LoadDialog());
-                }),
-            MenuOption(
-                text: prefs.translate('menu_menu'),
-                callback: () {
-                  exit(0);
-                }),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              MenuOption(
+                  text: prefs.translate('menu_history'),
+                  callback: () {
+                    Navigator.of(context).pop();
+                    showDialog(
+                        useRootNavigator: false,
+                        context: context,
+                        builder: (_) => const HistoryDialog());
+                  }),
+              MenuOption(
+                  text: prefs.translate('menu_save'),
+                  callback: () {
+                    Navigator.of(context).pop();
+                    showDialog(
+                        context: context,
+                        builder: (_) => const SaveGameDialog(),
+                        useRootNavigator: false);
+                  }),
+              MenuOption(
+                  text: prefs.translate('menu_load'),
+                  callback: () {
+                    Navigator.of(context).pop();
+                    showDialog(
+                        useRootNavigator: false,
+                        context: context,
+                        builder: (_) => const LoadDialog());
+                  }),
+              MenuOption(
+                  text: prefs.translate('menu_menu'),
+                  callback: () {
+                    exit(0);
+                  }),
+            ],
+          ),
         ),
       ),
     );
