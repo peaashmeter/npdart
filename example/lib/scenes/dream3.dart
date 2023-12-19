@@ -192,7 +192,7 @@ final dream3FoxDialog = Scene(script: (stage, state) async {
     return state
         .logVerses(stage.verseHistory)
         .loadScene('fox_ending')
-        .updatePreferences(const Preferences(typingDelay: 70));
+        .updatePreferences(state.preferences.copyWith(typingDelay: 70));
   }
 
   narrator.say('d3s23'.tr());
@@ -249,7 +249,7 @@ final foxEnding = Scene(script: (stage, state) async {
   return state
       .logVerses(stage.verseHistory)
       .loadScene('fox_ending_comment')
-      .updatePreferences(const Preferences(typingDelay: 35));
+      .updatePreferences(state.preferences.copyWith(typingDelay: 35));
 });
 
 final foxEndingComment = Scene(script: (stage, state) async {
