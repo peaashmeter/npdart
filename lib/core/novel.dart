@@ -4,8 +4,9 @@ import 'package:npdart/core/save.dart';
 import 'package:npdart/core/preferences.dart';
 import 'package:npdart/core/tree.dart';
 import 'package:npdart/core/state.dart';
-import 'package:npdart/widgets/game.dart';
+import 'package:npdart/widgets/parallax.dart';
 
+///An entry point of the visual novel.
 class Novel extends StatefulWidget {
   final SaveData initialState;
   final Tree tree;
