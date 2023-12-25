@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:npdart/core/state.dart';
+import 'package:npdart/widgets/ui/autoskip.dart';
 import 'package:npdart/widgets/ui/border.dart';
 import 'package:npdart/widgets/ui/history.dart';
 import 'package:npdart/widgets/ui/load.dart';
@@ -32,6 +33,16 @@ class MenuDialog extends StatelessWidget {
                         useRootNavigator: false,
                         context: context,
                         builder: (_) => const HistoryDialog());
+                  }),
+              MenuOption(
+                  text: prefs.translate('menu_skip'),
+                  callback: () {
+                    Navigator.of(context).pop();
+                    showDialog(
+                        barrierColor: Colors.transparent,
+                        useRootNavigator: false,
+                        context: context,
+                        builder: (_) => const AutoskipDialog());
                   }),
               MenuOption(
                   text: prefs.translate('menu_save'),

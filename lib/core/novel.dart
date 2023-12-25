@@ -55,10 +55,17 @@ class _NovelState extends State<Novel> {
                 autosave(SaveData.fromStateSnapshot(event.snapshot, ''),
                     event.snapshot.preferences.savePath);
               }
+              if (event.snapshot.isSkippable &&
+                  event.snapshot.lastScene != null) {
+                markSceneAsVisited(event.snapshot.lastScene!,
+                    event.snapshot.preferences.savePath);
+              }
 
               setState(() {
-                snapshot = event.snapshot
-                    .copyWith(shouldAutosave: true, isTerminator: false);
+                snapshot = event.snapshot.copyWith(
+                    shouldAutosave: true,
+                    isTerminator: false,
+                    isSkippable: true);
               });
               return true;
             },

@@ -84,7 +84,7 @@ class AudioManager {
         timer.cancel();
       }
       final v = start + delta * timer.tick / ticks;
-      _backgroundPlayer!.setVolume(v);
+      _backgroundPlayer?.setVolume(v);
     });
 
     return result.future;

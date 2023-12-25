@@ -31,10 +31,7 @@ class SaveData {
             state: snapshot.variables);
 }
 
-class SaveFileCorruptedException implements Exception {}
-
-class SaveFileNotFoundException implements Exception {}
-
+///Creates a save and writes it to the unique file.
 Future<void> autosave(SaveData saveData, String savePath) async {
   final savePath_ = await _getAutoSavePath(savePath);
   final saveFile = await File(savePath_).create(recursive: true);
@@ -100,4 +97,36 @@ Future<SaveData> getDefaultInitialSaveData(Preferences preferences) async {
   } else {
     return SaveData.fallback();
   }
+}
+
+Future<String> _getVisitedScenesPath(String savePath) async =>
+    '${(await getApplicationDocumentsDirectory()).path}${savePath}visited.json';
+
+Future<void> markSceneAsVisited(String sceneId, String savePath) async {
+  final path = await _getVisitedScenesPath(savePath);
+  final file = await File(path).create(recursive: true);
+
+  final contents = await file.readAsString();
+
+  late final Set<String> visitedScenes;
+  if (contents.isNotEmpty) {
+    visitedScenes = Set<String>.from(jsonDecode(contents));
+  } else {
+    visitedScenes = {};
+  }
+
+  visitedScenes.add(sceneId);
+  final json = jsonEncode(visitedScenes.toList());
+  await file.writeAsString(json);
+}
+
+Future<Set<String>> getVisitedScenes(String savePath) async {
+  final path = await _getVisitedScenesPath(savePath);
+  final file = await File(path).create(recursive: true);
+
+  final contents = await file.readAsString();
+  if (contents.isNotEmpty) {
+    return Set<String>.from(jsonDecode(contents));
+  }
+  return {};
 }
