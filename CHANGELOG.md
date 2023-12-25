@@ -1,3 +1,9 @@
+## 0.2.0
+* Autoskip
+* Improved UI on mobile
+* Choice system rework
+* Fixed a bug related to preferences copying
+
 ## 0.1.0
 Initial release featuring:
 * Global and local game state management
