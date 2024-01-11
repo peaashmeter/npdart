@@ -1,3 +1,6 @@
+## 0.2.1
+* Added audio support for Linux (untested)
+
 ## 0.2.0
 * Autoskip
 * Improved UI on mobile
