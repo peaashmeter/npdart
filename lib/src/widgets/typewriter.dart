@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:npdart/core/stage.dart';
-import 'package:npdart/core/state.dart';
-import 'package:npdart/core/verse.dart';
-import 'package:npdart/widgets/painting/textpainter.dart';
+import 'package:npdart/src/core/stage.dart';
+import 'package:npdart/src/core/state.dart';
+import 'package:npdart/src/core/verse.dart';
+import 'package:npdart/src/widgets/painting/textpainter.dart';
 
 ///Отрисовка текста побуквенно
 class TextTypewriter extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
-import 'package:npdart/core/mouse.dart';
-import 'package:npdart/widgets/game.dart';
+import 'package:npdart/src/core/mouse.dart';
+import 'package:npdart/src/widgets/game.dart';
 
 class ParralaxHandler extends StatefulWidget {
   const ParralaxHandler({super.key});

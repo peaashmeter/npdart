@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:npdart/core/stage.dart';
-import 'package:npdart/core/state.dart';
-import 'package:npdart/widgets/painting/textshape.dart';
-import 'package:npdart/widgets/typewriter.dart';
+import 'package:npdart/src/core/stage.dart';
+import 'package:npdart/src/core/state.dart';
+import 'package:npdart/src/widgets/painting/textshape.dart';
+import 'package:npdart/src/widgets/typewriter.dart';
 
 class TextBox extends StatelessWidget {
   const TextBox({super.key});

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:npdart/core/event.dart';
-import 'package:npdart/core/stage.dart';
+import 'package:npdart/src/core/event.dart';
+import 'package:npdart/src/core/stage.dart';
 
 ///Список выборов, которые есть на сцене
 class OptionLayer extends StatelessWidget {

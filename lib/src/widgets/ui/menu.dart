@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:npdart/core/state.dart';
-import 'package:npdart/widgets/ui/autoskip.dart';
-import 'package:npdart/widgets/ui/border.dart';
-import 'package:npdart/widgets/ui/history.dart';
-import 'package:npdart/widgets/ui/load.dart';
-import 'package:npdart/widgets/ui/option.dart';
-import 'package:npdart/widgets/ui/save.dart';
+import 'package:npdart/src/core/state.dart';
+import 'package:npdart/src/widgets/ui/autoskip.dart';
+import 'package:npdart/src/widgets/ui/border.dart';
+import 'package:npdart/src/widgets/ui/history.dart';
+import 'package:npdart/src/widgets/ui/load.dart';
+import 'package:npdart/src/widgets/ui/option.dart';
+import 'package:npdart/src/widgets/ui/save.dart';
 
 class MenuDialog extends StatelessWidget {
   const MenuDialog({

@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:oneday/scenes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:npdart/core/core.dart';
+import 'package:npdart/npdart.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

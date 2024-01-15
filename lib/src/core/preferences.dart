@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
-///Глобальные константы, определяющие работу игры.
+///A class that contains most of the key values, which define the game behavior.
 class Preferences {
   static String defaultTranslator(String s) => s;
 
-  ///Высота текстового окна. По умолчанию равна 3 сантиметрам в логических пикселях.
+  ///The height of the textbox of a scene. Defaults to 114 logical pixels
+  ///(~3 physical cm).
   final double textBoxHeight;
 
-  ///It's the time between drawing characters of the string on the scene.
+  ///The time between drawing characters of the string on the scene.
   final int typingDelay;
 
   ///Parallax intensity of background and sprites with depth set to 1.
   final double backgroundParallax;
 
   ///Named relative positions of the sprites on a scene.
+  ///
   ///Each position is represented as [Offset] from the center
   ///of the screen, where (-1, -1) is the top-left corner,
   ///and (1, 1) is the bottom-right one.

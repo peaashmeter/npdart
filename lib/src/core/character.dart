@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:npdart/core/stage.dart';
-import 'package:npdart/core/verse.dart';
+import 'package:npdart/src/core/stage.dart';
+import 'package:npdart/src/core/verse.dart';
 
+///An abstract character of the novel.
+///
+///It's necessary to extend this class to create custom characters, as in the example:
+///```dart
+///class Megami extends Character {
+///  Megami(Stage stage)
+///      : super(
+///            stage: stage,
+///            color: Colors.orange,
+///            name: 'megami',
+///            widget: Image.asset('assets/sprites/fox.png'));
+///}
+///```
 abstract class Character {
   final Stage stage;
 
@@ -19,10 +32,13 @@ abstract class Character {
     _depth = value;
   }
 
+  ///A color of the header of every [Verse] created with [say].
   Color color;
 
+  ///A text of the header of every [Verse] created with [say].
   String name;
 
+  ///A visual of this [Character].
   Widget widget;
 
   Character(
@@ -33,7 +49,7 @@ abstract class Character {
 
   Offset get offset => _offset;
 
-  enterStage() {
+  void enterStage() {
     stage.characters.add(this);
   }
 

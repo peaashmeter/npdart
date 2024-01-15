@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:npdart/core/character.dart';
-import 'package:npdart/core/choice.dart';
-import 'package:npdart/core/event.dart';
-import 'package:npdart/core/audio.dart';
-import 'package:npdart/core/verse.dart';
+import 'package:npdart/src/core/character.dart';
+import 'package:npdart/src/core/choice.dart';
+import 'package:npdart/src/core/event.dart';
+import 'package:npdart/src/core/audio.dart';
+import 'package:npdart/src/core/verse.dart';
 
 class InheritedStage extends InheritedNotifier<Stage> {
   const InheritedStage({super.key, super.notifier, required super.child});
@@ -13,6 +13,8 @@ class InheritedStage extends InheritedNotifier<Stage> {
   static InheritedStage of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<InheritedStage>()!;
 }
+
+
 
 class Stage with ChangeNotifier {
   final AudioManager audio;

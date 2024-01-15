@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:npdart/core/save.dart';
-import 'package:npdart/core/state.dart';
-import 'package:npdart/widgets/ui/border.dart';
+import 'package:npdart/src/core/save.dart';
+import 'package:npdart/src/core/state.dart';
+import 'package:npdart/src/widgets/ui/border.dart';
 
 class LoadDialog extends StatefulWidget {
   const LoadDialog({

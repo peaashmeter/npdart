@@ -1,4 +1,4 @@
-import 'package:npdart/core/scene.dart';
+import 'package:npdart/src/core/scene.dart';
 
 ///A class that holds all the scenes and provides methods for accessing them.
 class Tree {

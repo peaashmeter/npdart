@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide Image;
-import 'package:npdart/core/mouse.dart';
-import 'package:npdart/core/stage.dart';
-import 'package:npdart/core/state.dart';
+import 'package:npdart/src/core/mouse.dart';
+import 'package:npdart/src/core/stage.dart';
+import 'package:npdart/src/core/state.dart';
 
 class SpriteLayer extends StatefulWidget {
   const SpriteLayer({super.key});

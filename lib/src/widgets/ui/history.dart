@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:npdart/core/stage.dart';
-import 'package:npdart/core/state.dart';
-import 'package:npdart/widgets/ui/border.dart';
+import 'package:npdart/src/core/stage.dart';
+import 'package:npdart/src/core/state.dart';
+import 'package:npdart/src/widgets/ui/border.dart';
 
 class HistoryDialog extends StatelessWidget {
   const HistoryDialog({

@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:npdart/core/event.dart';
 import 'package:oneday/characters.dart';
 import 'package:flutter/material.dart';
 import 'package:npdart/npdart.dart';

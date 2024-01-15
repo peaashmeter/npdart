@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:npdart/core/audio.dart';
-import 'package:npdart/core/preferences.dart';
-import 'package:npdart/core/tree.dart';
-import 'package:npdart/core/verse.dart';
+import 'package:npdart/src/core/audio.dart';
+import 'package:npdart/src/core/preferences.dart';
+import 'package:npdart/src/core/tree.dart';
+import 'package:npdart/src/core/verse.dart';
 
 class InheritedNovelState extends InheritedWidget {
   final NovelStateSnapshot snapshot;
