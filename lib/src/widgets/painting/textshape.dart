@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'textpainter.dart';
 
-///Отрисовщик формы для текста
+///Painter for the verse box and the header
 class TextShape extends CustomPainter {
-  ///размер экрана
   final double _width;
 
   final String _header;
 
   final TextStyle _headerStyle;
-
-  //ширина окошка с текстом
-  late final width = _width * 0.7;
 
   final double textBoxHeight;
 
@@ -30,13 +26,13 @@ class TextShape extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4;
 
-    //окошко текста
+    //text box
     final Path textBox = Path()
       ..addRRect(
         RRect.fromRectAndCorners(
           Rect.fromCenter(
               center: Offset(0, -textBoxHeight * 0.5),
-              width: width,
+              width: _width,
               height: textBoxHeight),
           bottomLeft: const Radius.circular(8),
           bottomRight: const Radius.circular(8),
@@ -47,14 +43,25 @@ class TextShape extends CustomPainter {
 
     var path = textBox;
     if (_header.isNotEmpty) {
-      //окошко заголовка
-      final headerBox = _getHeaderPath(width);
+      //header box
+      final headerBox = _getHeaderPath(_width);
       path = Path.combine(PathOperation.union, textBox, headerBox);
     }
 
     canvas.drawPath(path, fill);
     canvas.drawPath(path, outerStroke);
     canvas.drawPath(path, stroke);
+
+    if (_header.isNotEmpty) {
+      final headerPainter = getHeaderPainter(_header, _headerStyle);
+      headerPainter.layout();
+
+      final headerHeight = headerPainter.height + 8;
+      final headerPosition =
+          Offset(-_width * 0.5, -textBoxHeight) + Offset(8, 8 - headerHeight);
+
+      headerPainter.paint(canvas, headerPosition);
+    }
   }
 
   @override

@@ -61,8 +61,21 @@ abstract class Character {
     _offset = offset;
   }
 
+  ///Set up a verse displayed in the text box.
+  ///
+  ///The header is [name] painted with [color].
+  ///
+  ///Also check [sayRich] to print an [InlineSpan].
   void say(String phrase) {
-    final verse = Verse(name, phrase, color);
+    final verse = Verse(header: name, string: phrase, color: color);
+    stage.setVerse(verse);
+  }
+
+  ///Set up a verse displayed in the text box, with support of text formatting.
+  ///
+  ///The header is [name] painted with [color].
+  void sayRich(InlineSpan phrase) {
+    final verse = Verse(header: name, richString: phrase, color: color);
     stage.setVerse(verse);
   }
 

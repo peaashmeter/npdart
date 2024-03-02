@@ -1,7 +1,8 @@
 name: npdart
 description: A minimal game engine for visual novels.
 version: 0.2.1
-repository: "https://github.com/peaashmeter/npdart" 
+repository: "https://github.com/peaashmeter/npdart"
+publish_to: none
 
 environment:
   sdk: ^3.0.0
@@ -19,6 +20,8 @@ dependencies:
   just_audio: ^0.9.36
   just_audio_windows: ^0.2.0
   just_audio_mpv: ^0.1.7
+  rich_typewriter:
+    path: "C:/dev/rich_typewriter"
 
 dev_dependencies:
   flutter_test:

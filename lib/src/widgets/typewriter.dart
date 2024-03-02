@@ -1,14 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:npdart/src/core/stage.dart';
 import 'package:npdart/src/core/state.dart';
 import 'package:npdart/src/core/verse.dart';
-import 'package:npdart/src/widgets/painting/textpainter.dart';
+import 'package:rich_typewriter/rich_typewriter.dart';
 
 ///Отрисовка текста побуквенно
 class TextTypewriter extends StatefulWidget {
-  static const punctuation = ['.', ',', '!', '?', ';', ':'];
   final double width;
 
   const TextTypewriter({super.key, required this.width});
@@ -18,85 +15,38 @@ class TextTypewriter extends StatefulWidget {
 }
 
 class _TextTypewriterState extends State<TextTypewriter> {
-  Verse? verse;
-  String displayedText = '';
-
-  StreamSubscription<String>? subscription;
+  final punctuation = {'.', ',', '!', '?', ';', ':'};
 
   @override
   Widget build(BuildContext context) {
-    final headerStyle =
-        Theme.of(context).textTheme.headlineSmall!.apply(color: verse?.color);
+    final stage = InheritedStage.of(context).notifier!;
+    final verse = stage.verse;
 
     final stringStyle = Theme.of(context).textTheme.titleLarge!;
-    if (verse == null) return const SizedBox.shrink();
-    return CustomPaint(
-      painter: CustomTextPainter(
-          widget.width,
-          displayedText,
-          verse?.header ?? '',
-          headerStyle,
-          stringStyle,
-          InheritedNovelState.of(context).snapshot.preferences.textBoxHeight),
-    );
-  }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    _setup();
-  }
-
-  Stream<String> typeStream(int milliseconds) async* {
-    final text = verse!.string.characters;
-    for (var i = 0; i < text.length; i++) {
-      final s = text.elementAt(i);
-      yield s;
-
-      //повышение читабельности текста
-      if (TextTypewriter.punctuation.contains(s)) {
-        await Future.delayed(Duration(milliseconds: 5 * milliseconds));
-      } else {
-        await Future.delayed(Duration(milliseconds: milliseconds));
-      }
-    }
-  }
-
-  void _setup() {
-    final stage = InheritedStage.of(context).notifier!;
-    final verse_ = stage.verse;
-    if (verse == verse_ || verse_ == null) {
-      stage.isFullTextShown = true;
-      return;
-    }
-    verse = verse_;
-    displayedText = '';
-    subscription?.cancel();
-    subscription = _subscribe();
-    subscription?.onDone(() {
-      stage.isFullTextShown = true;
-    });
-  }
-
-  StreamSubscription<String> _subscribe() {
-    final milliseconds =
+    final baseDelay =
         InheritedNovelState.of(context).snapshot.preferences.typingDelay;
-    return typeStream(milliseconds).listen((s) {
-      if (mounted) {
-        if (InheritedStage.of(context).notifier!.isFullTextShown) {
-          subscription?.cancel();
-          setState(() {
-            displayedText = verse!.string;
-          });
-          return;
-        }
-        setState(() {
-          displayedText += s;
-        });
-      } else {
-        subscription?.cancel();
-      }
-    });
+
+    final text = switch (verse) {
+      Verse(string: String s) =>
+        Text.rich(TextSpan(text: s, style: stringStyle)),
+      Verse(richString: InlineSpan s) => Text.rich(s),
+      _ => SizedBox.shrink()
+    };
+
+    return RichTypewriter(
+        key: ValueKey(verse),
+        symbolDelay: (symbol) {
+          if (stage.isFullTextShown) {
+            return 0;
+          }
+
+          return switch (symbol) {
+            TextSpan(text: var s) when punctuation.contains(s) => baseDelay * 5,
+            _ => baseDelay
+          };
+        },
+        onCompleted: () => stage.isFullTextShown = true,
+        child: text);
   }
 }

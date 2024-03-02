@@ -9,20 +9,34 @@ class TextBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     final verse = InheritedStage.of(context).notifier?.verse;
+    final width = MediaQuery.of(context).size.width * 0.7;
+    final height =
+        InheritedNovelState.of(context).snapshot.preferences.textBoxHeight;
 
     if (verse != null) {
-      return CustomPaint(
-          painter: TextShape(
-              size.width,
-              verse.header,
-              Theme.of(context).textTheme.headlineSmall!,
-              InheritedNovelState.of(context)
-                  .snapshot
-                  .preferences
-                  .textBoxHeight),
-          child: TextTypewriter(width: size.width));
+      return Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          CustomPaint(
+            painter: TextShape(
+                width,
+                verse.header,
+                Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .apply(color: verse.color),
+                height),
+          ),
+          Container(
+              width: width,
+              height: height,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextTypewriter(width: width),
+              ))
+        ],
+      );
     }
     return const SizedBox.shrink();
   }
@@ -35,9 +49,8 @@ class TextLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(padding: EdgeInsets.all(16.0), child: TextBox()),
-    );
+    return Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(padding: EdgeInsets.all(16.0), child: TextBox()));
   }
 }

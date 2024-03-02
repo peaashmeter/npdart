@@ -31,7 +31,7 @@ class HistoryDialog extends StatelessWidget {
                         ),
                         isThreeLine: true,
                         subtitle: Text(
-                          verse.string,
+                          verse.string ?? verse.richString?.toPlainText() ?? '',
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ))
