@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:npdart/src/core/core.dart';
-import 'package:npdart/src/core/event.dart';
 import 'package:npdart/src/core/stage.dart';
 import 'package:npdart/src/core/state.dart';
 
