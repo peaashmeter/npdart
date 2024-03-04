@@ -37,8 +37,8 @@ class _TextTypewriterState extends State<TextTypewriter> {
     return RichTypewriter(
         key: ValueKey(verse),
         symbolDelay: (symbol) {
-          if (stage.isFullTextShown) {
-            return 0;
+          if (stage.typewritingState case TypewritingStates.fast) {
+            return 10;
           }
 
           return switch (symbol) {
@@ -46,7 +46,7 @@ class _TextTypewriterState extends State<TextTypewriter> {
             _ => baseDelay
           };
         },
-        onCompleted: () => stage.isFullTextShown = true,
+        onCompleted: () => stage.typewritingState = TypewritingStates.finished,
         child: text);
   }
 }
