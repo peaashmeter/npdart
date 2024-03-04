@@ -67,46 +67,43 @@ Future<SaveData> getSaveData(Preferences preferences) async {
 }
 
 final theme = ThemeData(
-  useMaterial3: true,
-  colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.yellow, brightness: Brightness.dark),
-  fontFamily: 'Marmelad',
-  textTheme: TextTheme(
-    //Style for choices
-    headlineMedium:
-        TextStyle(color: Colors.yellow.shade100, fontSize: 24, shadows: const [
-      Shadow(
-        blurRadius: 2,
-        offset: Offset(2, 2),
-      ),
-    ]),
-    //style for text input
-    titleMedium: const TextStyle(color: Colors.white, fontSize: 16, shadows: [
-      Shadow(
-        blurRadius: 2,
-        offset: Offset(2, 2),
-      ),
-    ]),
-    //style for headers
-    headlineSmall: TextStyle(
-        color: Colors.white,
-        fontSize: Platform.isAndroid || Platform.isIOS ? 16 : 20,
-        fontWeight: FontWeight.bold,
-        shadows: const [
+    useMaterial3: true,
+    colorScheme: ColorScheme.fromSeed(
+        seedColor: Colors.yellow, brightness: Brightness.dark),
+    fontFamily: 'Marmelad',
+    textTheme: NovelTextTheme(
+        choiceStyle: TextStyle(
+            color: Colors.yellow.shade100,
+            fontSize: 24,
+            shadows: const [
+              Shadow(
+                blurRadius: 2,
+                offset: Offset(2, 2),
+              ),
+            ]),
+        headerStyle: TextStyle(
+            color: Colors.white,
+            fontSize: Platform.isAndroid || Platform.isIOS ? 16 : 20,
+            fontWeight: FontWeight.bold,
+            shadows: const [
+              Shadow(
+                blurRadius: 2,
+                offset: Offset(2, 2),
+              ),
+            ]),
+        inputStyle:
+            const TextStyle(color: Colors.white, fontSize: 16, shadows: [
           Shadow(
             blurRadius: 2,
             offset: Offset(2, 2),
           ),
         ]),
-    //style for dialog strings
-    titleLarge: TextStyle(
-        color: Colors.yellow.shade100,
-        fontSize: Platform.isAndroid || Platform.isIOS ? 16 : null,
-        shadows: const [
-          Shadow(
-            blurRadius: 2,
-            offset: Offset(2, 2),
-          ),
-        ]),
-  ),
-);
+        stringStyle: TextStyle(
+            color: Colors.yellow.shade100,
+            fontSize: Platform.isAndroid || Platform.isIOS ? 16 : null,
+            shadows: const [
+              Shadow(
+                blurRadius: 2,
+                offset: Offset(2, 2),
+              ),
+            ])));
