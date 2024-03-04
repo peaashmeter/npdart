@@ -1,12 +1,15 @@
 name: npdart
-description: A minimal game engine for visual novels.
+description: A minimal game engine for creating visual novels.
 version: 0.2.1
 repository: "https://github.com/peaashmeter/npdart"
-publish_to: none
+screenshots:
+  - description: "Megami, the (un)official mascot of npdart. Used for a thumbnail."
+    path: "promo/512.png"
+  - description: "An example novel created with npdart."
+    path: "promo/megami.png"
 
 environment:
   sdk: ^3.0.0
-
 
 dependencies:
   flutter:
@@ -26,7 +29,4 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
 flutter:
-
-
