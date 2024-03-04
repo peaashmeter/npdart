@@ -1,5 +1,5 @@
 ## 0.3.0
-# (Typewriter update)
+### (Typewriter update)
 * Added rich_typewriter to dependencies.
 * - It allows using RichText in verses, and much more!
 * Introduced the NovelTextTheme, a convenient way to set up the text styles.
