@@ -1,6 +1,6 @@
 name: npdart
 description: A minimal game engine for creating visual novels.
-version: 0.2.1
+version: 0.3.0
 repository: "https://github.com/peaashmeter/npdart"
 screenshots:
   - description: "Megami, the (un)official mascot of npdart. Used for a thumbnail."
