@@ -6,3 +6,6 @@ export 'save.dart';
 export 'scene.dart' show Scene;
 export 'tree.dart' show Tree;
 export 'verse.dart' show Verse;
+export 'stage.dart' show Stage;
+export 'event.dart';
+export 'theme.dart';

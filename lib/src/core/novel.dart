@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:npdart/core/audio.dart';
-import 'package:npdart/core/save.dart';
-import 'package:npdart/core/preferences.dart';
-import 'package:npdart/core/tree.dart';
-import 'package:npdart/core/state.dart';
-import 'package:npdart/widgets/parallax.dart';
+import 'package:npdart/src/core/audio.dart';
+import 'package:npdart/src/core/save.dart';
+import 'package:npdart/src/core/preferences.dart';
+import 'package:npdart/src/core/tree.dart';
+import 'package:npdart/src/core/state.dart';
+import 'package:npdart/src/widgets/parallax.dart';
 
 ///An entry point of the visual novel.
 class Novel extends StatefulWidget {

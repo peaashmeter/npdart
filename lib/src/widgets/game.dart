@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:npdart/core/event.dart';
-import 'package:npdart/core/stage.dart';
-import 'package:npdart/core/state.dart';
-import 'package:npdart/widgets/background.dart';
-import 'package:npdart/widgets/choices.dart';
-import 'package:npdart/widgets/sprites.dart';
-import 'package:npdart/widgets/textbox.dart';
-import 'package:npdart/widgets/ui/ui.dart';
+import 'package:npdart/src/core/event.dart';
+import 'package:npdart/src/core/stage.dart';
+import 'package:npdart/src/core/state.dart';
+import 'package:npdart/src/widgets/background.dart';
+import 'package:npdart/src/widgets/choices.dart';
+import 'package:npdart/src/widgets/sprites.dart';
+import 'package:npdart/src/widgets/textbox.dart';
+import 'package:npdart/src/widgets/ui/ui.dart';
 
 class Game extends StatefulWidget {
   const Game({super.key});

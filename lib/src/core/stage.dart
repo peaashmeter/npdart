@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:npdart/core/character.dart';
-import 'package:npdart/core/choice.dart';
-import 'package:npdart/core/event.dart';
-import 'package:npdart/core/audio.dart';
-import 'package:npdart/core/verse.dart';
+import 'package:npdart/src/core/character.dart';
+import 'package:npdart/src/core/choice.dart';
+import 'package:npdart/src/core/event.dart';
+import 'package:npdart/src/core/audio.dart';
+import 'package:npdart/src/core/verse.dart';
+
+///A set of states the verse animation may be in.
+enum TypewritingStates { slow, fast, finished }
 
 class InheritedStage extends InheritedNotifier<Stage> {
   const InheritedStage({super.key, super.notifier, required super.child});
@@ -14,6 +17,9 @@ class InheritedStage extends InheritedNotifier<Stage> {
       context.dependOnInheritedWidgetOfExactType<InheritedStage>()!;
 }
 
+///The local state of the novel.
+///
+///A new object of [Stage] is created when a scene changes.
 class Stage with ChangeNotifier {
   final AudioManager audio;
   Stage({required this.audio});
@@ -39,15 +45,20 @@ class Stage with ChangeNotifier {
 
   Verse? get verse => _verse;
 
-  /// When verse is still being typed,
-  /// we should show full text instead of changing scenes.
-  bool isFullTextShown = true;
+  ///Once a new scene is shown, its verse is animated.
+  ///
+  ///While the verse is still animated,
+  ///the first [RequestNextEvent] causes the animation to speed up.
+  ///
+  ///After the animation is finished, [RequestNextEvent] changes the scene.
+  TypewritingStates typewritingState = TypewritingStates.finished;
 
   void dispatchEvent(NovelInputEvent event) {
     switch (event) {
       case RequestNextEvent():
-        if (!isFullTextShown) {
-          isFullTextShown = true;
+        if (typewritingState
+            case TypewritingStates.slow || TypewritingStates.fast) {
+          typewritingState = TypewritingStates.fast;
           return;
         }
         if (choices.isNotEmpty) return;
@@ -69,9 +80,9 @@ class Stage with ChangeNotifier {
 
     if (verse != null) {
       verseHistory.add(verse);
-      isFullTextShown = false;
+      typewritingState = TypewritingStates.slow;
     } else {
-      isFullTextShown = true;
+      typewritingState = TypewritingStates.finished;
     }
   }
 

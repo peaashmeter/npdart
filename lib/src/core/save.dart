@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:npdart/core/preferences.dart';
-import 'package:npdart/core/state.dart';
+import 'package:npdart/src/core/preferences.dart';
+import 'package:npdart/src/core/state.dart';
 import 'package:path_provider/path_provider.dart';
 
+///A snapshot of a state of the game, which can be used to load the state anew.
 class SaveData {
   final String sceneId;
   final String description;
@@ -89,7 +90,7 @@ Future<List<SaveData>> listSaves(String savePath) async {
   return saves..sort((a, b) => b.createdAt.compareTo(a.createdAt));
 }
 
-///Returns the most recent save is case if one exists. Otherwise returns a clear state defined by [Savedata.fallback()];
+///Returns the most recent save is case if one exists. Otherwise returns a clear state defined by [SaveData.fallback];
 Future<SaveData> getDefaultInitialSaveData(Preferences preferences) async {
   final saves = await listSaves(preferences.savePath);
   if (saves.isNotEmpty) {

@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
-import 'package:npdart/core/event.dart';
 import 'package:oneday/characters.dart';
 import 'package:flutter/material.dart';
 import 'package:npdart/npdart.dart';
@@ -15,7 +16,17 @@ final menuScene = Scene(script: (stage, state) async {
 
   final narrator = Narrator(stage);
   stage.setBackground(greenfield);
-  narrator.say('menu_verse'.tr());
+  narrator.sayRich(TextSpan(
+      text: 'menu_verse'.tr(),
+      style: TextStyle(
+          color: Colors.yellow.shade100,
+          fontSize: Platform.isAndroid || Platform.isIOS ? 16 : 20,
+          shadows: const [
+            Shadow(
+              blurRadius: 2,
+              offset: Offset(2, 2),
+            ),
+          ]).apply(fontStyle: FontStyle.italic)));
 
   await stage.waitForInput();
   stage.setVerse(null);

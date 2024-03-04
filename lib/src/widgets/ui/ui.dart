@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:npdart/core/event.dart';
-import 'package:npdart/core/stage.dart';
-import 'package:npdart/widgets/ui/border.dart';
-import 'package:npdart/widgets/ui/menu.dart';
+import 'package:npdart/src/core/event.dart';
+import 'package:npdart/src/core/stage.dart';
+import 'package:npdart/src/widgets/ui/border.dart';
+import 'package:npdart/src/widgets/ui/menu.dart';
 
 class UiLayer extends StatefulWidget {
   const UiLayer({super.key});

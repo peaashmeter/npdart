@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:npdart/core/character.dart';
-import 'package:npdart/core/stage.dart';
+import 'package:npdart/npdart.dart';
 
 class Alexey extends Character {
   Alexey(Stage stage)

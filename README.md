@@ -1,5 +1,17 @@
 # npdart
-Минимально рабочий игровой движок для создания визуальных новелл.
+
+A minimal game engine for creating visual novels.
+Please check the `example` folder before use.
+
+# Features:
+* Global and local game state management
+* Scene tree
+* Basic persistence (including autosaves)
+* Rendering backgrounds and foreground sprites
+* Sounds
+* Textbox with RichText support
+
+# Example:
 
 ```dart
 void main(){
